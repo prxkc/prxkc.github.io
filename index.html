@@ -3,28 +3,26 @@
 <head>
 	<title>Shakil Islam Shanto</title>
 	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Pixeloid+Sans&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Retro+Gaming&display=swap');
 
 		body {
 			background-color: #000;
 			color: #fff;
-			font-family: 'Pixeloid Sans', sans-serif;
+			font-family: 'Retro Gaming', cursive;
 			text-align: center;
 			overflow: hidden;
 		}
 		h1 {
 			font-size: 3em;
 			margin-top: 50px;
-			animation: flicker 0.5s infinite alternate;
 		}
 		p {
 			margin-bottom: 50px;
-			animation: flicker 0.5s infinite alternate;
 		}
 		section {
 			margin: 50px 0;
 		}
-		.project, .blog {
+		.project {
 			display: inline-block;
 			background-color: #333;
 			padding: 20px;
@@ -34,12 +32,8 @@
 			transition: transform 0.3s;
 			animation: bounce 1s infinite alternate;
 		}
-		.project:hover, .blog:hover {
+		.project:hover {
 			transform: scale(1.1);
-		}
-		@keyframes flicker {
-			0% { opacity: 1; }
-			100% { opacity: 0.5; }
 		}
 		@keyframes bounce {
 			0% { transform: translateY(0); }
@@ -55,12 +49,6 @@
 		<div class="project">Project 1</div>
 		<div class="project">Project 2</div>
 		<div class="project">Project 3</div>
-	</section>
-	<section>
-		<h2>Blogs</h2>
-		<div class="blog">Blog 1</div>
-		<div class="blog">Blog 2</div>
-		<div class="blog">Blog 3</div>
 	</section>
 </body>
 </html>
