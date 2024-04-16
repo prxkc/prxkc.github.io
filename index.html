@@ -25,13 +25,44 @@
             border: 5px solid #d3d3d3;
             box-shadow: 0 0 20px rgba(211, 211, 211, 0.5);
         }
+
+        .description-box {
+            display: none;
+            background-color: #333333;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <h1>2D Arcade Game</h1>
     <div class="game-container">
-        <!-- Game content goes here -->
-        <p>Get ready to play!</p>
+        <p id="gameStart">Get ready to play!</p>
+        <div class="description-box">
+            <p>A little about me:</p>
+            <ul>
+                <li>Bullet point 1</li>
+                <li>Bullet point 2</li>
+                <li>Bullet point 3</li>
+            </ul>
+        </div>
     </div>
+
+    <script>
+        const gameStart = document.getElementById('gameStart');
+        const descriptionBox = document.querySelector('.description-box');
+
+        gameStart.addEventListener('click', function() {
+            gameStart.style.display = 'none';
+            descriptionBox.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
