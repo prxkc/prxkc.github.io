@@ -1,64 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>2D Arcade Game</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-        body {
-            background-color: #000000;
-            color: #d3d3d3;
-            font-family: 'Press Start 2P', cursive;
-            text-align: center;
-            padding-top: 50px;
-        }
-
-        h1 {
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-
-        .game-container {
-            display: inline-block;
-            background-color: #222222;
-            padding: 20px;
-            border: 5px solid #d3d3d3;
-            box-shadow: 0 0 20px rgba(211, 211, 211, 0.5);
-        }
-
-        .description-box {
-            display: none;
-            background-color: #333333;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: left;
-            animation: fadeIn 1s;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out;
-        }
-
-        .description-box.expanded {
-            max-height: 500px; /* Adjust this value as needed */
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+	<title>Arcade Portfolio</title>
+	<style>
+		body {
+			background-color: #000;
+			color: #fff;
+			font-family: monospace;
+			text-align: center;
+			overflow: hidden;
+		}
+		h1 {
+			font-size: 3em;
+			margin-top: 50px;
+			animation: flicker 0.5s infinite alternate;
+		}
+		section {
+			margin: 50px 0;
+		}
+		.project, .blog {
+			display: inline-block;
+			background-color: #333;
+			padding: 20px;
+			margin: 10px;
+			border-radius: 10px;
+			cursor: pointer;
+			transition: transform 0.3s;
+			animation: bounce 1s infinite alternate;
+		}
+		.project:hover, .blog:hover {
+			transform: scale(1.1);
+		}
+		@keyframes flicker {
+			0% { opacity: 1; }
+			100% { opacity: 0.5; }
+		}
+		@keyframes bounce {
+			0% { transform: translateY(0); }
+			100% { transform: translateY(-10px); }
+		}
+	</style>
 </head>
 <body>
-    <h1>2D Arcade Game</h1>
-    <div class="game-container">
-        <p id="gameStart">Get ready to play!</p>
-        <div class="description-box">
-            <p>
-                Full Stack Dev. & Cyber Security Specialist
-            </p>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+	<h1>Arcade Portfolio</h1>
+	<section>
+		<h2>Projects</h2>
+		<div class="project">Project 1</div>
+		<div class="project">Project 2</div>
+		<div class="project">Project 3</div>
+	</section>
+	<section>
+		<h2>Blogs</h2>
+		<div class="blog">Blog 1</div>
+		<div class="blog">Blog 2</div>
+		<div class="blog">Blog 3</div>
+	</section>
 </body>
 </html>
