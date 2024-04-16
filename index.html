@@ -33,6 +33,13 @@
             margin-top: 20px;
             text-align: left;
             animation: fadeIn 1s;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        .description-box.expanded {
+            max-height: 500px; /* Adjust this value as needed */
         }
 
         @keyframes fadeIn {
@@ -44,22 +51,14 @@
 <body>
     <h1>2D Arcade Game</h1>
     <div class="game-container">
-        <button id="gameStart">Get ready to play!</button>
+        <p id="gameStart">Get ready to play!</p>
         <div class="description-box">
             <p>
-                🚀 Driven Python Developer, Full Stack Developer with a knack for automation 🔧, AI 🤖, and cybersecurity 🛡️.
+                Full Stack Dev. & Cyber Security Specialist
             </p>
         </div>
     </div>
 
-    <script>
-        const gameStart = document.getElementById('gameStart');
-        const descriptionBox = document.querySelector('.description-box');
-
-        gameStart.addEventListener('click', function() {
-            gameStart.style.display = 'none';
-            descriptionBox.style.display = 'block';
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
