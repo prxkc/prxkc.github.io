@@ -1,48 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
-	<style>
-		.honk-class {
-			font-family: "Honk", system-ui;
-			font-optical-sizing: auto;
-			font-weight: 400;
-			font-style: normal;
-			font-variation-settings:
-				"MORF" 15,
-				"SHLN" 50;
-		}
-
-		body {
-			background-color: #000;
-			color: #e9e9e9;
-			font-family: "Honk", system-ui;
-			text-align: center;
-			font-weight: 400;
-            font-style: normal;
-			overflow: hidden;
-		}
-		h1 {
-			font-size: 3em;
-			margin-top: 50px;
-		}
-		p {
-			margin-bottom: 50px;
-		}
-		section {
-			margin: 50px 0;
-		}
-
-		#description {
-			font-size: 1.7em;
-			margin-bottom: 50px;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noob Developer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<h1 id="name">Shakil Islam Shanto</h1>
-	<p id="description">Full Stack Developer, Web Application Pen tester, Python Developer</p>
+    <header>
+        <h1>Shakil Islam Shanto</h1>
+        <p class="subheading">software engineer & security researcher</p>
+    </header>
+
+
+    <nav>
+        <ul>
+            <li><a href="#" onclick="loadContent('projects')">Projects</a></li>
+            <li><a href="#" onclick="loadContent('research')">Research</a></li>
+            <li><a href="#" onclick="loadContent('writeups')">Writeups</a></li>
+        </ul>
+    </nav>
+
+    <main id="content">
+		<p class="description">
+			I am passionate about technology and thrive in software engineering and cybersecurity. I focus on creating innovative solutions and tackling complex digital problems. Currently, I am exploring AI's impact on enterprise systems and am always eager to push technological boundaries. With a problem-solving mindset and a dedication to continuous learning, I am ready to take on new challenges and contribute to advancing our digital future.
+		</p>
+    </main>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
