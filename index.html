@@ -1,80 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
-    <title>Document</title>
-    <style>
-        body {
-            max-width: 500px;
-            margin: auto;
-            font-family: "Amatic SC", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            font-size: larger;
-            background-color: black;
-            color: beige;
-        }
-        h1 {
-            font-weight: 700;
-            margin-top: 50px;
-            margin-bottom: 0px;
-        }
-        h4 {
-            margin-top: 0px;
-            margin-bottom: 20px;
-        }
-        .card-container {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 20px;
-            justify-content: auto;
-            margin-top: 20px;
-            padding-bottom: 20px;
-        }
-        .card {
-            background: darkcyan;
-            height: 250px;
-            width: 170px;
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            flex-shrink: 0;
-        }
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        }
-    </style>
-</head>
-<body>
-    <h1>Shakil Islam Shanto</h1>
-    <h4>cyber janitor</h4>
-    <div>a small desc. about me.</div>
-    <div>
-        <h2>
-            Projects
-        </h2>
-        <section class="card-container">
-            <div class="card" style="background-image: url('https://images4.alphacoders.com/129/1293106.png');"></div>
-            <div class="card" style="background-image: url('https://images4.alphacoders.com/129/1293106.png');"></div>
-            <div class="card" style="background-image: url('https://images4.alphacoders.com/129/1293106.png');"></div>
-            <div class="card" style="background-image: url('https://images4.alphacoders.com/129/1293106.png');"></div>
-        </section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>John Doe | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div id="app" class="container">
+      <header>
+        <h1>Shakil</h1>
+        <p class="bio">
+          Software engineer and web security analyst skilled in backend
+          development, vulnerability assessment, and automation, enhancing
+          digital security and efficiency across web.<br />
+        </p>
+        <nav class="social-links">
+          <a href="https://github.com/prxkc" target="_blank" rel="noopener"
+            >GitHub</a
+          >
+          <a href="https://linkedin.com/in/shkl" target="_blank" rel="noopener"
+            >LinkedIn</a
+          >
+          <a
+            href="https://app.intigriti.com/researcher/pr0xy_"
+            target="_blank"
+            rel="noopener"
+            >Intigriti</a
+          >
+        </nav>
+      </header>
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects-grid">
+          <article class="project-card">
+            <h3>Project One</h3>
+            <p>A real-time collaboration tool built with WebSocket</p>
+            <div class="tech-stack">Node.js • WebSocket • Redis</div>
+            <div class="project-links">
+              <a href="#" target="_blank" rel="noopener">Demo</a>
+              <a href="#" target="_blank" rel="noopener">Source</a>
+            </div>
+          </article>
+          <article class="project-card">
+            <h3>Project Two</h3>
+            <p>Minimalist markdown editor with cloud sync</p>
+            <div class="tech-stack">React • Firebase • TailwindCSS</div>
+            <div class="project-links">
+              <a href="#" target="_blank" rel="noopener">Demo</a>
+              <a href="#" target="_blank" rel="noopener">Source</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="writing">
+        <h2>Writing</h2>
+        <div class="posts">
+          <a href="#" class="post-preview">
+            <article>
+              <div class="post-header">
+                <h3>Building a Real-time Chat Application</h3>
+                <div class="post-meta">
+                  <time>March 15, 2024</time>
+                  <span class="read-time">5 min read</span>
+                </div>
+              </div>
+              <p>
+                Step-by-step guide to building a scalable real-time chat system
+                using WebSocket and Node.js, with practical examples and
+                deployment strategies.
+              </p>
+            </article>
+          </a>
+          <a href="#" class="post-preview">
+            <article>
+              <div class="post-header">
+                <h3>Modern CSS Layout Techniques</h3>
+                <div class="post-meta">
+                  <time>March 10, 2024</time>
+                  <span class="read-time">4 min read</span>
+                </div>
+              </div>
+              <p>
+                Deep dive into CSS Grid and Flexbox with practical examples
+                showing how to create responsive, maintainable layouts for
+                modern web applications.
+              </p>
+            </article>
+          </a>
+        </div>
+      </section>
     </div>
-    <div>
-        <h2>
-            Writeups
-        </h2>
-    </div>
-    <div>
-        <h2>
-            Experiences
-        </h2>
-    </div>
-</body>
+    <script type="module" src="/main.js"></script>
+  </body>
 </html>
