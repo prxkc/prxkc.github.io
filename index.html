@@ -42,34 +42,57 @@
       <section id="projects">
         <h2>Projects</h2>
         <div class="projects-grid">
-          <article class="project-card">
-            <h3>ML-Powered Loan Approval System for a finance company</h3>
-            <p>Enterprise-grade loan approval platform with explainable AI integration, featuring real-time prediction capabilities and SHAP-based model interpretability for transparent decision-making. Implemented end-to-end MLOps pipeline with containerized microservices architecture.</p>
+          <article class="project-card" onclick="this.classList.toggle('expanded')">
+            <h3>ML-Powered Loan Approval System</h3>
+            <p class="short-desc">Enterprise-grade loan approval platform with explainable AI integration.</p>
+            <div class="expanded-content">
+              <h4>About the Project</h4>
+              <ul>
+                <li>automated loan assessment system with real-time prediction capabilities</li>
+                <li>Explainable/Interpretable AI implementation using SHAP (SHapley Additive exPlanations)</li>
+                <li>Built with containerized microservices architecture for scalability</li>
+                <li>Machine Learning Model trained using pipeline and deployed in the backend.</li>
+                <li>Containerized Frontend, Backend for faster deployment</li>
+              </ul>
+            </div>
             <div class="tech-stack">React • Django • Docker • Scikit-Learn • SHAP • Railway</div>
             <div class="project-links">
               <a href="https://loan-analysis-system-frontend-production.up.railway.app/" target="_blank" rel="noopener">Live Demo</a>
             </div>
           </article>
-          <article class="project-card">
-            <h3>Project One</h3>
-            <p>A real-time collaboration tool built with WebSocket</p>
-            <div class="tech-stack">Node.js • WebSocket • Redis</div>
-            <div class="project-links">
-              <a href="#" target="_blank" rel="noopener">Demo</a>
-              <a href="#" target="_blank" rel="noopener">Source</a>
-            </div>
-          </article>
-          <article class="project-card">
-            <h3>Project Two</h3>
-            <p>Minimalist markdown editor with cloud sync</p>
-            <div class="tech-stack">React • Firebase • TailwindCSS</div>
-            <div class="project-links">
-              <a href="#" target="_blank" rel="noopener">Demo</a>
-              <a href="#" target="_blank" rel="noopener">Source</a>
-            </div>
-          </article>
         </div>
       </section>
+
+      <style>
+        .project-card {
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .expanded-content {
+          display: none;
+          padding: 1rem 0;
+        }
+        .project-card.expanded .expanded-content {
+          display: block;
+        }
+        .project-card.expanded {
+          transform: scale(1.02);
+        }
+        .project-card ul {
+          margin: 0.5rem 0;
+          padding-left: 1.2rem;
+        }
+        .project-card li {
+          margin: 0.5rem 0;
+        }
+        .project-card h4 {
+          margin: 0.5rem 0;
+          color: #666;
+        }
+        .short-desc {
+          margin-bottom: 1rem;
+        }
+      </style>
 
       <section id="writing">
         <h2>Writing</h2>
