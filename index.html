@@ -1,137 +1,894 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shakil | Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body>
-    <div id="app" class="container">
-      <header>
-        <h1>Shakil</h1>
-        <p class="bio">
-          Software engineer and web security analyst skilled in backend
-          development, vulnerability assessment, and automation, enhancing
-          digital security and efficiency across web.<br />
-        </p>
-        <nav class="social-links">
-          <a href="https://github.com/prxkc" target="_blank" rel="noopener"
-            >GitHub</a
-          >
-          <a href="https://linkedin.com/in/shkl" target="_blank" rel="noopener"
-            >LinkedIn</a
-          >
-          <a
-            href="https://app.intigriti.com/profile/pr0xy_" target="_blank" rel="noopener"
-            >Intigriti</a
-          >
-          <a
-            href="https://www.upwork.com/freelancers/~01df910394150b398f" target="_blank" rel="noopener"
-            >Upwork</a
-          >
-        </nav>
-      </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shakil Islam Shanto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #fefefe;
+            --secondary-bg: #f8f9fa;
+            --accent-bg: #f1f3f4;
+            --text-primary: #0a0a0a;
+            --text-secondary: #4a5568;
+            --text-tertiary: #718096;
+            --accent: #1a56db;
+            --accent-hover: #1e40af;
+            --border: #e2e8f0;
+            --shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-      <section id="projects">
-        <h2>Projects</h2>
-        <div class="projects-grid">
-          <article class="project-card" onclick="this.classList.toggle('expanded')">
-            <h3>ML-Powered Loan Approval System</h3>
-            <p class="short-desc">Enterprise-grade loan approval platform with explainable AI integration.</p>
-            <div class="expanded-content">
-              <h4>About the Project</h4>
-              <ul>
-                <li>automated loan assessment system with real-time prediction capabilities</li>
-                <li>Explainable/Interpretable AI implementation using SHAP (SHapley Additive exPlanations)</li>
-                <li>Built with containerized microservices architecture for scalability</li>
-                <li>Machine Learning Model trained using pipeline and deployed in the backend.</li>
-                <li>Containerized Frontend, Backend for faster deployment</li>
-              </ul>
-            </div>
-            <div class="tech-stack">React • Django • Docker • Scikit-Learn • SHAP • Railway</div>
-            <div class="project-links">
-              <a href="http://51.79.255.18:5173" target="_blank" rel="noopener">Live Demo</a>
-            </div>
-          </article>
-        </div>
-      </section>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      <style>
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 2rem;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.4;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        /* Typography Classes */
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .font-grotesk {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .font-serif {
+            font-family: 'Crimson Text', serif;
+        }
+
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(254, 254, 254, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: var(--transition);
+            transform: translateY(-100%);
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+            text-transform: lowercase;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 8rem 0;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 1.4s ease-out 0.3s forwards;
+        }
+
+        .hero-title-primary {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+        }
+
+        .hero-title-secondary {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+            text-transform: lowercase;
+        }
+
+        .hero-subtitle {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            color: var(--text-tertiary);
+            font-style: italic;
+            margin-bottom: 3rem;
+            line-height: 1.5;
+        }
+
+        .hero-details {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 1.4s ease-out 0.8s forwards;
+        }
+
+        .detail-section {
+            margin-bottom: 3rem;
+        }
+
+        .detail-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-tertiary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .profile-link {
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition);
+            background: var(--primary-bg);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .profile-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--text-primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .profile-link:hover::before {
+            left: 0;
+        }
+
+        .profile-link:hover {
+            color: white;
+            border-color: var(--text-primary);
+            transform: translateY(-4px);
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            min-width: 60px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            right: 3rem;
+            writing-mode: vertical-lr;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 10rem 0;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: var(--transition);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            margin-bottom: 6rem;
+            text-align: center;
+        }
+
+        .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--accent-bg);
+            line-height: 0.8;
+            margin-bottom: -2rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            text-transform: lowercase;
+        }
+
+        /* Summary Section */
+        .summary {
+            background: var(--secondary-bg);
+        }
+
+        .summary-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .summary-quote {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.3;
+            color: var(--text-primary);
+            margin-bottom: 3rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .summary-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            text-align: center;
+            columns: 2;
+            column-gap: 4rem;
+            column-rule: 1px solid var(--border);
+        }
+
+        /* Projects Section */
+        .projects-intro {
+            margin-bottom: 6rem;
+            text-align: center;
+        }
+
+        .projects-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 8rem;
+        }
+
         .project-card {
-          cursor: pointer;
-          transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 6rem;
+            align-items: start;
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border);
         }
-        .expanded-content {
-          display: none;
-          padding: 1rem 0;
-        }
-        .project-card.expanded .expanded-content {
-          display: block;
-        }
-        .project-card.expanded {
-          transform: scale(1.02);
-        }
-        .project-card ul {
-          margin: 0.5rem 0;
-          padding-left: 1.2rem;
-        }
-        .project-card li {
-          margin: 0.5rem 0;
-        }
-        .project-card h4 {
-          margin: 0.5rem 0;
-          color: #666;
-        }
-        .short-desc {
-          margin-bottom: 1rem;
-        }
-      </style>
 
-      <section id="writing">
-        <h2>Writing</h2>
-        <div class="posts">
-          <a href="#" class="post-preview">
-            <article>
-              <div class="post-header">
-                <h3>Building a Real-time Chat Application</h3>
-                <div class="post-meta">
-                  <time>March 15, 2024</time>
-                  <span class="read-time">5 min read</span>
-                </div>
-              </div>
-              <p>
-                Step-by-step guide to building a scalable real-time chat system
-                using WebSocket and Node.js, with practical examples and
-                deployment strategies.
-              </p>
-            </article>
-          </a>
-          <a href="#" class="post-preview">
-            <article>
-              <div class="post-header">
-                <h3>Modern CSS Layout Techniques</h3>
-                <div class="post-meta">
-                  <time>March 10, 2024</time>
-                  <span class="read-time">4 min read</span>
-                </div>
-              </div>
-              <p>
-                Deep dive into CSS Grid and Flexbox with practical examples
-                showing how to create responsive, maintainable layouts for
-                modern web applications.
-              </p>
-            </article>
-          </a>
+        .project-card:last-child {
+            border-bottom: none;
+        }
+
+        .project-meta {
+            position: sticky;
+            top: 8rem;
+        }
+
+        .project-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            font-weight: 900;
+            color: var(--accent-bg);
+            line-height: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            font-weight: 400;
+        }
+
+        .project-content {
+            padding-top: 2rem;
+        }
+
+        .project-description {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.4rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .project-features {
+            list-style: none;
+        }
+
+        .project-features li {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .project-features li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            background: var(--accent-bg);
+        }
+
+        .footer-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .footer-subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+        }
+
+        .footer-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                text-align: center;
+            }
+            
+            .project-card {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .project-meta {
+                position: static;
+            }
+            
+            .summary-text {
+                columns: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .container {
+                padding: 0 2rem;
+            }
+            
+            .nav-content {
+                padding: 1rem 2rem;
+            }
+            
+            .profiles-grid {
+                justify-content: center;
+            }
+            
+            .section-number {
+                font-size: 5rem;
+            }
+            
+            .scroll-indicator {
+                display: none;
+            }
+        }
+
+        /* Custom cursor effect */
+        .cursor-follower {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent);
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            opacity: 0;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower.active {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-follower"></div>
+    
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="#" class="nav-logo">S.I.S</a>
+            <ul class="nav-links">
+                <li><a href="#summary">about</a></li>
+                <li><a href="#projects">work</a></li>
+                <li><a href="#contact">contact</a></li>
+            </ul>
         </div>
-      </section>
-    </div>
-    <script type="module" src="/main.js"></script>
-  </body>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1 class="hero-title-primary">SHAKIL</h1>
+                    <p class="hero-subtitle">crafting intelligent systems that bridge artificial intelligence with real-world applications</p>
+                </div>
+                
+                <div class="hero-details">
+                    <div class="detail-section">
+                        <div class="detail-title">connect</div>
+                        <div class="profiles-grid">
+                            <a href="#" class="profile-link">github</a>
+                            <a href="#" class="profile-link">upwork</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="contact-label">email:</span>
+                            <span>islamshakil17@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">phone:</span>
+                            <span>+8801636096796</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">based:</span>
+                            <span>dhaka, bangladesh</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">scroll down</div>
+    </section>
+
+    <section id="summary" class="section summary">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">about</h2>
+            </div>
+            
+            <div class="summary-content">
+                <p class="summary-quote">
+                    "Building the future, one algorithm at a time"
+                </p>
+                
+                <div class="summary-text">
+                    Experienced Full-Stack Developer and AI Engineer with 4+ years specializing in Python automation, machine learning pipelines, and modern web technologies. Currently building cutting-edge AI solutions at Periscope Labs while contributing to the bug bounty community at Intigriti. Passionate about creating efficient, scalable solutions that bridge the gap between artificial intelligence and practical business applications. My expertise spans from automating complex workflows to developing sophisticated document validation systems using RAG architecture and multi-LLM approaches.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">featured work</h2>
+            </div>
+            
+            <div class="projects-intro">
+                <p class="projects-subtitle">Selected projects that showcase innovation</p>
+            </div>
+            
+            <div class="projects-grid">
+                <article class="project-card">
+                    <div class="project-meta">
+                        <div class="project-number">01</div>
+                        <h3 class="project-title">AI-Powered Trade Document Validator</h3>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">LangChain</span>
+                            <span class="tech-tag">RAG Architecture</span>
+                            <span class="tech-tag">Mistral AI</span>
+                            <span class="tech-tag">Weaviate</span>
+                            <span class="tech-tag">Large Language Models</span>
+                            <span class="tech-tag">Streamlit</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-content">
+                        <p class="project-description">
+                            Revolutionary validation system for international trade documents, specifically designed for Bills of Lading processing. This intelligent system combines cutting-edge AI with practical business needs.
+                        </p>
+                        
+                        <ul class="project-features">
+                            <li>Multi-format document parser supporting PDF, PNG, and JPEG inputs</li>
+                            <li>Batch processing capabilities via ZIP file uploads for enterprise workflows</li>
+                            <li>Flexible rules engine with dynamic add, enable/disable, import, and export functionality</li>
+                            <li>RAG-based validation system that cross-references extracted data against reliable sources</li>
+                            <li>Real-time Streamlit interface providing transparent validation processes</li>
+                            <li>Advanced error detection and automated compliance checking</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-meta">
+                        <div class="project-number">02</div>
+                        <h3 class="project-title">Horologia Session Time Tracker</h3>
+                        <div class="project-tech">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Cloudflare Workers</span>
+                            <span class="tech-tag">Supabase</span>
+                            <span class="tech-tag">TailwindCSS</span>
+                            <span class="tech-tag">Edge Computing</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-content">
+                        <p class="project-description">
+                            Minimalist, distraction-free web application engineered for peak productivity. Built with performance-first principles and deployed on the edge for lightning-fast response times.
+                        </p>
+                        
+                        <ul class="project-features">
+                            <li>One-click session creation and tracking for focused work periods</li>
+                            <li>Serverless architecture deployed entirely on Cloudflare Workers</li>
+                            <li>Sub-50ms latency achieved through edge computing distribution</li>
+                            <li>Secure authentication with Supabase including email/OAuth and password resets</li>
+                            <li>Optimized bundle size under 100kB for instant loading</li>
+                            <li>Responsive design crafted with precision using TailwindCSS</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="footer">
+        <div class="container">
+            <h2 class="footer-title">Let's Create</h2>
+            <p class="footer-subtitle">Ready to build something extraordinary together?</p>
+            <p class="footer-meta">© 2025 shakil islam shanto — engineered with precision</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation visibility on scroll
+        let lastScrollY = window.scrollY;
+        const nav = document.querySelector('.nav');
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                if (currentScrollY < lastScrollY) {
+                    nav.classList.add('visible');
+                } else {
+                    nav.classList.remove('visible');
+                }
+            } else {
+                nav.classList.remove('visible');
+            }
+            
+            lastScrollY = currentScrollY;
+        });
+
+        // Scroll-based animations using Intersection Observer
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Custom cursor follower
+        const cursorFollower = document.querySelector('.cursor-follower');
+        let mouseX = 0;
+        let mouseY = 0;
+        let followerX = 0;
+        let followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorFollower.classList.add('active');
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursorFollower.classList.remove('active');
+        });
+
+        function animateCursor() {
+            const diffX = mouseX - followerX;
+            const diffY = mouseY - followerY;
+            
+            followerX += diffX * 0.08;
+            followerY += diffY * 0.08;
+            
+            cursorFollower.style.left = followerX + 'px';
+            cursorFollower.style.top = followerY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+
+        animateCursor();
+
+        // Enhanced scroll behavior for project cards
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 300);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        projectCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+            cardObserver.observe(card);
+        });
+
+        // Smooth anchor link scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add subtle parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Performance optimization: throttle scroll events
+        function throttle(func, delay) {
+            let timeoutId;
+            let lastExecTime = 0;
+            return function (...args) {
+                const currentTime = Date.now();
+                
+                if (currentTime - lastExecTime > delay) {
+                    func.apply(this, args);
+                    lastExecTime = currentTime;
+                } else {
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        func.apply(this, args);
+                        lastExecTime = Date.now();
+                    }, delay - (currentTime - lastExecTime));
+                }
+            };
+        }
+
+        // Apply throttling to scroll-heavy functions
+        const throttledScroll = throttle(() => {
+            // Any heavy scroll operations can go here
+        }, 16); // ~60fps
+
+        window.addEventListener('scroll', throttledScroll);
+
+        // Dynamic text effects
+        const observeText = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Add staggered animation to text elements
+        document.querySelectorAll('.project-features li').forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`;
+            observeText.observe(item);
+        });
+    </script>
+</body>
 </html>
