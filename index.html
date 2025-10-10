@@ -112,18 +112,66 @@
             transform: translateY(30px);
         }
 
-        /* Top left text */
-        .top-text {
+        /* Top left name */
+        .brand-name {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 60px;
+            left: 60px;
             font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: 0.75rem;
-            color: #4A4A4A;
             z-index: 100;
             opacity: 0;
-            display: flex;
-            gap: 30px;
+        }
+
+        .brand-name .name-line-wrap {
+            overflow: hidden;
+            display: block;
+        }
+
+        .brand-name .name-line {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 0.9;
+            color: #4A4A4A;
+            letter-spacing: -0.02em;
+            display: block;
+        }
+
+        /* About heading (replaces brand name) */
+        .about-heading {
+            position: fixed;
+            top: 60px;
+            left: 60px;
+            font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            z-index: 100;
+            opacity: 0;
+            display: none;
+        }
+
+        .about-heading.active {
+            display: block;
+        }
+
+        .about-heading .about-title-wrap {
+            overflow: hidden;
+            display: block;
+        }
+
+        .about-heading .about-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 0.9;
+            color: #4A4A4A;
+            letter-spacing: -0.02em;
+            display: block;
+        }
+
+        /* Top right about */
+        .top-right {
+            position: fixed;
+            top: 60px;
+            right: 60px;
+            z-index: 100;
+            opacity: 0;
         }
 
         .link {
@@ -142,7 +190,7 @@
         .mask {
             position: relative;
             padding: 0;
-            height: 14px;
+            height: 16px;
             overflow: hidden;
         }
 
@@ -152,9 +200,10 @@
 
         .title {
             display: block;
-            font-size: 14px;
-            line-height: 14px;
+            font-size: 16px;
+            line-height: 16px;
             transition: transform 0.4s ease;
+            font-weight: 500;
         }
 
         .link-title1 {
@@ -166,55 +215,80 @@
             transform: rotate(20deg);
         }
 
-        /* Hover Action */
-        .link:hover .link-container {
-            transform: translateY(-14px);
+        /* Hover Action - disabled during animations */
+        .link:not(.animating):hover .link-container {
+            transform: translateY(-16px);
         }
 
-        .link:hover .link-title1 {
+        .link:not(.animating):hover .link-title1 {
             transform: rotate(20deg);
         }
 
-        .link:hover .link-title2 {
+        .link:not(.animating):hover .link-title2 {
             transform: rotate(0);
+        }
+
+        /* Disable transitions during GSAP animations */
+        .link.animating .link-container {
+            transition: none !important;
+        }
+
+        .link.animating .title {
+            transition: none !important;
         }
 
         /* About section */
         .about-section {
             min-height: 100vh;
             display: none;
-            justify-content: center;
-            align-items: center;
             padding: 50px;
+            padding-left: 60px;
+            padding-top: 0;
         }
 
         .about-section.active {
-            display: flex;
+            display: block;
         }
 
         .about-wrapper {
-            text-align: center;
-            max-width: 700px;
+            text-align: left;
+            max-width: 800px;
+            margin-top: 240px;
+            width: 100%;
         }
 
         .about-text {
-            font-size: 0.75rem;
+            font-size: 0.9rem;
             color: #4A4A4A;
-            line-height: 1.8;
+            line-height: 1.5;
             font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            text-align: left;
         }
 
-        .about-text .line {
+        .about-text .split-line-wrapper {
+            overflow: hidden;
             display: block;
-            opacity: 0;
-            transform: translateY(20px);
         }
 
-        /* Text split animation */
-        .content-wrapper h1 span,
-        .content-wrapper p span {
+        .about-text .split-line {
+            display: block;
+        }
+
+        /* Masked Text Reveal */
+        .content-wrapper h1,
+        .content-wrapper p {
+            overflow: hidden;
+        }
+
+        .line,
+        .about-line {
+            overflow: hidden;
+            display: block;
+        }
+
+        .word,
+        .letter {
             display: inline-block;
-            opacity: 0;
         }
     </style>
 </head>
@@ -242,16 +316,28 @@
         </div>
     </div>
 
-    <!-- Top left text -->
-    <div class="top-text">
-        <button class="link" id="home-btn">
-            <span class="mask">
-                <div class="link-container">
-                    <span class="link-title1 title">Shakil Islam Shanto</span>
-                    <span class="link-title2 title">Shakil Islam Shanto</span>
-                </div>
-            </span>
-        </button>
+    <!-- Brand name -->
+    <div class="brand-name" id="brand-name">
+        <div class="name-line-wrap">
+            <span class="name-line">SHAKIL</span>
+        </div>
+        <div class="name-line-wrap">
+            <span class="name-line">ISLAM</span>
+        </div>
+        <div class="name-line-wrap">
+            <span class="name-line">SHANTO</span>
+        </div>
+    </div>
+
+    <!-- About heading (hidden by default) -->
+    <div class="about-heading" id="about-heading">
+        <div class="about-title-wrap">
+            <span class="about-title">ABOUT</span>
+        </div>
+    </div>
+
+    <!-- Top right navigation -->
+    <div class="top-right">
         <a href="#about" class="link" id="about-btn">
             <span class="mask">
                 <div class="link-container">
@@ -260,6 +346,14 @@
                 </div>
             </span>
         </a>
+        <button class="link" id="home-btn" style="display: none;">
+            <span class="mask">
+                <div class="link-container">
+                    <span class="link-title1 title">Home</span>
+                    <span class="link-title2 title">Home</span>
+                </div>
+            </span>
+        </button>
     </div>
 
     <!-- Main Content -->
@@ -273,78 +367,257 @@
     <!-- About section -->
     <div class="about-section" id="about-section">
         <div class="about-wrapper">
-            <div class="about-text"></div>
+            <div class="about-text">
+                <div class="split-line-wrapper">
+                    <div class="split-line">Hi! I am 25 y/o CSE grad from Dhaka. I am actively working Artificial Intelligence</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">projects, while also being equally passionate about web security research. Besides</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">working as a software engineer @ periscopelabs, I also do bug bounty hunting,</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">basically hunt for security vulnerabilities to large corps and report them. I am also</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">researching LLM security now. Loyal to counter-strike, love apex legends, can't wait</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">to play bf6 [don't have a godo rig rn :( ]. Open to exciting projects and challenges and</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">more open to networking so feel free to connect me on my socials.</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- GSAP CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
 
     <script>
-        // Text splitting function
-        function splitText(element, text) {
-            element.innerHTML = '';
-            const chars = text.split('');
-            chars.forEach(char => {
-                const span = document.createElement('span');
-                span.textContent = char === ' ' ? '\u00A0' : char;
-                element.appendChild(span);
+        // Register GSAP plugins
+        gsap.registerPlugin(SplitText, CustomEase);
+        CustomEase.create("osmo-ease", "0.625, 0.05, 0, 1");
+
+        let h1Split, pSplit, aboutHeadingSplit;
+
+        // Initialize after fonts load
+        document.fonts.ready.then(function() {
+            initTextAnimations();
+        });
+
+        function initTextAnimations() {
+            // Set content first
+            const h1 = document.querySelector('.content-wrapper h1');
+            const p = document.querySelector('.content-wrapper p');
+            const aboutHeading = document.querySelector('.about-heading .about-title');
+
+            h1.textContent = 'Welcome!';
+            p.textContent = 'Your content has loaded successfully with a beautiful animation.';
+
+            // Create SplitText instances with automatic masking
+            h1Split = new SplitText(h1, {
+                type: "lines",
+                linesClass: "line"
+            });
+
+            pSplit = new SplitText(p, {
+                type: "lines",
+                linesClass: "line"
+            });
+
+            // Split "ABOUT" heading for reveal
+            aboutHeadingSplit = new SplitText(aboutHeading, {
+                type: "lines",
+                linesClass: "about-line"
             });
         }
 
-        // Split text into lines for about section
-        function splitLines(element, text) {
-            element.innerHTML = '';
-            const sentences = text.split('. ');
-            sentences.forEach((sentence, index) => {
-                const line = document.createElement('div');
-                line.className = 'line';
-                line.textContent = sentence + (index < sentences.length - 1 ? '.' : '');
-                element.appendChild(line);
-            });
-        }
+        function animateMainText() {
+            // This will be called AFTER preloader is done
+            if (h1Split && h1Split.lines) {
+                gsap.fromTo(h1Split.lines,
+                    { yPercent: 110 },
+                    {
+                        yPercent: 0,
+                        duration: 0.8,
+                        stagger: 0.08,
+                        ease: "osmo-ease"
+                    }
+                );
+            }
 
-        // Split the text content
-        const h1 = document.querySelector('.content-wrapper h1');
-        const p = document.querySelector('.content-wrapper p');
-        const aboutText = document.querySelector('.about-text');
-        splitText(h1, 'Welcome!');
-        splitText(p, 'Your content has loaded successfully with a beautiful animation.');
-        splitLines(aboutText, 'I am a passionate developer with expertise in creating beautiful and functional web experiences. I love working with modern technologies and bringing creative ideas to life through code. My focus is on building responsive, accessible, and performant applications.');
+            if (pSplit && pSplit.lines) {
+                gsap.fromTo(pSplit.lines,
+                    { yPercent: 110 },
+                    {
+                        yPercent: 0,
+                        duration: 0.8,
+                        stagger: 0.08,
+                        ease: "osmo-ease",
+                        delay: 0.2
+                    }
+                );
+            }
+        }
 
         // Section toggle
         const aboutBtn = document.getElementById('about-btn');
         const homeBtn = document.getElementById('home-btn');
+        const brandName = document.getElementById('brand-name');
+        const aboutHeadingEl = document.getElementById('about-heading');
         const aboutSection = document.getElementById('about-section');
         const mainContent = document.querySelector('.main-content');
 
         aboutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            mainContent.style.display = 'none';
-            aboutSection.classList.add('active');
 
-            // Animate about text lines
-            gsap.fromTo('.about-text .line',
-                {
-                    y: 30,
-                    opacity: 0
-                },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.8,
-                    stagger: 0.15,
-                    ease: 'power2.out',
-                    delay: 0.2
+            // Add animating class to disable hover
+            aboutBtn.classList.add('animating');
+            homeBtn.classList.add('animating');
+
+            // Hide About button and reveal Home button (masked slide up)
+            gsap.to(aboutBtn.querySelector('.link-container'), {
+                yPercent: -110,
+                duration: 0.8,
+                ease: "power2.in",
+                onComplete: () => {
+                    aboutBtn.style.display = 'none';
+                    aboutBtn.classList.remove('animating');
+                    homeBtn.style.display = 'flex';
+                    gsap.set(homeBtn.querySelector('.link-container'), { yPercent: 110 });
+                    gsap.to(homeBtn.querySelector('.link-container'), {
+                        yPercent: 0,
+                        duration: 0.9,
+                        ease: "power2.out",
+                        clearProps: 'transform',
+                        onComplete: () => {
+                            gsap.set(homeBtn.querySelector('.link-container'), { clearProps: 'all' });
+                            homeBtn.classList.remove('animating');
+                        }
+                    });
                 }
-            );
+            });
+
+            mainContent.style.display = 'none';
+
+            // Hide brand name with masked slide - each line slides up separately
+            gsap.to(brandName.querySelectorAll('.name-line'), {
+                yPercent: -110,
+                duration: 0.5,
+                stagger: 0.05,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    // After brand name is gone, show about heading from below
+                    aboutHeadingEl.classList.add('active');
+                    aboutSection.classList.add('active');
+                    aboutHeadingEl.style.opacity = 1;
+
+                    // Reveal ABOUT with masked slide up from below
+                    gsap.set(aboutHeadingEl.querySelector('.about-title'), { yPercent: 110 });
+                    gsap.to(aboutHeadingEl.querySelector('.about-title'), {
+                        yPercent: 0,
+                        duration: 0.5,
+                        ease: "power2.inOut"
+                    });
+
+                    // Animate about text lines
+                    const aboutLines = document.querySelectorAll('.about-text .split-line');
+                    gsap.set(aboutLines, { yPercent: 110 });
+                    gsap.to(aboutLines, {
+                        yPercent: 0,
+                        duration: 0.4,
+                        stagger: 0.05,
+                        ease: "power2.inOut",
+                        delay: 0.2
+                    });
+                }
+            });
         });
 
+        // Home button click handler
         homeBtn.addEventListener('click', () => {
-            aboutSection.classList.remove('active');
-            mainContent.style.display = 'flex';
+            // Add animating class to disable hover
+            homeBtn.classList.add('animating');
+            aboutBtn.classList.add('animating');
+
+            // Hide Home button and reveal About button (masked slide up)
+            gsap.to(homeBtn.querySelector('.link-container'), {
+                yPercent: -110,
+                duration: 0.8,
+                ease: "power2.in",
+                onComplete: () => {
+                    homeBtn.style.display = 'none';
+                    homeBtn.classList.remove('animating');
+                    aboutBtn.style.display = 'flex';
+                    gsap.set(aboutBtn.querySelector('.link-container'), { yPercent: 110 });
+                    gsap.to(aboutBtn.querySelector('.link-container'), {
+                        yPercent: 0,
+                        duration: 0.9,
+                        ease: "power2.out",
+                        clearProps: 'transform',
+                        onComplete: () => {
+                            gsap.set(aboutBtn.querySelector('.link-container'), { clearProps: 'all' });
+                            aboutBtn.classList.remove('animating');
+                        }
+                    });
+                }
+            });
+
+            // Hide about text lines first with masked slide up
+            const aboutLines = document.querySelectorAll('.about-text .split-line');
+            gsap.to(aboutLines, {
+                yPercent: -110,
+                duration: 0.4,
+                stagger: 0.04,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    // Then hide ABOUT heading with masked slide up
+                    gsap.to(aboutHeadingEl.querySelector('.about-title'), {
+                        yPercent: -110,
+                        duration: 0.5,
+                        ease: "power2.inOut",
+                        onComplete: () => {
+                            aboutSection.classList.remove('active');
+                            aboutHeadingEl.classList.remove('active');
+
+                            // After ABOUT is gone, reveal brand name from below - each line separately
+                            gsap.set(brandName.querySelectorAll('.name-line'), { yPercent: 110 });
+                            gsap.to(brandName.querySelectorAll('.name-line'), {
+                                yPercent: 0,
+                                duration: 0.5,
+                                stagger: 0.05,
+                                ease: "power2.inOut"
+                            });
+                            mainContent.style.display = 'flex';
+                        }
+                    });
+                }
+            });
         });
 
+        // Click brand name/ABOUT heading to go home (only when on about page)
+        brandName.addEventListener('click', () => {
+            if (aboutSection.classList.contains('active')) {
+                // Trigger home button click
+                homeBtn.click();
+            }
+        });
+
+        // Make ABOUT heading clickable too
+        aboutHeadingEl.addEventListener('click', () => {
+            if (aboutSection.classList.contains('active')) {
+                homeBtn.click();
+            }
+        });
+        aboutHeadingEl.style.cursor = 'pointer';
+
+        // Make brand name clickable
+        brandName.style.cursor = 'pointer';
     </script>
 
     <script>
@@ -391,26 +664,20 @@
                         document.querySelector('.loader-wrapper').style.display = 'none';
                     }
                 })
-                .to('.top-text', {
+                .to('.brand-name', {
                     opacity: 1,
                     duration: 0.8,
                     ease: 'power2.out'
                 }, '-=0.5')
-                .from('.content-wrapper h1 span', {
-                    y: 100,
-                    opacity: 0,
-                    rotationX: -90,
+                .to('.top-right', {
+                    opacity: 1,
                     duration: 0.8,
-                    stagger: 0.03,
-                    ease: 'back.out(1.7)'
-                }, '-=0.3')
-                .from('.content-wrapper p span', {
-                    y: 20,
-                    opacity: 0,
-                    duration: 0.5,
-                    stagger: 0.01,
                     ease: 'power2.out'
-                }, '-=0.4');
+                }, '-=0.6')
+                .add(() => {
+                    // Call the main text animation function
+                    animateMainText();
+                }, '-=0.3');
             }
         });
     </script>
