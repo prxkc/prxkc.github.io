@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -286,7 +287,7 @@
         .about-text a:hover {
             color: #4A4A4A;
         }
-        
+
         /* Masked Text Reveal */
         .content-wrapper h1,
         .content-wrapper p {
@@ -303,8 +304,42 @@
         .letter {
             display: inline-block;
         }
+
+        /* Project list */
+        .project-list {
+            position: fixed;
+            top: 400px;
+            left: 60px;
+            z-index: 100;
+            opacity: 0;
+        }
+
+        .project-list-item {
+            display: block;
+            font-size: 0.85rem;
+            color: #4A4A4A;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            line-height: 2;
+            overflow: hidden;
+        }
+
+        .project-list-item a {
+            color: #4A4A4A;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .project-list-item a:hover {
+            color: #C77064;
+        }
+
+        .project-list-item .project-inner {
+            display: block;
+        }
     </style>
 </head>
+
 <body>
     <!-- Loading Screen -->
     <div class="loader-wrapper">
@@ -340,6 +375,15 @@
         <div class="name-line-wrap">
             <span class="name-line">SHANTO</span>
         </div>
+    </div>
+
+    <!-- Project list below brand name -->
+    <div class="project-list" id="project-list">
+        <div class="project-list-item"><span class="project-inner"><a
+                    href="https://huggingface.co/prxkc/jersey-number-recognition" target="_blank">Temporal Jersey Number
+                    Recognition</a></span></div>
+        <div class="project-list-item"><span class="project-inner"><a href="https://tododo-mocha.vercel.app/"
+                    target="_blank">Tododo — Dependency-aware To-do App</a></span></div>
     </div>
 
     <!-- About heading (hidden by default) -->
@@ -382,25 +426,39 @@
         <div class="about-wrapper">
             <div class="about-text">
                 <div class="split-line-wrapper">
-                    <div class="split-line">Hi! I am a 25 y/o Comp. Sci. grad from Dhaka. Passionate about Artificial Intelligence</div>
+                    <div class="split-line">Hey — I'm Shakil, a CS grad from BRAC University, currently based in Dhaka.
+                        I spend most of</div>
                 </div>
                 <div class="split-line-wrapper">
-                    <div class="split-line">and Web Security Research. Biggest fan of <a href="https://jameskettle.com">James Kettle</a>. Besides</div>
+                    <div class="split-line">my time building AI/ML systems — things like agentic document validation
+                        pipelines,</div>
                 </div>
                 <div class="split-line-wrapper">
-                    <div class="split-line">working as a full-time software engineer (mainly focused on AI), I also do bug bounty</div>
+                    <div class="split-line">loan-approval models with explainability, and log anomaly detection at
+                        scale. I've also</div>
                 </div>
                 <div class="split-line-wrapper">
-                    <div class="split-line">hunting, basically hunt for security vulnerabilities in large corps and report them. I am also</div>
+                    <div class="split-line">worked on large-scale data engineering, scraping and processing millions of
+                        records for</div>
                 </div>
                 <div class="split-line-wrapper">
-                    <div class="split-line">researching LLM security now. Loyal to counter-strike, love apex legends, can't wait</div>
+                    <div class="split-line">research. On the side, I do security research — bug bounties on platforms
+                        like Intigriti</div>
                 </div>
                 <div class="split-line-wrapper">
-                    <div class="split-line">to play bf6 [don't have a good rig rn :( ]. Open to exciting projects and challenges and</div>
+                    <div class="split-line">and HackerOne. Found some fun ones, including a critical SQLi on Ubisoft.
+                        Biggest fan</div>
                 </div>
                 <div class="split-line-wrapper">
-                    <div class="split-line">more open to networking so feel free to connect me on my socials.</div>
+                    <div class="split-line">of <a href="https://jameskettle.com">James Kettle</a>. Outside of work, I'm
+                        into running, photography, and gaming —</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">loyal to Counter-Strike, love Apex Legends. Always open to interesting
+                        projects</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">and conversations, so feel free to reach out.</div>
                 </div>
             </div>
         </div>
@@ -419,7 +477,7 @@
         let h1Split, pSplit, aboutHeadingSplit;
 
         // Initialize after fonts load
-        document.fonts.ready.then(function() {
+        document.fonts.ready.then(function () {
             initTextAnimations();
         });
 
@@ -517,6 +575,7 @@
             });
 
             mainContent.style.display = 'none';
+            document.getElementById('project-list').style.opacity = '0';
 
             // Hide brand name with masked slide - each line slides up separately
             gsap.to(brandName.querySelectorAll('.name-line'), {
@@ -607,6 +666,11 @@
                                 ease: "power2.inOut"
                             });
                             mainContent.style.display = 'flex';
+                            gsap.to('#project-list', { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.2 });
+                            gsap.fromTo('.project-list-item .project-inner',
+                                { yPercent: 110 },
+                                { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.3 }
+                            );
                         }
                     });
                 }
@@ -651,12 +715,12 @@
         gsap.to(progress, {
             value: 100,
             duration: 3,
-            onUpdate: function() {
+            onUpdate: function () {
                 document.querySelector('.progress-fill').style.width = progress.value + '%';
                 document.querySelector('.loader-percentage').textContent = Math.round(progress.value) + '%';
             },
             ease: 'power2.inOut',
-            onComplete: function() {
+            onComplete: function () {
                 // Exit animation
                 const exitTl = gsap.timeline();
 
@@ -665,34 +729,52 @@
                     opacity: 0,
                     duration: 0.5
                 }, '-=0.3')
-                .to(['.progress-bar', '.loader-percentage'], {
-                    opacity: 0,
-                    duration: 0.3
-                }, '-=0.3')
-                .to('.loader-wrapper', {
-                    yPercent: -100,
-                    duration: 1,
-                    ease: 'power4.inOut',
-                    onComplete: function() {
-                        document.querySelector('.loader-wrapper').style.display = 'none';
-                    }
-                })
-                .to('.brand-name', {
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                }, '-=0.5')
-                .to('.top-right', {
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                }, '-=0.6')
-                .add(() => {
-                    // Call the main text animation function
-                    animateMainText();
-                }, '-=0.3');
+                    .to(['.progress-bar', '.loader-percentage'], {
+                        opacity: 0,
+                        duration: 0.3
+                    }, '-=0.3')
+                    .to('.loader-wrapper', {
+                        yPercent: -100,
+                        duration: 1,
+                        ease: 'power4.inOut',
+                        onComplete: function () {
+                            document.querySelector('.loader-wrapper').style.display = 'none';
+                        }
+                    })
+                    .to('.brand-name', {
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: 'power2.out'
+                    }, '-=0.5')
+                    .to('.top-right', {
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: 'power2.out'
+                    }, '-=0.6')
+                    .add(() => {
+                        // Call the main text animation function
+                        animateMainText();
+                    }, '-=0.3')
+                    .to('#project-list', {
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: 'power2.out'
+                    }, '-=0.2')
+                    .add(() => {
+                        // Animate project list items
+                        gsap.fromTo('.project-list-item .project-inner',
+                            { yPercent: 110 },
+                            {
+                                yPercent: 0,
+                                duration: 0.6,
+                                stagger: 0.08,
+                                ease: 'osmo-ease'
+                            }
+                        );
+                    }, '-=0.5');
             }
         });
     </script>
 </body>
+
 </html>
