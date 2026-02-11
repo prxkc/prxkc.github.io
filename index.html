@@ -240,11 +240,12 @@
 
         /* About section */
         .about-section {
-            min-height: 100vh;
+            height: 100vh;
             display: none;
             padding: 50px;
             padding-left: 60px;
             padding-top: 0;
+            overflow: hidden;
         }
 
         .about-section.active {
@@ -314,14 +315,35 @@
             opacity: 0;
         }
 
-        .project-list-item {
+        .project-list-heading {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #4A4A4A;
+            letter-spacing: 0.15em;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .project-list-heading .project-inner {
             display: block;
+        }
+
+        .project-list-item {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
             font-size: 0.85rem;
             color: #4A4A4A;
             font-weight: 400;
             letter-spacing: 0.02em;
             line-height: 2;
             overflow: hidden;
+        }
+
+        .project-number {
+            font-size: 0.7rem;
+            color: #999;
+            font-variant-numeric: tabular-nums;
         }
 
         .project-list-item a {
@@ -335,7 +357,9 @@
         }
 
         .project-list-item .project-inner {
-            display: block;
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
         }
     </style>
 </head>
@@ -379,17 +403,19 @@
 
     <!-- Project list below brand name -->
     <div class="project-list" id="project-list">
-        <div class="project-list-item"><span class="project-inner"><a
+        <div class="project-list-heading"><span class="project-inner">PROJECTS</span></div>
+        <div class="project-list-item"><span class="project-inner"><span class="project-number">001</span><a
                     href="https://huggingface.co/prxkc/jersey-number-recognition" target="_blank">Temporal Jersey Number
                     Recognition</a></span></div>
-        <div class="project-list-item"><span class="project-inner"><a href="https://tododo-mocha.vercel.app/"
-                    target="_blank">Tododo — Dependency-aware To-do App</a></span></div>
+        <div class="project-list-item"><span class="project-inner"><span class="project-number">002</span><a
+                    href="https://tododo-mocha.vercel.app/" target="_blank">Tododo — Dependency-aware To-do
+                    App</a></span></div>
     </div>
 
     <!-- About heading (hidden by default) -->
     <div class="about-heading" id="about-heading">
         <div class="about-title-wrap">
-            <span class="about-title">ABOUT</span>
+            <span class="about-title">ABOUT ME</span>
         </div>
     </div>
 
@@ -506,6 +532,9 @@
                 type: "lines",
                 linesClass: "about-line"
             });
+
+            // Hide project list items initially for animation
+            gsap.set('#project-list .project-inner', { yPercent: 110 });
         }
 
         function animateMainText() {
@@ -576,6 +605,7 @@
 
             mainContent.style.display = 'none';
             document.getElementById('project-list').style.opacity = '0';
+            gsap.set('#project-list .project-inner', { yPercent: 110 });
 
             // Hide brand name with masked slide - each line slides up separately
             gsap.to(brandName.querySelectorAll('.name-line'), {
@@ -667,8 +697,7 @@
                             });
                             mainContent.style.display = 'flex';
                             gsap.to('#project-list', { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.2 });
-                            gsap.fromTo('.project-list-item .project-inner',
-                                { yPercent: 110 },
+                            gsap.to('#project-list .project-inner',
                                 { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.3 }
                             );
                         }
@@ -761,9 +790,8 @@
                         ease: 'power2.out'
                     }, '-=0.2')
                     .add(() => {
-                        // Animate project list items
-                        gsap.fromTo('.project-list-item .project-inner',
-                            { yPercent: 110 },
+                        // Animate project list items (heading + items)
+                        gsap.to('#project-list .project-inner',
                             {
                                 yPercent: 0,
                                 duration: 0.6,
