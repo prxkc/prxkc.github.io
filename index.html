@@ -7,6 +7,7 @@
     <title>Shakil</title>
     <link rel="icon" type="image/x-icon" href="favicons/favicon.ico">
     <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -37,49 +38,13 @@
             text-align: center;
         }
 
-        .loader-circles {
-            display: none;
-        }
-
-        .circle {
-            width: 20px;
-            height: 20px;
-            background: #FFFFFF;
-            border-radius: 50%;
-        }
-
-        .loader-text {
-            font-size: 2.5rem;
-            color: #FFFFFF;
-            font-weight: 700;
-            letter-spacing: 3px;
-            overflow: hidden;
-        }
-
-        .loader-text span {
-            display: inline-block;
-        }
-
-        .progress-bar {
-            width: 300px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            margin: 30px auto;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #FFFFFF;
-            border-radius: 10px;
-        }
-
         .loader-percentage {
+            font-family: 'Space Mono', monospace;
             color: #FFFFFF;
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: clamp(0.5rem, 2vw, 1.1rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            font-variant-numeric: tabular-nums;
         }
 
         /* Main content */
@@ -369,22 +334,6 @@
     <!-- Loading Screen -->
     <div class="loader-wrapper">
         <div class="loader-content">
-            <div class="loader-circles">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-            </div>
-
-            <div class="loader-text">
-                <span>W</span><span>E</span><span>L</span><span>C</span><span>O</span><span>M</span><span>E</span>
-            </div>
-
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-
             <div class="loader-percentage">0%</div>
         </div>
     </div>
@@ -409,7 +358,8 @@
                     href="https://huggingface.co/prxkc/jersey-number-recognition" target="_blank">Temporal Jersey Number
                     Recognition</a></span></div>
         <div class="project-list-item"><span class="project-inner"><span class="project-number">002</span><a
-                    href="https://github.com/prxkc/text-to-sql-analytics" target="_blank">Natural Language to SQL Analytics System</a></span></div>
+                    href="https://github.com/prxkc/text-to-sql-analytics" target="_blank">Natural Language to SQL
+                    Analytics System</a></span></div>
         <div class="project-list-item"><span class="project-inner"><span class="project-number">003</span><a
                     href="https://tododo-mocha.vercel.app/" target="_blank">Tododo — Dependency-aware To-do
                     App</a></span></div>
@@ -731,81 +681,96 @@
     </script>
 
     <script>
-        // GSAP Loading Animation
-        const tl = gsap.timeline();
+        // Realistic non-linear loading animation
+        const percentEl = document.querySelector('.loader-percentage');
+        let currentValue = 0;
 
-        // Animate text letters
-        tl.from('.loader-text span', {
-            y: 100,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.08,
-            ease: 'power4.out'
-        });
-
-        // Progress bar animation
-        let progress = { value: 0 };
-        gsap.to(progress, {
-            value: 100,
-            duration: 3,
-            onUpdate: function () {
-                document.querySelector('.progress-fill').style.width = progress.value + '%';
-                document.querySelector('.loader-percentage').textContent = Math.round(progress.value) + '%';
-            },
-            ease: 'power2.inOut',
-            onComplete: function () {
-                // Exit animation
-                const exitTl = gsap.timeline();
-
-                exitTl.to('.loader-text', {
-                    y: -50,
-                    opacity: 0,
-                    duration: 0.5
-                }, '-=0.3')
-                    .to(['.progress-bar', '.loader-percentage'], {
-                        opacity: 0,
-                        duration: 0.3
-                    }, '-=0.3')
-                    .to('.loader-wrapper', {
-                        yPercent: -100,
-                        duration: 1,
-                        ease: 'power4.inOut',
-                        onComplete: function () {
-                            document.querySelector('.loader-wrapper').style.display = 'none';
-                        }
-                    })
-                    .to('.brand-name', {
-                        opacity: 1,
-                        duration: 0.8,
-                        ease: 'power2.out'
-                    }, '-=0.5')
-                    .to('.top-right', {
-                        opacity: 1,
-                        duration: 0.8,
-                        ease: 'power2.out'
-                    }, '-=0.6')
-                    .add(() => {
-                        // Call the main text animation function
-                        animateMainText();
-                    }, '-=0.3')
-                    .to('#project-list', {
-                        opacity: 1,
-                        duration: 0.8,
-                        ease: 'power2.out'
-                    }, '-=0.2')
-                    .add(() => {
-                        // Animate project list items (heading + items)
-                        gsap.to('#project-list .project-inner',
-                            {
-                                yPercent: 0,
-                                duration: 0.6,
-                                stagger: 0.08,
-                                ease: 'osmo-ease'
-                            }
-                        );
-                    }, '-=0.5');
+        // Generate randomized waypoints each time
+        function generateWaypoints() {
+            const wps = [];
+            let pos = 0;
+            while (pos < 100) {
+                const jump = Math.floor(Math.random() * 14) + 5; // 5–18% increments
+                pos = Math.min(pos + jump, 100);
+                const duration = Math.floor(Math.random() * 600) + 300; // 300–900ms
+                const pause = pos < 100 ? Math.floor(Math.random() * 500) + 100 : 0; // 100–600ms
+                wps.push({ target: pos, duration, pause });
             }
-        });
+            return wps;
+        }
+
+        const waypoints = generateWaypoints();
+
+        function animateWaypoints(index) {
+            if (index >= waypoints.length) {
+                onLoadingComplete();
+                return;
+            }
+            const wp = waypoints[index];
+            const obj = { val: currentValue };
+            gsap.to(obj, {
+                val: wp.target,
+                duration: wp.duration / 1000,
+                ease: 'power2.inOut',
+                onUpdate: () => {
+                    currentValue = Math.round(obj.val);
+                    percentEl.textContent = currentValue + '%';
+                },
+                onComplete: () => {
+                    setTimeout(() => animateWaypoints(index + 1), wp.pause);
+                }
+            });
+        }
+
+        // Start after a brief beat
+        setTimeout(() => animateWaypoints(0), 300);
+
+        function onLoadingComplete() {
+            const exitTl = gsap.timeline();
+
+            exitTl.to('.loader-percentage', {
+                opacity: 0,
+                scale: 0.9,
+                duration: 0.4,
+                ease: 'power2.in'
+            })
+                .to('.loader-wrapper', {
+                    yPercent: -100,
+                    duration: 1,
+                    ease: 'power4.inOut',
+                    onComplete: function () {
+                        document.querySelector('.loader-wrapper').style.display = 'none';
+                    }
+                })
+                .to('.brand-name', {
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                }, '-=0.5')
+                .to('.top-right', {
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                }, '-=0.6')
+                .add(() => {
+                    animateMainText();
+                }, '-=0.3')
+                .to('#project-list', {
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                }, '-=0.2')
+                .add(() => {
+                    gsap.to('#project-list .project-inner',
+                        {
+                            yPercent: 0,
+                            duration: 0.6,
+                            stagger: 0.08,
+                            ease: 'osmo-ease'
+                        }
+                    );
+                }, '-=0.5');
+        }
     </script>
 </body>
 
