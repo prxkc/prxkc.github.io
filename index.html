@@ -332,10 +332,25 @@
             gap: 16px;
         }
 
+        .datetime-display {
+            position: fixed;
+            bottom: 60px;
+            left: 60px;
+            z-index: 100;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: #4A4A4A;
+            letter-spacing: 0.04em;
+            opacity: 0;
+        }
+
     </style>
 </head>
 
 <body>
+    <!-- Date/time -->
+    <div class="datetime-display" id="datetime-display"></div>
+
     <!-- Loading Screen -->
     <div class="loader-wrapper">
         <div class="loader-content">
@@ -766,7 +781,12 @@
                             ease: 'osmo-ease'
                         }
                     );
-                }, '-=0.5');
+                }, '-=0.5')
+                .to('.datetime-display', {
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                }, '-=0.3');
         }
     </script>
     <script>
@@ -1055,6 +1075,28 @@ void main(){
             }
             animate();
         })();
+    </script>
+    <script>
+        // Live clock
+        const MONTHS = ['January','February','March','April','May','June',
+                         'July','August','September','October','November','December'];
+        const clockEl = document.getElementById('datetime-display');
+
+        function updateClock() {
+            const now = new Date();
+            const month   = MONTHS[now.getMonth()];
+            const day     = now.getDate();
+            const year    = now.getFullYear();
+            const h24     = now.getHours();
+            const ampm    = h24 >= 12 ? 'PM' : 'AM';
+            const hours   = String(h24 % 12 || 12).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            clockEl.textContent = `[ ${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${ampm} ]`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
     </script>
 </body>
 
