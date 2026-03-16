@@ -689,49 +689,38 @@
     </script>
 
     <script>
-        // Realistic non-linear loading animation
+        // Spring-based CountUp (mirrors CountUp component physics)
         const percentEl = document.querySelector('.loader-percentage');
-        let currentValue = 0;
 
-        // Generate randomized waypoints each time
-        function generateWaypoints() {
-            const wps = [];
-            let pos = 0;
-            while (pos < 100) {
-                const jump = Math.floor(Math.random() * 14) + 5; // 5–18% increments
-                pos = Math.min(pos + jump, 100);
-                const duration = Math.floor(Math.random() * 600) + 300; // 300–900ms
-                const pause = pos < 100 ? Math.floor(Math.random() * 500) + 100 : 0; // 100–600ms
-                wps.push({ target: pos, duration, pause });
-            }
-            return wps;
-        }
+        const duration  = 2;
+        const stiffness = 100 * (1 / duration); // 50
+        const damping   = 20 + 40 * (1 / duration); // 40
 
-        const waypoints = generateWaypoints();
+        let position = 0;
+        let velocity = 0;
+        let lastTime = null;
 
-        function animateWaypoints(index) {
-            if (index >= waypoints.length) {
+        function springStep(timestamp) {
+            if (lastTime === null) lastTime = timestamp;
+            const dt = Math.min((timestamp - lastTime) / 1000, 0.064);
+            lastTime = timestamp;
+
+            const force = stiffness * (100 - position) - damping * velocity;
+            velocity += force * dt;
+            position += velocity * dt;
+
+            if (position >= 99.5) {
+                percentEl.textContent = '100%';
                 onLoadingComplete();
                 return;
             }
-            const wp = waypoints[index];
-            const obj = { val: currentValue };
-            gsap.to(obj, {
-                val: wp.target,
-                duration: wp.duration / 1000,
-                ease: 'power2.inOut',
-                onUpdate: () => {
-                    currentValue = Math.round(obj.val);
-                    percentEl.textContent = currentValue + '%';
-                },
-                onComplete: () => {
-                    setTimeout(() => animateWaypoints(index + 1), wp.pause);
-                }
-            });
+
+            percentEl.textContent = Math.round(position) + '%';
+            requestAnimationFrame(springStep);
         }
 
         // Start after a brief beat
-        setTimeout(() => animateWaypoints(0), 300);
+        setTimeout(() => requestAnimationFrame(springStep), 300);
 
         function onLoadingComplete() {
             const exitTl = gsap.timeline();
