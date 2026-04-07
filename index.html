@@ -1019,15 +1019,15 @@ void main(){
 
             // Set static uniforms
             gl.uniform3f(uLoc.uColor, colorR, colorG, colorB);
-            gl.uniform1f(uLoc.uScale, 3.25);
-            gl.uniform1f(uLoc.uDensity, 1.4);
+            gl.uniform1f(uLoc.uScale, 5);
+            gl.uniform1f(uLoc.uDensity, 1.34);
             gl.uniform1f(uLoc.uPixelJitter, 0.0);
             gl.uniform1i(uLoc.uEnableRipples, 1);
-            gl.uniform1f(uLoc.uRippleSpeed, 2.0);
+            gl.uniform1f(uLoc.uRippleSpeed, 1.2);
             gl.uniform1f(uLoc.uRippleThickness, 0.12);
             gl.uniform1f(uLoc.uRippleIntensity, 1.5);
             gl.uniform1f(uLoc.uEdgeFade, 0.25);
-            gl.uniform1i(uLoc.uShapeType, 1); // circle
+            gl.uniform1i(uLoc.uShapeType, 0); // circle
 
             // Initialise click arrays to inactive
             for (let i = 0; i < MAX_CLICKS; i++) {
@@ -1048,7 +1048,7 @@ void main(){
                 canvas.height = canvasH;
                 gl.viewport(0, 0, canvasW, canvasH);
                 gl.uniform2f(uLoc.uResolution, canvasW, canvasH);
-                gl.uniform1f(uLoc.uPixelSize, 3 * dpr);
+                gl.uniform1f(uLoc.uPixelSize, 2 * dpr);
             }
             resize();
             window.addEventListener('resize', resize);
