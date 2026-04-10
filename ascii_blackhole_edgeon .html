@@ -1,0 +1,157 @@
+<div style="background:#000;width:100%;overflow:hidden;line-height:0;">
+<canvas id="bh" style="display:block;width:100%;height:auto;"></canvas>
+</div>
+<script>
+(function(){
+const COLS=100, ROWS=36;
+const CW=7, CH=12;
+const cv=document.getElementById('bh');
+cv.width=COLS*CW; cv.height=ROWS*CH;
+const cx=cv.getContext('2d');
+cx.font='10px "Courier New",monospace';
+cx.textBaseline='top';
+
+const nm=v=>{const l=Math.hypot(v[0],v[1],v[2]);return[v[0]/l,v[1]/l,v[2]/l];};
+const cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const dt=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const ad=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
+const sc=(v,s)=>[v[0]*s,v[1]*s,v[2]*s];
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+
+const CHARS=['\u00b7','.',':','+','*','%','#','@'];
+
+const R_EH=2.5, R_IN=3.0, R_OUT=36;
+const R_PS=R_EH*1.5;
+const INC=Math.PI*0.10, CD=26;
+const cam=[0,CD*Math.sin(INC),CD*Math.cos(INC)];
+const fwd=nm(sc(cam,-1));
+const rgt=nm(cr(fwd,[0,1,0]));
+const upv=nm(cr(rgt,fwd));
+const FOV=0.50, AR=(ROWS*CH)/(COLS*CW);
+
+function ray(sx,sy){return nm(ad(ad(fwd,sc(rgt,sx*FOV)),sc(upv,sy*FOV*AR)));}
+
+function iSph(ro,rd,R){
+  const b=dt(ro,rd),c=dt(ro,ro)-R*R,d=b*b-c;
+  if(d<0)return Infinity;
+  const t=-b-Math.sqrt(d);
+  return t>0.001?t:Infinity;
+}
+function iDisk(ro,rd){
+  if(Math.abs(rd[1])<1e-6)return null;
+  const t=-ro[1]/rd[1];
+  if(t<0.01)return null;
+  const x=ro[0]+t*rd[0],z=ro[2]+t*rd[2],r=Math.hypot(x,z);
+  if(r<R_IN||r>R_OUT)return null;
+  return{t,x,z,r,a:Math.atan2(z,x)};
+}
+function cpInfo(ro,rd){
+  const tc=-dt(ro,rd);
+  if(tc<0)return null;
+  const pt=ad(ro,sc(rd,tc));
+  return{d:Math.hypot(pt[0],pt[1],pt[2]),y:pt[1],tc};
+}
+
+function sn1(c,r){const v=Math.sin(c*12.9898+r*78.233)*43758.5453;return(v-Math.floor(v));}
+function sn2(c,r){const v=Math.sin(c*63.726+r*157.992)*29847.1;return(v-Math.floor(v));}
+function sn3(c,r){const v=Math.sin(c*19.41+r*43.17)*81723.6;return(v-Math.floor(v));}
+
+// Pre-bake per-pixel vignette weights — blended from radial + 4 edge fades
+// so the canvas dissolves smoothly into surrounding black with no hard cut
+const W=cv.width, H=cv.height;
+const vignette=new Float32Array(COLS*ROWS);
+for(let row=0;row<ROWS;row++){
+  const py=(row+0.5)/ROWS; // 0..1
+  for(let col=0;col<COLS;col++){
+    const px=(col+0.5)/COLS;
+    // Radial — elliptical, centered
+    const dx=(px-0.5)*2, dy=(py-0.5)*2;
+    const r=Math.hypot(dx*0.9,dy*1.1); // slightly taller falloff
+    const radial=clamp(1-Math.pow(r/1.0,2.2),0,1);
+    // Edge linear fades — feather inward from each side
+    const eL=clamp(px/0.14,0,1);
+    const eR=clamp((1-px)/0.14,0,1);
+    const eT=clamp(py/0.18,0,1);
+    const eB=clamp((1-py)/0.18,0,1);
+    vignette[row*COLS+col]=radial*eL*eR*eT*eB;
+  }
+}
+
+let T=0;
+
+function draw(){
+  cx.clearRect(0,0,W,H);
+
+  for(let row=0;row<ROWS;row++){
+    const sy=(0.5-row/ROWS)*2;
+    for(let col=0;col<COLS;col++){
+      const sx=(col/COLS-0.5)*2;
+      const rd=ray(sx,sy);
+      const tEH=iSph(cam,rd,R_EH);
+      const dk=iDisk(cam,rd);
+
+      let emit=0, shadow=false;
+      let rMul=1.0, gMul=1.0, bMul=1.0;
+
+      if(tEH<Infinity&&(!dk||tEH<dk.t)){
+        shadow=true;
+      } else if(dk){
+        const{r:pr,a:pa}=dk;
+        const radFrac=clamp((pr-R_IN)/(R_OUT-R_IN),0,1);
+        const temp=1-radFrac;
+        const rad=Math.pow(1-radFrac,1.1);
+        const spin=pa-T*1.8+pr*0.22;
+        const band1=Math.sin(spin*3)*0.5+0.5;
+        const band2=Math.sin(spin*7+T*0.4)*0.32+0.32;
+        const band3=Math.sin(spin*13-T*0.25+pr*0.55)*0.22+0.22;
+        const band4=Math.sin(spin*1.6+pr*0.08)*0.28+0.28;
+        const corona=Math.pow(clamp(1-(pr-R_IN)/4.5,0,1),3)*0.45;
+        emit=clamp(rad*0.36+band1*0.26+band2*0.13+band3*0.07+band4*0.09+corona+0.08,0,1);
+        rMul=1.0; gMul=0.80+temp*0.15; bMul=0.48+temp*0.42;
+      } else {
+        const cp=cpInfo(cam,rd);
+        if(cp&&cp.d>R_EH){
+          const d=cp.d;
+          const above=cp.y>0;
+          const rDist=Math.abs(d-R_PS);
+          const ring=rDist<1.4?Math.pow(clamp(1-rDist/1.4,0,1),4)*1.3:0;
+          const haloRange=8.0;
+          const haloBase=d<R_EH+haloRange?Math.pow(clamp(1-(d-R_EH)/haloRange,0,1),2.0):0;
+          const dirBoost=above?1.0:0.50;
+          const shimmer=d<R_EH+2.2?Math.pow(clamp(1-(d-R_EH)/2.2,0,1),6)*0.70:0;
+          const lensedSpin=cp.tc*0.10-T*1.8;
+          const lensedBand=above?(Math.sin(lensedSpin*2.5)*0.35+0.35)*haloBase*0.38:0;
+          emit=clamp(ring*1.1+haloBase*dirBoost*0.9+shimmer+lensedBand,0,1);
+          const warmth=clamp((d-R_EH)/haloRange,0,1);
+          if(above){rMul=1.0;gMul=0.88+ring*0.12-warmth*0.08;bMul=0.50+ring*0.45-warmth*0.32;}
+          else{rMul=1.0;gMul=0.68+ring*0.20;bMul=0.22+ring*0.35;}
+        }
+      }
+
+      if(!shadow){
+        const n1=sn1(col,row),n2=sn2(col,row),n3=sn3(col,row);
+        const s1=n1>0.62?(n1-0.62)/0.38*0.30:0;
+        const s2=n2>0.70?(n2-0.70)/0.30*0.22:0;
+        const s3=n3>0.78?(n3-0.78)/0.22*0.16:0;
+        emit=clamp(emit+(1-emit*0.8)*Math.max(s1,s2,s3)*0.6,0,1);
+      }
+
+      // Apply vignette — scale emit by pre-baked weight
+      const vig=vignette[row*COLS+col];
+      emit*=vig;
+
+      if(!shadow&&emit>0.015){
+        const v=Math.floor(emit*255);
+        cx.fillStyle=`rgb(${Math.min(255,Math.floor(v*rMul))},${Math.min(255,Math.floor(v*gMul))},${Math.min(255,Math.floor(v*bMul))})`;
+        cx.fillText(CHARS[Math.min(CHARS.length-1,Math.floor(emit*CHARS.length))],col*CW,row*CH);
+      }
+    }
+  }
+
+  T+=0.003;
+  requestAnimationFrame(draw);
+}
+
+draw();
+})();
+</script>

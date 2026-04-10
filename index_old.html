@@ -18,7 +18,7 @@
         body {
             font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             overflow-x: hidden;
-            background: #000000;
+            background: #FAF9F6;
         }
 
         .loader-wrapper {
@@ -55,12 +55,12 @@
             align-items: center;
             padding: 50px;
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
 
         .content-wrapper {
             text-align: center;
-            color: #ffffff;
+            color: #4A4A4A;
         }
 
         .content-wrapper h1 {
@@ -71,7 +71,7 @@
 
         .content-wrapper p {
             font-size: 1.5rem;
-            color: #ffffff;
+            color: #4A4A4A;
             max-width: 600px;
             margin: 0 auto;
         }
@@ -100,7 +100,7 @@
             font-size: 3.5rem;
             font-weight: 700;
             line-height: 0.9;
-            color: #ffffff;
+            color: #4A4A4A;
             letter-spacing: -0.02em;
             display: block;
         }
@@ -129,7 +129,7 @@
             font-size: 3.5rem;
             font-weight: 700;
             line-height: 0.9;
-            color: #ffffff;
+            color: #4A4A4A;
             letter-spacing: -0.02em;
             display: block;
         }
@@ -146,7 +146,7 @@
         .link {
             height: 22px;
             align-items: center;
-            color: #ffffff;
+            color: #4A4A4A;
             text-decoration: none;
             display: flex;
             background: none;
@@ -215,7 +215,7 @@
             padding-top: 0;
             overflow: hidden;
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
 
         .about-section.active {
@@ -231,7 +231,7 @@
 
         .about-text {
             font-size: 0.9rem;
-            color: #ffffff;
+            color: #4A4A4A;
             line-height: 1.5;
             font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             text-align: left;
@@ -247,16 +247,16 @@
         }
 
         .about-text a {
-            color: #ffffff;
+            color: #4A4A4A;
             text-decoration: none;
         }
 
         .about-text a:visited {
-            color: #ffffff;
+            color: #4A4A4A;
         }
 
         .about-text a:hover {
-            color: #cccccc;
+            color: #4A4A4A;
         }
 
         /* Masked Text Reveal */
@@ -288,7 +288,7 @@
         .project-list-heading {
             font-size: 0.75rem;
             font-weight: 500;
-            color: #ffffff;
+            color: #4A4A4A;
             letter-spacing: 0.15em;
             margin-bottom: 12px;
             overflow: hidden;
@@ -303,7 +303,7 @@
             align-items: baseline;
             gap: 16px;
             font-size: 0.85rem;
-            color: #ffffff;
+            color: #4A4A4A;
             font-weight: 400;
             letter-spacing: 0.02em;
             line-height: 2;
@@ -312,12 +312,12 @@
 
         .project-number {
             font-size: 0.7rem;
-            color: #888;
+            color: #999;
             font-variant-numeric: tabular-nums;
         }
 
         .project-list-item a {
-            color: #ffffff;
+            color: #4A4A4A;
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -339,7 +339,7 @@
             z-index: 100;
             font-family: 'Space Mono', monospace;
             font-size: 0.7rem;
-            color: #ffffff;
+            color: #4A4A4A;
             letter-spacing: 0.04em;
             opacity: 0;
         }
@@ -348,160 +348,6 @@
 </head>
 
 <body>
-    <!-- ASCII Black Hole Background -->
-    <div id="blackhole-bg" style="position:fixed;top:50%;left:58%;transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:0.85;">
-        <canvas id="bh" style="display:block;"></canvas>
-    </div>
-    <script>
-    (function(){
-        const COLS=72, ROWS=26;
-        const CW=7, CH=12;
-        const cv=document.getElementById('bh');
-        cv.width=COLS*CW; cv.height=ROWS*CH;
-        const cx=cv.getContext('2d');
-        cx.font='10px "Courier New",monospace';
-        cx.textBaseline='top';
-
-        const nm=v=>{const l=Math.hypot(v[0],v[1],v[2]);return[v[0]/l,v[1]/l,v[2]/l];};
-        const cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
-        const dt=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
-        const ad=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
-        const sc=(v,s)=>[v[0]*s,v[1]*s,v[2]*s];
-        const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
-
-        const CHARS=['\u00b7','.',':','+','*','%','#','@'];
-
-        const R_EH=2.5, R_IN=3.0, R_OUT=36;
-        const R_PS=R_EH*1.5;
-        const INC=Math.PI*0.10, CD=26;
-        const cam=[0,CD*Math.sin(INC),CD*Math.cos(INC)];
-        const fwd=nm(sc(cam,-1));
-        const rgt=nm(cr(fwd,[0,1,0]));
-        const upv=nm(cr(rgt,fwd));
-        const FOV=0.50, AR=(ROWS*CH)/(COLS*CW);
-
-        function ray(sx,sy){return nm(ad(ad(fwd,sc(rgt,sx*FOV)),sc(upv,sy*FOV*AR)));}
-
-        function iSph(ro,rd,R){
-            const b=dt(ro,rd),c=dt(ro,ro)-R*R,d=b*b-c;
-            if(d<0)return Infinity;
-            const t=-b-Math.sqrt(d);
-            return t>0.001?t:Infinity;
-        }
-        function iDisk(ro,rd){
-            if(Math.abs(rd[1])<1e-6)return null;
-            const t=-ro[1]/rd[1];
-            if(t<0.01)return null;
-            const x=ro[0]+t*rd[0],z=ro[2]+t*rd[2],r=Math.hypot(x,z);
-            if(r<R_IN||r>R_OUT)return null;
-            return{t,x,z,r,a:Math.atan2(z,x)};
-        }
-        function cpInfo(ro,rd){
-            const tc=-dt(ro,rd);
-            if(tc<0)return null;
-            const pt=ad(ro,sc(rd,tc));
-            return{d:Math.hypot(pt[0],pt[1],pt[2]),y:pt[1],tc};
-        }
-
-        function sn1(c,r){const v=Math.sin(c*12.9898+r*78.233)*43758.5453;return(v-Math.floor(v));}
-        function sn2(c,r){const v=Math.sin(c*63.726+r*157.992)*29847.1;return(v-Math.floor(v));}
-        function sn3(c,r){const v=Math.sin(c*19.41+r*43.17)*81723.6;return(v-Math.floor(v));}
-
-        const W=cv.width, H=cv.height;
-        const vignette=new Float32Array(COLS*ROWS);
-        for(let row=0;row<ROWS;row++){
-            const py=(row+0.5)/ROWS;
-            for(let col=0;col<COLS;col++){
-                const px=(col+0.5)/COLS;
-                const dx=(px-0.5)*2, dy=(py-0.5)*2;
-                const r=Math.hypot(dx*0.9,dy*1.1);
-                const radial=clamp(1-Math.pow(r/1.0,2.2),0,1);
-                const eL=clamp(px/0.14,0,1);
-                const eR=clamp((1-px)/0.14,0,1);
-                const eT=clamp(py/0.18,0,1);
-                const eB=clamp((1-py)/0.18,0,1);
-                vignette[row*COLS+col]=radial*eL*eR*eT*eB;
-            }
-        }
-
-        let T=0;
-
-        function draw(){
-            cx.clearRect(0,0,W,H);
-
-            for(let row=0;row<ROWS;row++){
-                const sy=(0.5-row/ROWS)*2;
-                for(let col=0;col<COLS;col++){
-                    const sx=(col/COLS-0.5)*2;
-                    const rd=ray(sx,sy);
-                    const tEH=iSph(cam,rd,R_EH);
-                    const dk=iDisk(cam,rd);
-
-                    let emit=0, shadow=false;
-                    let rMul=1.0, gMul=1.0, bMul=1.0;
-
-                    if(tEH<Infinity&&(!dk||tEH<dk.t)){
-                        shadow=true;
-                    } else if(dk){
-                        const{r:pr,a:pa}=dk;
-                        const radFrac=clamp((pr-R_IN)/(R_OUT-R_IN),0,1);
-                        const temp=1-radFrac;
-                        const rad=Math.pow(1-radFrac,1.1);
-                        const spin=pa-T*1.8+pr*0.22;
-                        const band1=Math.sin(spin*3)*0.5+0.5;
-                        const band2=Math.sin(spin*7+T*0.4)*0.32+0.32;
-                        const band3=Math.sin(spin*13-T*0.25+pr*0.55)*0.22+0.22;
-                        const band4=Math.sin(spin*1.6+pr*0.08)*0.28+0.28;
-                        const corona=Math.pow(clamp(1-(pr-R_IN)/4.5,0,1),3)*0.45;
-                        emit=clamp(rad*0.36+band1*0.26+band2*0.13+band3*0.07+band4*0.09+corona+0.08,0,1);
-                        rMul=1.0; gMul=0.80+temp*0.15; bMul=0.48+temp*0.42;
-                    } else {
-                        const cp=cpInfo(cam,rd);
-                        if(cp&&cp.d>R_EH){
-                            const d=cp.d;
-                            const above=cp.y>0;
-                            const rDist=Math.abs(d-R_PS);
-                            const ring=rDist<1.4?Math.pow(clamp(1-rDist/1.4,0,1),4)*1.3:0;
-                            const haloRange=8.0;
-                            const haloBase=d<R_EH+haloRange?Math.pow(clamp(1-(d-R_EH)/haloRange,0,1),2.0):0;
-                            const dirBoost=above?1.0:0.50;
-                            const shimmer=d<R_EH+2.2?Math.pow(clamp(1-(d-R_EH)/2.2,0,1),6)*0.70:0;
-                            const lensedSpin=cp.tc*0.10-T*1.8;
-                            const lensedBand=above?(Math.sin(lensedSpin*2.5)*0.35+0.35)*haloBase*0.38:0;
-                            emit=clamp(ring*1.1+haloBase*dirBoost*0.9+shimmer+lensedBand,0,1);
-                            const warmth=clamp((d-R_EH)/haloRange,0,1);
-                            if(above){rMul=1.0;gMul=0.88+ring*0.12-warmth*0.08;bMul=0.50+ring*0.45-warmth*0.32;}
-                            else{rMul=1.0;gMul=0.68+ring*0.20;bMul=0.22+ring*0.35;}
-                        }
-                    }
-
-                    if(!shadow){
-                        const n1=sn1(col,row),n2=sn2(col,row),n3=sn3(col,row);
-                        const s1=n1>0.62?(n1-0.62)/0.38*0.30:0;
-                        const s2=n2>0.70?(n2-0.70)/0.30*0.22:0;
-                        const s3=n3>0.78?(n3-0.78)/0.22*0.16:0;
-                        emit=clamp(emit+(1-emit*0.8)*Math.max(s1,s2,s3)*0.6,0,1);
-                    }
-
-                    const vig=vignette[row*COLS+col];
-                    emit*=vig;
-
-                    if(!shadow&&emit>0.015){
-                        const v=Math.floor(emit*255);
-                        cx.fillStyle=`rgb(${Math.min(255,Math.floor(v*rMul))},${Math.min(255,Math.floor(v*gMul))},${Math.min(255,Math.floor(v*bMul))})`;
-                        cx.fillText(CHARS[Math.min(CHARS.length-1,Math.floor(emit*CHARS.length))],col*CW,row*CH);
-                    }
-                }
-            }
-
-            T+=0.003;
-            requestAnimationFrame(draw);
-        }
-
-        draw();
-    })();
-    </script>
-
     <!-- Date/time -->
     <div class="datetime-display" id="datetime-display"></div>
 
@@ -943,6 +789,292 @@
                 }, '-=0.3');
         }
     </script>
+    <script>
+        // PixelBlast Background — raw WebGL2 (no Three.js)
+        (function () {
+            const MAX_CLICKS = 10;
+
+            // Convert #C77064 sRGB -> linear for shader
+            function srgbToLinear(c) {
+                return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+            }
+            const colorR = srgbToLinear(0xC7 / 255);
+            const colorG = srgbToLinear(0x70 / 255);
+            const colorB = srgbToLinear(0x64 / 255);
+
+            const canvas = document.createElement('canvas');
+            canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;';
+            document.body.insertBefore(canvas, document.body.firstChild);
+
+            const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false });
+            if (!gl) return;
+
+            const VERT_SRC = `#version 300 es
+void main() {
+  vec2 pos[3];
+  pos[0] = vec2(-1.0, -1.0);
+  pos[1] = vec2( 3.0, -1.0);
+  pos[2] = vec2(-1.0,  3.0);
+  gl_Position = vec4(pos[gl_VertexID], 0.0, 1.0);
+}`;
+
+            const FRAG_SRC = `#version 300 es
+precision highp float;
+
+uniform vec3  uColor;
+uniform vec2  uResolution;
+uniform float uTime;
+uniform float uPixelSize;
+uniform float uScale;
+uniform float uDensity;
+uniform float uPixelJitter;
+uniform int   uEnableRipples;
+uniform float uRippleSpeed;
+uniform float uRippleThickness;
+uniform float uRippleIntensity;
+uniform float uEdgeFade;
+
+uniform int   uShapeType;
+const int SHAPE_SQUARE   = 0;
+const int SHAPE_CIRCLE   = 1;
+const int SHAPE_TRIANGLE = 2;
+const int SHAPE_DIAMOND  = 3;
+
+const int MAX_CLICKS = 10;
+
+uniform vec2  uClickPos  [MAX_CLICKS];
+uniform float uClickTimes[MAX_CLICKS];
+
+out vec4 fragColor;
+
+float Bayer2(vec2 a) {
+  a = floor(a);
+  return fract(a.x / 2. + a.y * a.y * .75);
+}
+#define Bayer4(a) (Bayer2(.5*(a))*0.25 + Bayer2(a))
+#define Bayer8(a) (Bayer4(.5*(a))*0.25 + Bayer2(a))
+
+#define FBM_OCTAVES     5
+#define FBM_LACUNARITY  1.25
+#define FBM_GAIN        1.0
+
+float hash11(float n){ return fract(sin(n)*43758.5453); }
+
+float vnoise(vec3 p){
+  vec3 ip = floor(p);
+  vec3 fp = fract(p);
+  float n000 = hash11(dot(ip + vec3(0.0,0.0,0.0), vec3(1.0,57.0,113.0)));
+  float n100 = hash11(dot(ip + vec3(1.0,0.0,0.0), vec3(1.0,57.0,113.0)));
+  float n010 = hash11(dot(ip + vec3(0.0,1.0,0.0), vec3(1.0,57.0,113.0)));
+  float n110 = hash11(dot(ip + vec3(1.0,1.0,0.0), vec3(1.0,57.0,113.0)));
+  float n001 = hash11(dot(ip + vec3(0.0,0.0,1.0), vec3(1.0,57.0,113.0)));
+  float n101 = hash11(dot(ip + vec3(1.0,0.0,1.0), vec3(1.0,57.0,113.0)));
+  float n011 = hash11(dot(ip + vec3(0.0,1.0,1.0), vec3(1.0,57.0,113.0)));
+  float n111 = hash11(dot(ip + vec3(1.0,1.0,1.0), vec3(1.0,57.0,113.0)));
+  vec3 w = fp*fp*fp*(fp*(fp*6.0-15.0)+10.0);
+  float x00 = mix(n000, n100, w.x);
+  float x10 = mix(n010, n110, w.x);
+  float x01 = mix(n001, n101, w.x);
+  float x11 = mix(n011, n111, w.x);
+  float y0  = mix(x00, x10, w.y);
+  float y1  = mix(x01, x11, w.y);
+  return mix(y0, y1, w.z) * 2.0 - 1.0;
+}
+
+float fbm2(vec2 uv, float t){
+  vec3 p = vec3(uv * uScale, t);
+  float amp = 1.0;
+  float freq = 1.0;
+  float sum = 1.0;
+  for (int i = 0; i < FBM_OCTAVES; ++i){
+    sum  += amp * vnoise(p * freq);
+    freq *= FBM_LACUNARITY;
+    amp  *= FBM_GAIN;
+  }
+  return sum * 0.5 + 0.5;
+}
+
+float maskCircle(vec2 p, float cov){
+  float r = sqrt(cov) * .25;
+  float d = length(p - 0.5) - r;
+  float aa = 0.5 * fwidth(d);
+  return cov * (1.0 - smoothstep(-aa, aa, d * 2.0));
+}
+
+float maskTriangle(vec2 p, vec2 id, float cov){
+  bool flip = mod(id.x + id.y, 2.0) > 0.5;
+  if (flip) p.x = 1.0 - p.x;
+  float r = sqrt(cov);
+  float d  = p.y - r*(1.0 - p.x);
+  float aa = fwidth(d);
+  return cov * clamp(0.5 - d/aa, 0.0, 1.0);
+}
+
+float maskDiamond(vec2 p, float cov){
+  float r = sqrt(cov) * 0.564;
+  return step(abs(p.x - 0.49) + abs(p.y - 0.49), r);
+}
+
+void main(){
+  float pixelSize = uPixelSize;
+  vec2 fragCoord = gl_FragCoord.xy - uResolution * .5;
+  float aspectRatio = uResolution.x / uResolution.y;
+
+  vec2 pixelId = floor(fragCoord / pixelSize);
+  vec2 pixelUV = fract(fragCoord / pixelSize);
+
+  float cellPixelSize = 8.0 * pixelSize;
+  vec2 cellId = floor(fragCoord / cellPixelSize);
+  vec2 cellCoord = cellId * cellPixelSize;
+  vec2 uv = cellCoord / uResolution * vec2(aspectRatio, 1.0);
+
+  float base = fbm2(uv, uTime * 0.05);
+  base = base * 0.5 - 0.65;
+
+  float feed = base + (uDensity - 0.5) * 0.3;
+
+  float speed     = uRippleSpeed;
+  float thickness = uRippleThickness;
+  const float dampT = 1.0;
+  const float dampR = 10.0;
+
+  if (uEnableRipples == 1) {
+    for (int i = 0; i < MAX_CLICKS; ++i){
+      vec2 pos = uClickPos[i];
+      if (pos.x < 0.0) continue;
+      float cellPixelSize2 = 8.0 * pixelSize;
+      vec2 cuv = (((pos - uResolution * .5 - cellPixelSize2 * .5) / (uResolution))) * vec2(aspectRatio, 1.0);
+      float t = max(uTime - uClickTimes[i], 0.0);
+      float r = distance(uv, cuv);
+      float waveR = speed * t;
+      float ring  = exp(-pow((r - waveR) / thickness, 2.0));
+      float atten = exp(-dampT * t) * exp(-dampR * r);
+      feed = max(feed, ring * atten * uRippleIntensity);
+    }
+  }
+
+  float bayer = Bayer8(fragCoord / uPixelSize) - 0.5;
+  float bw = step(0.5, feed + bayer);
+
+  float h = fract(sin(dot(floor(fragCoord / uPixelSize), vec2(127.1, 311.7))) * 43758.5453);
+  float jitterScale = 1.0 + (h - 0.5) * uPixelJitter;
+  float coverage = bw * jitterScale;
+  float M;
+  if      (uShapeType == SHAPE_CIRCLE)   M = maskCircle (pixelUV, coverage);
+  else if (uShapeType == SHAPE_TRIANGLE) M = maskTriangle(pixelUV, pixelId, coverage);
+  else if (uShapeType == SHAPE_DIAMOND)  M = maskDiamond(pixelUV, coverage);
+  else                                   M = coverage;
+
+  if (uEdgeFade > 0.0) {
+    vec2 norm = gl_FragCoord.xy / uResolution;
+    float edge = min(min(norm.x, norm.y), min(1.0 - norm.x, 1.0 - norm.y));
+    float fade = smoothstep(0.0, uEdgeFade, edge);
+    M *= fade;
+  }
+
+  vec3 color = uColor;
+  vec3 srgbColor = mix(
+    color * 12.92,
+    1.055 * pow(color, vec3(1.0 / 2.4)) - 0.055,
+    step(0.0031308, color)
+  );
+
+  fragColor = vec4(srgbColor, M);
+}`;
+
+            function compileShader(type, src) {
+                const sh = gl.createShader(type);
+                gl.shaderSource(sh, src);
+                gl.compileShader(sh);
+                if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+                    console.error('PixelBlast shader error:', gl.getShaderInfoLog(sh));
+                    return null;
+                }
+                return sh;
+            }
+
+            const vert = compileShader(gl.VERTEX_SHADER, VERT_SRC);
+            const frag = compileShader(gl.FRAGMENT_SHADER, FRAG_SRC);
+            if (!vert || !frag) return;
+
+            const prog = gl.createProgram();
+            gl.attachShader(prog, vert);
+            gl.attachShader(prog, frag);
+            gl.linkProgram(prog);
+            if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+                console.error('PixelBlast link error:', gl.getProgramInfoLog(prog));
+                return;
+            }
+            gl.useProgram(prog);
+
+            // Cache uniform locations
+            const uLoc = {};
+            for (const name of ['uColor','uResolution','uTime','uPixelSize','uScale','uDensity',
+                                 'uPixelJitter','uEnableRipples','uRippleSpeed','uRippleThickness',
+                                 'uRippleIntensity','uEdgeFade','uShapeType']) {
+                uLoc[name] = gl.getUniformLocation(prog, name);
+            }
+            const uClickPosLocs   = Array.from({length: MAX_CLICKS}, (_, i) => gl.getUniformLocation(prog, `uClickPos[${i}]`));
+            const uClickTimesLocs = Array.from({length: MAX_CLICKS}, (_, i) => gl.getUniformLocation(prog, `uClickTimes[${i}]`));
+
+            // Set static uniforms
+            gl.uniform3f(uLoc.uColor, colorR, colorG, colorB);
+            gl.uniform1f(uLoc.uScale, 5);
+            gl.uniform1f(uLoc.uDensity, 1.34);
+            gl.uniform1f(uLoc.uPixelJitter, 0.0);
+            gl.uniform1i(uLoc.uEnableRipples, 1);
+            gl.uniform1f(uLoc.uRippleSpeed, 1.2);
+            gl.uniform1f(uLoc.uRippleThickness, 0.12);
+            gl.uniform1f(uLoc.uRippleIntensity, 1.5);
+            gl.uniform1f(uLoc.uEdgeFade, 0.25);
+            gl.uniform1i(uLoc.uShapeType, 0); // circle
+
+            // Initialise click arrays to inactive
+            for (let i = 0; i < MAX_CLICKS; i++) {
+                gl.uniform2f(uClickPosLocs[i], -1, -1);
+                gl.uniform1f(uClickTimesLocs[i], 0);
+            }
+
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+            let dpr = 1, canvasW = 0, canvasH = 0;
+
+            function resize() {
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                canvasW = Math.round(window.innerWidth  * dpr);
+                canvasH = Math.round(window.innerHeight * dpr);
+                canvas.width  = canvasW;
+                canvas.height = canvasH;
+                gl.viewport(0, 0, canvasW, canvasH);
+                gl.uniform2f(uLoc.uResolution, canvasW, canvasH);
+                gl.uniform1f(uLoc.uPixelSize, 2 * dpr);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let clickIx = 0;
+            const timeOffset = Math.random() * 1000;
+
+            window.addEventListener('pointerdown', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const fx = (e.clientX - rect.left) * (canvasW / rect.width);
+                const fy = (rect.height - (e.clientY - rect.top)) * (canvasH / rect.height);
+                const t  = performance.now() * 0.0005 + timeOffset;
+                gl.uniform2f(uClickPosLocs[clickIx], fx, fy);
+                gl.uniform1f(uClickTimesLocs[clickIx], t);
+                clickIx = (clickIx + 1) % MAX_CLICKS;
+            }, { passive: true });
+
+            function animate() {
+                const t = performance.now() * 0.0005 + timeOffset;
+                gl.uniform1f(uLoc.uTime, t);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                gl.drawArrays(gl.TRIANGLES, 0, 3);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
     </script>
     <script>
         // Live clock
