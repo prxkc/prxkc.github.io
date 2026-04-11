@@ -21,22 +21,6 @@
             background: #000000;
         }
 
-        #blackhole-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        #bh {
-            width: 100vw;
-            height: 100vh;
-            display: block;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-        }
-
         .loader-wrapper {
             position: fixed;
             top: 0;
@@ -364,273 +348,171 @@
 </head>
 
 <body>
-    
-    <div id="blackhole-bg">
-        <canvas id="bh"></canvas>
+    <!-- ASCII Black Hole Background -->
+    <div id="blackhole-bg" style="position:fixed;top:50%;left:58%;transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:0.85;">
+        <canvas id="bh" style="display:block;"></canvas>
     </div>
     <script>
     (function(){
-        
-        // Full-bleed cinematic pixel space background
-        const canvas = document.getElementById('bh');
-        const ctx = canvas.getContext('2d', { alpha: true });
-        ctx.imageSmoothingEnabled = false;
+        const COLS=72, ROWS=26;
+        const CW=7, CH=12;
+        const cv=document.getElementById('bh');
+        cv.width=COLS*CW; cv.height=ROWS*CH;
+        const cx=cv.getContext('2d');
+        cx.font='10px "Courier New",monospace';
+        cx.textBaseline='top';
 
-        // Smaller rendered pixels for a finer, denser image.
-        const PIXEL = 2;
-        const BAYER8 = [
-             0,32, 8,40, 2,34,10,42,
-            48,16,56,24,50,18,58,26,
-            12,44, 4,36,14,46, 6,38,
-            60,28,52,20,62,30,54,22,
-             3,35,11,43, 1,33, 9,41,
-            51,19,59,27,49,17,57,25,
-            15,47, 7,39,13,45, 5,37,
-            63,31,55,23,61,29,53,21
-        ].map(v => (v + 1) / 65);
+        const nm=v=>{const l=Math.hypot(v[0],v[1],v[2]);return[v[0]/l,v[1]/l,v[2]/l];};
+        const cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+        const dt=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+        const ad=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
+        const sc=(v,s)=>[v[0]*s,v[1]*s,v[2]*s];
+        const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 
-        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-        const smooth = (x) => x * x * (3 - 2 * x);
-        const bayer = (x, y) => BAYER8[((y & 7) * 8) + (x & 7)];
-        const h = (x, y, s = 0) => {
-            const v = Math.sin(x * 127.1 + y * 311.7 + s * 74.7) * 43758.5453123;
-            return v - Math.floor(v);
-        };
-        const fbm = (x, y, oct = 3) => {
-            let v = 0, a = 0.5;
-            for (let i = 0; i < oct; i++) {
-                v += a * h(Math.floor(x), Math.floor(y), i);
-                x *= 2.07;
-                y *= 2.07;
-                a *= 0.5;
-            }
-            return v;
-        };
+        const CHARS=['\u00b7','.',':','+','*','%','#','@'];
 
-        const mix = (a, b, t) => a + (b - a) * t;
+        const R_EH=2.5, R_IN=3.0, R_OUT=36;
+        const R_PS=R_EH*1.5;
+        const INC=Math.PI*0.10, CD=26;
+        const cam=[0,CD*Math.sin(INC),CD*Math.cos(INC)];
+        const fwd=nm(sc(cam,-1));
+        const rgt=nm(cr(fwd,[0,1,0]));
+        const upv=nm(cr(rgt,fwd));
+        const FOV=0.50, AR=(ROWS*CH)/(COLS*CW);
 
-        let W = 0, H = 0, time = 0;
-        let img, buf, stars = [];
+        function ray(sx,sy){return nm(ad(ad(fwd,sc(rgt,sx*FOV)),sc(upv,sy*FOV*AR)));}
 
-        function writePixel(x, y, r, g, b, size = 1) {
-            for (let oy = 0; oy < size; oy++) {
-                for (let ox = 0; ox < size; ox++) {
-                    const px = x + ox;
-                    const py = y + oy;
-                    if (px < 0 || py < 0 || px >= W || py >= H) continue;
-                    const i = (py * W + px) * 4;
-                    buf[i] = r;
-                    buf[i + 1] = g;
-                    buf[i + 2] = b;
-                    buf[i + 3] = 255;
-                }
-            }
+        function iSph(ro,rd,R){
+            const b=dt(ro,rd),c=dt(ro,ro)-R*R,d=b*b-c;
+            if(d<0)return Infinity;
+            const t=-b-Math.sqrt(d);
+            return t>0.001?t:Infinity;
+        }
+        function iDisk(ro,rd){
+            if(Math.abs(rd[1])<1e-6)return null;
+            const t=-ro[1]/rd[1];
+            if(t<0.01)return null;
+            const x=ro[0]+t*rd[0],z=ro[2]+t*rd[2],r=Math.hypot(x,z);
+            if(r<R_IN||r>R_OUT)return null;
+            return{t,x,z,r,a:Math.atan2(z,x)};
+        }
+        function cpInfo(ro,rd){
+            const tc=-dt(ro,rd);
+            if(tc<0)return null;
+            const pt=ad(ro,sc(rd,tc));
+            return{d:Math.hypot(pt[0],pt[1],pt[2]),y:pt[1],tc};
         }
 
-        function resize() {
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
-            W = Math.max(420, Math.floor(vw / PIXEL));
-            H = Math.max(240, Math.floor(vh / PIXEL));
-            canvas.width = W;
-            canvas.height = H;
-            canvas.style.width = '100vw';
-            canvas.style.height = '100vh';
-            canvas.style.imageRendering = 'pixelated';
-            img = ctx.createImageData(W, H);
-            buf = img.data;
-            buildField();
-        }
+        function sn1(c,r){const v=Math.sin(c*12.9898+r*78.233)*43758.5453;return(v-Math.floor(v));}
+        function sn2(c,r){const v=Math.sin(c*63.726+r*157.992)*29847.1;return(v-Math.floor(v));}
+        function sn3(c,r){const v=Math.sin(c*19.41+r*43.17)*81723.6;return(v-Math.floor(v));}
 
-        function buildField() {
-            stars = [];
-            // Sparse background only; keep empty black space dominant.
-            const starCount = Math.max(30, Math.floor(W * H * 0.00018));
-            for (let i = 0; i < starCount; i++) {
-                stars.push({
-                    x: h(i * 1.73, i * 7.11, 1),
-                    y: h(i * 4.91, i * 2.33, 2),
-                    depth: Math.pow(h(i * 8.23, i * 5.12, 3), 2.7),
-                    tw: h(i * 9.13, i * 3.77, 4)
-                });
+        const W=cv.width, H=cv.height;
+        const vignette=new Float32Array(COLS*ROWS);
+        for(let row=0;row<ROWS;row++){
+            const py=(row+0.5)/ROWS;
+            for(let col=0;col<COLS;col++){
+                const px=(col+0.5)/COLS;
+                const dx=(px-0.5)*2, dy=(py-0.5)*2;
+                const r=Math.hypot(dx*0.9,dy*1.1);
+                const radial=clamp(1-Math.pow(r/1.0,2.2),0,1);
+                const eL=clamp(px/0.14,0,1);
+                const eR=clamp((1-px)/0.14,0,1);
+                const eT=clamp(py/0.18,0,1);
+                const eB=clamp((1-py)/0.18,0,1);
+                vignette[row*COLS+col]=radial*eL*eR*eT*eB;
             }
         }
 
-        function starColor(depth, tw, lum) {
-            const t = clamp(lum, 0, 1);
-            const hot = smooth(clamp((t - 0.58) / 0.42, 0, 1));
-            const cool = 1 - hot;
-            const r = mix(190, 255, hot);
-            const g = mix(205, 248, hot);
-            const b = mix(220, 240, hot) * cool + 240 * hot;
-            return [r, g, b];
-        }
+        let T=0;
 
-        function diskColor(lum) {
-            // Strong orange/yellow shift honoring Doppler beaming ranges
-            const hot = smooth(clamp((lum - 0.05) / 0.8, 0, 1));
-            const gold = smooth(clamp((lum - 0.4) / 0.8, 0, 1));
-            const white = smooth(clamp((lum - 1.3) / 1.0, 0, 1)); // Engages on extreme doppler shift
+        function draw(){
+            cx.clearRect(0,0,W,H);
 
-            const r = mix(160, 255, hot);
-            const g = mix(30, 255, gold + white * 1.5);
-            const b = mix(5, 255, gold * gold + white * 2.0);
+            for(let row=0;row<ROWS;row++){
+                const sy=(0.5-row/ROWS)*2;
+                for(let col=0;col<COLS;col++){
+                    const sx=(col/COLS-0.5)*2;
+                    const rd=ray(sx,sy);
+                    const tEH=iSph(cam,rd,R_EH);
+                    const dk=iDisk(cam,rd);
 
-            return [clamp(r, 0, 255), clamp(g, 0, 255), clamp(b, 0, 255)];
-        }
+                    let emit=0, shadow=false;
+                    let rMul=1.0, gMul=1.0, bMul=1.0;
 
-        function draw() {
-            buf.fill(0);
-
-            const cx = W * 0.58; // Slightly right off-center
-            const cy = H * 0.48; // Slightly up
-            
-            // True spherical scale
-            const R_shadow = Math.min(W, H) * 0.11; // Smaller relative size for intense look
-            const R_inner = R_shadow * 1.5;
-            const tilt = 0.28; // Disk perspective tilt
-            const ang = -0.15; // Camera roll
-            const ca = Math.cos(ang), sa = Math.sin(ang);
-
-            // 1. Draw Stars with Gravitational Lensing
-            for (const s of stars) {
-                let sx = s.x * W;
-                let sy = s.y * H;
-                let dx = sx - cx;
-                let dy = sy - cy;
-                let dist2 = dx * dx + dy * dy;
-                const R_s2 = R_shadow * R_shadow;
-
-                // Extreme lensing displaces stars outward organically
-                let lensFactor = 1.0 + 1.5 * R_s2 / (dist2 + 1.0);
-                let x = cx + dx * lensFactor;
-                let y = cy + dy * lensFactor;
-
-                const px = Math.round(x);
-                const py = Math.round(y);
-
-                // Hide stars fully covered by the event horizon
-                const l_dx = px - cx;
-                const l_dy = py - cy;
-                if (l_dx * l_dx + l_dy * l_dy < R_s2) continue;
-
-                const tw = 0.78 + 0.22 * Math.sin(time * 1.5 + s.tw * 22.0);
-                const lum = (0.13 + (1 - s.depth) * 0.11) * tw;
-                const starSize = s.depth > 0.94 ? 2 : 1;
-                const threshold = starSize === 2 ? 0.955 : 0.985;
-                if (lum > bayer(px, py) * threshold) {
-                    const [r, g, b] = starColor(s.depth, s.tw, lum);
-                    writePixel(px, py, r, g, b, starSize);
-                }
-            }
-
-            // 2. Draw Black Hole Volumetric Accretion Disk
-            for (let y = 0; y < H; y++) {
-                for (let x = 0; x < W; x++) {
-                    const dx = x - cx;
-                    const dy = y - cy;
-
-                    const rx = dx * ca - dy * sa;
-                    const ry = dx * sa + dy * ca;
-                    const r = Math.hypot(rx, ry);
-                    const disk_r = Math.hypot(rx, ry / tilt);
-
-                    // Event Horizon pure black mask (3D Occlusion)
-                    if (r <= R_shadow) {
-                        // The bottom half of the disk (closer to viewer) covers the black hole
-                        const isFrontDisk = (ry > 0 && disk_r >= R_inner);
-                        if (!isFrontDisk) {
-                            writePixel(x, y, 0, 0, 0, 1);
-                            continue;
+                    if(tEH<Infinity&&(!dk||tEH<dk.t)){
+                        shadow=true;
+                    } else if(dk){
+                        const{r:pr,a:pa}=dk;
+                        const radFrac=clamp((pr-R_IN)/(R_OUT-R_IN),0,1);
+                        const temp=1-radFrac;
+                        const rad=Math.pow(1-radFrac,1.1);
+                        const spin=pa-T*1.8+pr*0.22;
+                        const band1=Math.sin(spin*3)*0.5+0.5;
+                        const band2=Math.sin(spin*7+T*0.4)*0.32+0.32;
+                        const band3=Math.sin(spin*13-T*0.25+pr*0.55)*0.22+0.22;
+                        const band4=Math.sin(spin*1.6+pr*0.08)*0.28+0.28;
+                        const corona=Math.pow(clamp(1-(pr-R_IN)/4.5,0,1),3)*0.45;
+                        emit=clamp(rad*0.36+band1*0.26+band2*0.13+band3*0.07+band4*0.09+corona+0.08,0,1);
+                        rMul=1.0; gMul=0.80+temp*0.15; bMul=0.48+temp*0.42;
+                    } else {
+                        const cp=cpInfo(cam,rd);
+                        if(cp&&cp.d>R_EH){
+                            const d=cp.d;
+                            const above=cp.y>0;
+                            const rDist=Math.abs(d-R_PS);
+                            const ring=rDist<1.4?Math.pow(clamp(1-rDist/1.4,0,1),4)*1.3:0;
+                            const haloRange=8.0;
+                            const haloBase=d<R_EH+haloRange?Math.pow(clamp(1-(d-R_EH)/haloRange,0,1),2.0):0;
+                            const dirBoost=above?1.0:0.50;
+                            const shimmer=d<R_EH+2.2?Math.pow(clamp(1-(d-R_EH)/2.2,0,1),6)*0.70:0;
+                            const lensedSpin=cp.tc*0.10-T*1.8;
+                            const lensedBand=above?(Math.sin(lensedSpin*2.5)*0.35+0.35)*haloBase*0.38:0;
+                            emit=clamp(ring*1.1+haloBase*dirBoost*0.9+shimmer+lensedBand,0,1);
+                            const warmth=clamp((d-R_EH)/haloRange,0,1);
+                            if(above){rMul=1.0;gMul=0.88+ring*0.12-warmth*0.08;bMul=0.50+ring*0.45-warmth*0.32;}
+                            else{rMul=1.0;gMul=0.68+ring*0.20;bMul=0.22+ring*0.35;}
                         }
                     }
 
-                    let brightness = 0;
-
-                    // Gravitational Lensing Halo (Back of the disk bent over the top)
-                    if (r > R_shadow) {
-                        let hDist = r - R_shadow;
-                        // Biased toward top half
-                        let topWeight = clamp(0.5 - 0.6 * (ry / r), 0, 1);
-                        let hProfile = Math.exp(-hDist * hDist / (R_shadow * R_shadow * 0.15));
-
-                        // Doppler beaming: approaching side (rx < 0) is much brighter
-                        let doppler = clamp(1.0 - 0.85 * (rx / (R_shadow * 1.2)), 0.1, 2.5);
-
-                        let hAngle = Math.atan2(ry, rx);
-                        let spiralTh = hAngle + time * 3.5;
-                        let noise = fbm(spiralTh * 4.0, hDist * 0.3 - time, 2);
-
-                        brightness += hProfile * (0.2 + 0.8 * topWeight) * doppler * (0.4 + 1.2 * noise) * 2.0;
+                    if(!shadow){
+                        const n1=sn1(col,row),n2=sn2(col,row),n3=sn3(col,row);
+                        const s1=n1>0.62?(n1-0.62)/0.38*0.30:0;
+                        const s2=n2>0.70?(n2-0.70)/0.30*0.22:0;
+                        const s3=n3>0.78?(n3-0.78)/0.22*0.16:0;
+                        emit=clamp(emit+(1-emit*0.8)*Math.max(s1,s2,s3)*0.6,0,1);
                     }
 
-                    // Flat Volumetric Accretion Disk
-                    if (disk_r >= R_inner) {
-                        let dDist = disk_r - R_inner;
-                        let dProfile = Math.exp(-dDist * dDist / (R_inner * R_inner * 3.5));
-                        dProfile += 0.2 * Math.exp(-dDist * dDist / (R_inner * R_inner * 12.0)); // Faint outer spread
+                    const vig=vignette[row*COLS+col];
+                    emit*=vig;
 
-                        // Relativistic Doppler Beaming
-                        let doppler = clamp(1.0 - 0.85 * (rx / R_inner), 0.1, 3.0);
-
-                        let dAngle = Math.atan2(ry / tilt, rx);
-                        let rotSpeed = 1.0 + 1.8 * (R_inner / disk_r); // Spiraling shear
-                        let spiralTh = dAngle + rotSpeed * time * 0.8;
-
-                        let noise = fbm(disk_r * 0.05 - time * 0.3, spiralTh * 6.0, 3);
-                        let streams = Math.pow(0.5 + 0.5 * Math.sin(spiralTh * 10.0 - disk_r * 0.1), 2.0);
-
-                        let diskInt = dProfile * doppler * (0.3 + 0.7 * noise) * (0.4 + 0.6 * streams) * 3.0;
-
-                        // Hide the back side of the flat disk falling behind the event horizon
-                        if (!(ry < 0 && r <= R_shadow)) {
-                            brightness += diskInt;
-                        }
-                    }
-
-                    // Intense glowing photon ring boundary
-                    if (Math.abs(r - R_shadow) < W * 0.003) {
-                        let doppler = clamp(1.0 - 0.8 * (rx / R_shadow), 0.2, 3.0);
-                        brightness += 1.0 * doppler;
-                    }
-
-                    if (brightness > 0) {
-                        // High-frequency granularity for pixelated particle feel
-                        brightness *= 0.85 + 0.15 * h(x, y, 9);
-                        brightness = clamp(brightness, 0, 3.0);
-
-                        let density = clamp(brightness * 0.7, 0, 1.1);
-                        const threshold = bayer(x, y);
-
-                        if (density > threshold) {
-                            const [rC, gC, bC] = diskColor(brightness);
-                            // Beaming core gets thicker pixels to blow out and look wildly powerful
-                            const size = brightness > 1.8 ? 2 : 1;
-                            writePixel(x, y, rC, gC, bC, size);
-                        }
+                    if(!shadow&&emit>0.015){
+                        const v=Math.floor(emit*255);
+                        cx.fillStyle=`rgb(${Math.min(255,Math.floor(v*rMul))},${Math.min(255,Math.floor(v*gMul))},${Math.min(255,Math.floor(v*bMul))})`;
+                        cx.fillText(CHARS[Math.min(CHARS.length-1,Math.floor(emit*CHARS.length))],col*CW,row*CH);
                     }
                 }
             }
 
-            ctx.putImageData(img, 0, 0);
-            time += 0.005;
+            T+=0.003;
             requestAnimationFrame(draw);
         }
 
-        window.addEventListener('resize', resize, { passive: true });
-        resize();
         draw();
     })();
     </script>
 
+    <!-- Date/time -->
     <div class="datetime-display" id="datetime-display"></div>
 
+    <!-- Loading Screen -->
     <div class="loader-wrapper">
         <div class="loader-content">
             <div class="loader-percentage">0%</div>
         </div>
     </div>
 
+    <!-- Brand name -->
     <div class="brand-name" id="brand-name">
         <div class="name-line-wrap">
             <span class="name-line">SHAKIL</span>
@@ -643,6 +525,7 @@
         </div>
     </div>
 
+    <!-- Project list below brand name -->
     <div class="project-list" id="project-list">
         <div class="project-list-heading"><span class="project-inner">PROJECTS</span></div>
         <div class="project-list-item"><span class="project-inner"><span class="project-number">001</span><a
@@ -651,18 +534,20 @@
         <div class="project-list-item"><span class="project-inner"><span class="project-number">002</span><a
                     href="https://github.com/prxkc/healthcare-rag-assistant" target="_blank">Healthcare RAG Assistant
                     </a></span></div>
-        <div class="project-list-item"><span class="project-inner"><span class="project-number">003</span><a
+        <div class="project-list-item"><span class="project-inner"><span class="project-number">004</span><a
                     href="https://tododo-mocha.vercel.app/" target="_blank">Dependency-aware To-do
                     App</a></span></div>
 
     </div>
 
+    <!-- About heading (hidden by default) -->
     <div class="about-heading" id="about-heading">
         <div class="about-title-wrap">
             <span class="about-title">ABOUT ME</span>
         </div>
     </div>
 
+    <!-- Top right navigation -->
     <div class="top-right">
         <a href="#about" class="link" id="about-btn">
             <span class="mask">
@@ -682,6 +567,7 @@
         </button>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
         <div class="content-wrapper">
             <h1 class="reveal-element"></h1>
@@ -706,6 +592,7 @@
         </div>
     </div>
 
+    <!-- GSAP CDN -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
@@ -1026,6 +913,7 @@
                     ease: 'power2.out'
                 }, '-=0.3');
         }
+    </script>
     </script>
     <script>
         // Live clock

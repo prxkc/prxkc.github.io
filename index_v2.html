@@ -121,7 +121,7 @@
             display: block;
         }
 
-        /* About heading (replaces brand name) */
+        /* About heading */
         .about-heading {
             position: fixed;
             top: 60px;
@@ -200,7 +200,6 @@
             transform: rotate(20deg);
         }
 
-        /* Hover Action - disabled during animations */
         .link:not(.animating):hover .link-container {
             transform: translateY(-16px);
         }
@@ -213,7 +212,6 @@
             transform: rotate(0);
         }
 
-        /* Disable transitions during GSAP animations */
         .link.animating .link-container {
             transition: none !important;
         }
@@ -376,7 +374,6 @@
         const ctx = canvas.getContext('2d', { alpha: true });
         ctx.imageSmoothingEnabled = false;
 
-        // Smaller rendered pixels for a finer, denser image.
         const PIXEL = 2;
         const BAYER8 = [
              0,32, 8,40, 2,34,10,42,
@@ -392,16 +389,40 @@
         const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
         const smooth = (x) => x * x * (3 - 2 * x);
         const bayer = (x, y) => BAYER8[((y & 7) * 8) + (x & 7)];
-        const h = (x, y, s = 0) => {
+
+        // Core noise hash (fractional part of sine wave)
+        const hash = (x, y, s = 0) => {
             const v = Math.sin(x * 127.1 + y * 311.7 + s * 74.7) * 43758.5453123;
             return v - Math.floor(v);
         };
+
+        // Smooth Bilinear Noise (Required so the rotation doesn't reveal blocky grid artifacts)
+        const smoothNoise = (x, y, s) => {
+            const ix = Math.floor(x);
+            const iy = Math.floor(y);
+            const fx = x - ix;
+            const fy = y - iy;
+            
+            // Smoothstep curve for seamless interpolation
+            const ux = fx * fx * (3.0 - 2.0 * fx);
+            const uy = fy * fy * (3.0 - 2.0 * fy);
+
+            const v00 = hash(ix, iy, s);
+            const v10 = hash(ix + 1, iy, s);
+            const v01 = hash(ix, iy + 1, s);
+            const v11 = hash(ix + 1, iy + 1, s);
+
+            // Bilinear mix
+            return v00 + (v10 - v00) * ux + (v01 - v00) * uy + (v00 - v10 - v01 + v11) * ux * uy;
+        };
+
+        // Fractal Brownian Motion for complex volumetric clouds
         const fbm = (x, y, oct = 3) => {
             let v = 0, a = 0.5;
             for (let i = 0; i < oct; i++) {
-                v += a * h(Math.floor(x), Math.floor(y), i);
-                x *= 2.07;
-                y *= 2.07;
+                v += a * smoothNoise(x, y, i);
+                x *= 2.0;
+                y *= 2.0;
                 a *= 0.5;
             }
             return v;
@@ -444,14 +465,13 @@
 
         function buildField() {
             stars = [];
-            // Sparse background only; keep empty black space dominant.
             const starCount = Math.max(30, Math.floor(W * H * 0.00018));
             for (let i = 0; i < starCount; i++) {
                 stars.push({
-                    x: h(i * 1.73, i * 7.11, 1),
-                    y: h(i * 4.91, i * 2.33, 2),
-                    depth: Math.pow(h(i * 8.23, i * 5.12, 3), 2.7),
-                    tw: h(i * 9.13, i * 3.77, 4)
+                    x: hash(i * 1.73, i * 7.11, 1),
+                    y: hash(i * 4.91, i * 2.33, 2),
+                    depth: Math.pow(hash(i * 8.23, i * 5.12, 3), 2.7),
+                    tw: hash(i * 9.13, i * 3.77, 4)
                 });
             }
         }
@@ -467,153 +487,135 @@
         }
 
         function diskColor(lum) {
-            // Strong orange/yellow shift honoring Doppler beaming ranges
-            const hot = smooth(clamp((lum - 0.05) / 0.8, 0, 1));
-            const gold = smooth(clamp((lum - 0.4) / 0.8, 0, 1));
-            const white = smooth(clamp((lum - 1.3) / 1.0, 0, 1)); // Engages on extreme doppler shift
-
-            const r = mix(160, 255, hot);
-            const g = mix(30, 255, gold + white * 1.5);
-            const b = mix(5, 255, gold * gold + white * 2.0);
-
-            return [clamp(r, 0, 255), clamp(g, 0, 255), clamp(b, 0, 255)];
+            const t = clamp(lum, 0, 1);
+            const hot = smooth(clamp((t - 0.12) / 0.88, 0, 1));
+            const gold = smooth(clamp((t - 0.48) / 0.52, 0, 1));
+            const r = mix(150, 255, hot);
+            const g = mix(70, 244, gold);
+            const b = mix(18, 220, gold * gold);
+            return [r, g, b];
         }
 
         function draw() {
             buf.fill(0);
 
-            const cx = W * 0.58; // Slightly right off-center
-            const cy = H * 0.48; // Slightly up
-            
-            // True spherical scale
-            const R_shadow = Math.min(W, H) * 0.11; // Smaller relative size for intense look
-            const R_inner = R_shadow * 1.5;
-            const tilt = 0.28; // Disk perspective tilt
-            const ang = -0.15; // Camera roll
+            // Shifted slightly right, strict diagonal angle
+            const cx = W * 0.65;
+            const cy = H * 0.50;
+            const ang = -0.42; 
             const ca = Math.cos(ang), sa = Math.sin(ang);
 
-            // 1. Draw Stars with Gravitational Lensing
-            for (const s of stars) {
-                let sx = s.x * W;
-                let sy = s.y * H;
-                let dx = sx - cx;
-                let dy = sy - cy;
-                let dist2 = dx * dx + dy * dy;
-                const R_s2 = R_shadow * R_shadow;
+            const R_bh = Math.min(W, H) * 0.09; // Scale core perfectly with screen size
 
-                // Extreme lensing displaces stars outward organically
-                let lensFactor = 1.0 + 1.5 * R_s2 / (dist2 + 1.0);
-                let x = cx + dx * lensFactor;
-                let y = cy + dy * lensFactor;
+            for (const s of stars) {
+                let x = s.x * W;
+                let y = s.y * H;
+                const dx = x - cx;
+                const dy = y - cy;
+                const dist = Math.hypot(dx, dy) + 1e-4;
+
+                const lens = 0.04 / (dist * dist + 150);
+                x += (dx / dist) * lens * W * 0.5;
+                y += (dy / dist) * lens * H * 0.5;
 
                 const px = Math.round(x);
                 const py = Math.round(y);
-
-                // Hide stars fully covered by the event horizon
-                const l_dx = px - cx;
-                const l_dy = py - cy;
-                if (l_dx * l_dx + l_dy * l_dy < R_s2) continue;
-
                 const tw = 0.78 + 0.22 * Math.sin(time * 1.5 + s.tw * 22.0);
                 const lum = (0.13 + (1 - s.depth) * 0.11) * tw;
                 const starSize = s.depth > 0.94 ? 2 : 1;
                 const threshold = starSize === 2 ? 0.955 : 0.985;
-                if (lum > bayer(px, py) * threshold) {
-                    const [r, g, b] = starColor(s.depth, s.tw, lum);
-                    writePixel(px, py, r, g, b, starSize);
+                
+                // Pure spherical mask blocking stars behind the black hole
+                if (dist > R_bh * 0.95 && px >= 0 && py >= 0 && px < W && py < H) {
+                    if (lum > bayer(px, py) * threshold) {
+                        const [r, g, b] = starColor(s.depth, s.tw, lum);
+                        writePixel(px, py, r, g, b, starSize);
+                    }
                 }
             }
 
-            // 2. Draw Black Hole Volumetric Accretion Disk
             for (let y = 0; y < H; y++) {
                 for (let x = 0; x < W; x++) {
                     const dx = x - cx;
                     const dy = y - cy;
-
                     const rx = dx * ca - dy * sa;
                     const ry = dx * sa + dy * ca;
-                    const r = Math.hypot(rx, ry);
-                    const disk_r = Math.hypot(rx, ry / tilt);
 
-                    // Event Horizon pure black mask (3D Occlusion)
-                    if (r <= R_shadow) {
-                        // The bottom half of the disk (closer to viewer) covers the black hole
-                        const isFrontDisk = (ry > 0 && disk_r >= R_inner);
-                        if (!isFrontDisk) {
-                            writePixel(x, y, 0, 0, 0, 1);
-                            continue;
-                        }
-                    }
+                    const dist2D = Math.hypot(dx, dy);
+
+                    // Disk Plane Mapping (Flattens the view into a deep perspective line)
+                    const tilt = 0.18; 
+                    const disk_x = rx;
+                    const disk_y = ry / tilt;
+                    const disk_r = Math.hypot(disk_x, disk_y) + 1e-5;
+                    const disk_a = Math.atan2(disk_y, disk_x);
+
+                    // Physical Rotation: 
+                    // Particles spin aggressively near the core, gracefully slowing down to almost static at the edges.
+                    const spin_speed = 10.0 / (1.0 + Math.pow(disk_r / R_bh, 1.2));
+                    const rotated_a = disk_a + time * spin_speed;
+
+                    // Rotating Coordinates to map the noise space so clumps actually orbit
+                    const snx = disk_r * Math.cos(rotated_a) * 0.012;
+                    const sny = disk_r * Math.sin(rotated_a) * 0.012;
+
+                    // Large organic asymmetrical clumping (Macro volume)
+                    const volumeNoise = fbm(snx, sny, 3);
+                    // Fast interior wisps and stream bands (Micro volume)
+                    const streamNoise = fbm(snx * 2.5 - time * 0.5, sny * 2.5 + time * 0.5, 2);
+
+                    // Volumetric Profile (Vertical)
+                    // Allows the thickness to fluctuate asymmetrically based on the rotating particle noise
+                    const localThickness = H * 0.05 + disk_r * 0.035;
+                    const localThicknessMod = localThickness * localThickness * (0.4 + 1.2 * volumeNoise);
+                    const verticalProf = Math.exp(-(ry * ry) / localThicknessMod);
+
+                    // Soft, infinite edge fading (Horizontal tail) - completely eliminates cutoffs
+                    const horizProf = Math.exp(-disk_r / (W * 1.2)); 
+
+                    // Doppler Beaming: Bottom-Right (Approaching) is vastly brighter and intensely shifted.
+                    // Top-Left (Receding) is significantly dimmer.
+                    const doppler = clamp(1.0 + 1.8 * (rx / (W * 0.35)), 0.1, 4.0);
+
+                    // Photon Ring (Hot core boundary that isn't perfectly uniform)
+                    const ringDist = Math.abs(dist2D - R_bh * 1.05);
+                    const ringProf = Math.exp(-(ringDist * ringDist) / (R_bh * R_bh * 0.12));
 
                     let brightness = 0;
 
-                    // Gravitational Lensing Halo (Back of the disk bent over the top)
-                    if (r > R_shadow) {
-                        let hDist = r - R_shadow;
-                        // Biased toward top half
-                        let topWeight = clamp(0.5 - 0.6 * (ry / r), 0, 1);
-                        let hProfile = Math.exp(-hDist * hDist / (R_shadow * R_shadow * 0.15));
+                    // Compile the volumetric layers together
+                    brightness += verticalProf * horizProf * (0.3 + 0.7 * streamNoise) * 1.8;
+                    brightness += ringProf * (0.4 + 0.6 * volumeNoise) * 2.2;
 
-                        // Doppler beaming: approaching side (rx < 0) is much brighter
-                        let doppler = clamp(1.0 - 0.85 * (rx / (R_shadow * 1.2)), 0.1, 2.5);
+                    // Shift everything by relativistic velocities
+                    brightness *= doppler;
 
-                        let hAngle = Math.atan2(ry, rx);
-                        let spiralTh = hAngle + time * 3.5;
-                        let noise = fbm(spiralTh * 4.0, hDist * 0.3 - time, 2);
+                    // The True Shadow (Event Horizon Cutout)
+                    // Steep exponential drop creates a crisp but anti-aliased mathematical sphere
+                    const shadowVal = Math.exp(-Math.pow(dist2D / (R_bh * 0.95), 6.0) * 3.0);
+                    brightness -= shadowVal * 10.0;
 
-                        brightness += hProfile * (0.2 + 0.8 * topWeight) * doppler * (0.4 + 1.2 * noise) * 2.0;
-                    }
+                    // Ambient dimming near the core
+                    const softShadowVal = Math.exp(-Math.pow(dist2D / (R_bh * 1.25), 3.0));
+                    brightness -= softShadowVal * 0.6;
 
-                    // Flat Volumetric Accretion Disk
-                    if (disk_r >= R_inner) {
-                        let dDist = disk_r - R_inner;
-                        let dProfile = Math.exp(-dDist * dDist / (R_inner * R_inner * 3.5));
-                        dProfile += 0.2 * Math.exp(-dDist * dDist / (R_inner * R_inner * 12.0)); // Faint outer spread
+                    // Dither masking & output
+                    if (brightness > 0.02) {
+                        const gran = 0.85 + 0.15 * hash(x * 1.5, y * 1.5, 9);
+                        brightness *= gran;
+                        brightness = clamp(brightness, 0, 1.0);
 
-                        // Relativistic Doppler Beaming
-                        let doppler = clamp(1.0 - 0.85 * (rx / R_inner), 0.1, 3.0);
-
-                        let dAngle = Math.atan2(ry / tilt, rx);
-                        let rotSpeed = 1.0 + 1.8 * (R_inner / disk_r); // Spiraling shear
-                        let spiralTh = dAngle + rotSpeed * time * 0.8;
-
-                        let noise = fbm(disk_r * 0.05 - time * 0.3, spiralTh * 6.0, 3);
-                        let streams = Math.pow(0.5 + 0.5 * Math.sin(spiralTh * 10.0 - disk_r * 0.1), 2.0);
-
-                        let diskInt = dProfile * doppler * (0.3 + 0.7 * noise) * (0.4 + 0.6 * streams) * 3.0;
-
-                        // Hide the back side of the flat disk falling behind the event horizon
-                        if (!(ry < 0 && r <= R_shadow)) {
-                            brightness += diskInt;
-                        }
-                    }
-
-                    // Intense glowing photon ring boundary
-                    if (Math.abs(r - R_shadow) < W * 0.003) {
-                        let doppler = clamp(1.0 - 0.8 * (rx / R_shadow), 0.2, 3.0);
-                        brightness += 1.0 * doppler;
-                    }
-
-                    if (brightness > 0) {
-                        // High-frequency granularity for pixelated particle feel
-                        brightness *= 0.85 + 0.15 * h(x, y, 9);
-                        brightness = clamp(brightness, 0, 3.0);
-
-                        let density = clamp(brightness * 0.7, 0, 1.1);
-                        const threshold = bayer(x, y);
-
-                        if (density > threshold) {
+                        const threshold = bayer(x, y) * 0.95;
+                        if (brightness > threshold) {
                             const [rC, gC, bC] = diskColor(brightness);
-                            // Beaming core gets thicker pixels to blow out and look wildly powerful
-                            const size = brightness > 1.8 ? 2 : 1;
-                            writePixel(x, y, rC, gC, bC, size);
+                            writePixel(x, y, rC, gC, bC, 1);
                         }
                     }
                 }
             }
 
             ctx.putImageData(img, 0, 0);
-            time += 0.005;
+            time += 0.006;
             requestAnimationFrame(draw);
         }
 
@@ -652,7 +654,10 @@
                     href="https://github.com/prxkc/healthcare-rag-assistant" target="_blank">Healthcare RAG Assistant
                     </a></span></div>
         <div class="project-list-item"><span class="project-inner"><span class="project-number">003</span><a
-                    href="https://tododo-mocha.vercel.app/" target="_blank">Dependency-aware To-do
+                    href="https://huggingface.co/prxkc/jersey-number-recognition" target="_blank">Temporal Jersey Number
+                    Recognition</a></span></div>
+        <div class="project-list-item"><span class="project-inner"><span class="project-number">004</span><a
+                    href="https://tododo-mocha.vercel.app/" target="_blank">Tododo — Dependency-aware To-do
                     App</a></span></div>
 
     </div>
@@ -689,18 +694,43 @@
         </div>
     </div>
 
-    <!-- About section -->
     <div class="about-section" id="about-section">
         <div class="about-wrapper">
             <div class="about-text">
                 <div class="split-line-wrapper">
-                    <div class="split-line">Hey — I'm Shakil, a CSE grad from BRAC University, based in Dhaka.</div>
+                    <div class="split-line">Hey — I'm Shakil, a CS grad from BRAC University, currently based in Dhaka.
+                        I spend most of</div>
                 </div>
                 <div class="split-line-wrapper">
-                    <div class="split-line">AI Engineer and web security enthusiast.</div>
+                    <div class="split-line">my time building AI/ML systems — things like agentic document validation
+                        pipelines,</div>
                 </div>
                 <div class="split-line-wrapper">
-                    <div class="split-line">Gamer, but too busy to game.</div>
+                    <div class="split-line">loan-approval models with explainability, and log anomaly detection at
+                        scale. I've also</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">worked on large-scale data engineering, scraping and processing millions of
+                        records for</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">research. On the side, I do security research — bug bounties on platforms
+                        like Intigriti</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">and HackerOne. Found some fun ones, including a critical SQLi on Ubisoft.
+                        Biggest fan</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">of <a href="https://jameskettle.com">James Kettle</a>. Outside of work, I'm
+                        into running, photography, and gaming —</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">loyal to Counter-Strike, love Apex Legends. Always open to interesting
+                        projects</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">and conversations, so feel free to reach out.</div>
                 </div>
             </div>
         </div>
@@ -717,13 +747,11 @@
 
         let h1Split, pSplit, aboutHeadingSplit;
 
-        // Initialize after fonts load
         document.fonts.ready.then(function () {
             initTextAnimations();
         });
 
         function initTextAnimations() {
-            // Set content first
             const h1 = document.querySelector('.content-wrapper h1');
             const p = document.querySelector('.content-wrapper p');
             const aboutHeading = document.querySelector('.about-heading .about-title');
@@ -731,56 +759,28 @@
             h1.textContent = 'Welcome!';
             p.textContent = 'Your content has loaded successfully with a beautiful animation.';
 
-            // Create SplitText instances with automatic masking
-            h1Split = new SplitText(h1, {
-                type: "lines",
-                linesClass: "line"
-            });
+            h1Split = new SplitText(h1, { type: "lines", linesClass: "line" });
+            pSplit = new SplitText(p, { type: "lines", linesClass: "line" });
+            aboutHeadingSplit = new SplitText(aboutHeading, { type: "lines", linesClass: "about-line" });
 
-            pSplit = new SplitText(p, {
-                type: "lines",
-                linesClass: "line"
-            });
-
-            // Split "ABOUT" heading for reveal
-            aboutHeadingSplit = new SplitText(aboutHeading, {
-                type: "lines",
-                linesClass: "about-line"
-            });
-
-            // Hide project list items initially for animation
             gsap.set('#project-list .project-inner', { yPercent: 110 });
         }
 
         function animateMainText() {
-            // This will be called AFTER preloader is done
             if (h1Split && h1Split.lines) {
                 gsap.fromTo(h1Split.lines,
                     { yPercent: 110 },
-                    {
-                        yPercent: 0,
-                        duration: 0.8,
-                        stagger: 0.08,
-                        ease: "osmo-ease"
-                    }
+                    { yPercent: 0, duration: 0.8, stagger: 0.08, ease: "osmo-ease" }
                 );
             }
-
             if (pSplit && pSplit.lines) {
                 gsap.fromTo(pSplit.lines,
                     { yPercent: 110 },
-                    {
-                        yPercent: 0,
-                        duration: 0.8,
-                        stagger: 0.08,
-                        ease: "osmo-ease",
-                        delay: 0.2
-                    }
+                    { yPercent: 0, duration: 0.8, stagger: 0.08, ease: "osmo-ease", delay: 0.2 }
                 );
             }
         }
 
-        // Section toggle
         const aboutBtn = document.getElementById('about-btn');
         const homeBtn = document.getElementById('home-btn');
         const brandName = document.getElementById('brand-name');
@@ -790,26 +790,18 @@
 
         aboutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-
-            // Add animating class to disable hover
             aboutBtn.classList.add('animating');
             homeBtn.classList.add('animating');
 
-            // Hide About button and reveal Home button (masked slide up)
             gsap.to(aboutBtn.querySelector('.link-container'), {
-                yPercent: -110,
-                duration: 0.8,
-                ease: "power2.in",
+                yPercent: -110, duration: 0.8, ease: "power2.in",
                 onComplete: () => {
                     aboutBtn.style.display = 'none';
                     aboutBtn.classList.remove('animating');
                     homeBtn.style.display = 'flex';
                     gsap.set(homeBtn.querySelector('.link-container'), { yPercent: 110 });
                     gsap.to(homeBtn.querySelector('.link-container'), {
-                        yPercent: 0,
-                        duration: 0.9,
-                        ease: "power2.out",
-                        clearProps: 'transform',
+                        yPercent: 0, duration: 0.9, ease: "power2.out", clearProps: 'transform',
                         onComplete: () => {
                             gsap.set(homeBtn.querySelector('.link-container'), { clearProps: 'all' });
                             homeBtn.classList.remove('animating');
@@ -822,61 +814,36 @@
             document.getElementById('project-list').style.opacity = '0';
             gsap.set('#project-list .project-inner', { yPercent: 110 });
 
-            // Hide brand name with masked slide - each line slides up separately
             gsap.to(brandName.querySelectorAll('.name-line'), {
-                yPercent: -110,
-                duration: 0.5,
-                stagger: 0.05,
-                ease: "power2.inOut",
+                yPercent: -110, duration: 0.5, stagger: 0.05, ease: "power2.inOut",
                 onComplete: () => {
-                    // After brand name is gone, show about heading from below
                     aboutHeadingEl.classList.add('active');
                     aboutSection.classList.add('active');
                     aboutHeadingEl.style.opacity = 1;
 
-                    // Reveal ABOUT with masked slide up from below
                     gsap.set(aboutHeadingEl.querySelector('.about-title'), { yPercent: 110 });
-                    gsap.to(aboutHeadingEl.querySelector('.about-title'), {
-                        yPercent: 0,
-                        duration: 0.5,
-                        ease: "power2.inOut"
-                    });
+                    gsap.to(aboutHeadingEl.querySelector('.about-title'), { yPercent: 0, duration: 0.5, ease: "power2.inOut" });
 
-                    // Animate about text lines
                     const aboutLines = document.querySelectorAll('.about-text .split-line');
                     gsap.set(aboutLines, { yPercent: 110 });
-                    gsap.to(aboutLines, {
-                        yPercent: 0,
-                        duration: 0.4,
-                        stagger: 0.05,
-                        ease: "power2.inOut",
-                        delay: 0.2
-                    });
+                    gsap.to(aboutLines, { yPercent: 0, duration: 0.4, stagger: 0.05, ease: "power2.inOut", delay: 0.2 });
                 }
             });
         });
 
-        // Home button click handler
         homeBtn.addEventListener('click', () => {
-            // Add animating class to disable hover
             homeBtn.classList.add('animating');
             aboutBtn.classList.add('animating');
 
-            // Hide Home button and reveal About button (masked slide up)
             gsap.to(homeBtn.querySelector('.link-container'), {
-                yPercent: -110,
-                duration: 0.8,
-                ease: "power2.in",
+                yPercent: -110, duration: 0.8, ease: "power2.in",
                 onComplete: () => {
                     homeBtn.style.display = 'none';
                     homeBtn.classList.remove('animating');
                     aboutBtn.style.display = 'flex';
                     gsap.set(aboutBtn.querySelector('.link-container'), { yPercent: 110 });
                     gsap.to(aboutBtn.querySelector('.link-container'), {
-                        yPercent: 0,
-                        duration: 0.9,
-                        ease: "power2.out",
-                        clearProps: 'transform',
+                        yPercent: 0, duration: 0.9, ease: "power2.out", clearProps: 'transform',
                         onComplete: () => {
                             gsap.set(aboutBtn.querySelector('.link-container'), { clearProps: 'all' });
                             aboutBtn.classList.remove('animating');
@@ -885,69 +852,44 @@
                 }
             });
 
-            // Hide about text lines first with masked slide up
             const aboutLines = document.querySelectorAll('.about-text .split-line');
             gsap.to(aboutLines, {
-                yPercent: -110,
-                duration: 0.4,
-                stagger: 0.04,
-                ease: "power2.inOut",
+                yPercent: -110, duration: 0.4, stagger: 0.04, ease: "power2.inOut",
                 onComplete: () => {
-                    // Then hide ABOUT heading with masked slide up
                     gsap.to(aboutHeadingEl.querySelector('.about-title'), {
-                        yPercent: -110,
-                        duration: 0.5,
-                        ease: "power2.inOut",
+                        yPercent: -110, duration: 0.5, ease: "power2.inOut",
                         onComplete: () => {
                             aboutSection.classList.remove('active');
                             aboutHeadingEl.classList.remove('active');
 
-                            // After ABOUT is gone, reveal brand name from below - each line separately
                             gsap.set(brandName.querySelectorAll('.name-line'), { yPercent: 110 });
-                            gsap.to(brandName.querySelectorAll('.name-line'), {
-                                yPercent: 0,
-                                duration: 0.5,
-                                stagger: 0.05,
-                                ease: "power2.inOut"
-                            });
+                            gsap.to(brandName.querySelectorAll('.name-line'), { yPercent: 0, duration: 0.5, stagger: 0.05, ease: "power2.inOut" });
                             mainContent.style.display = 'flex';
                             gsap.to('#project-list', { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.2 });
-                            gsap.to('#project-list .project-inner',
-                                { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.3 }
-                            );
+                            gsap.to('#project-list .project-inner', { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.3 });
                         }
                     });
                 }
             });
         });
 
-        // Click brand name/ABOUT heading to go home (only when on about page)
         brandName.addEventListener('click', () => {
-            if (aboutSection.classList.contains('active')) {
-                // Trigger home button click
-                homeBtn.click();
-            }
+            if (aboutSection.classList.contains('active')) homeBtn.click();
         });
 
-        // Make ABOUT heading clickable too
         aboutHeadingEl.addEventListener('click', () => {
-            if (aboutSection.classList.contains('active')) {
-                homeBtn.click();
-            }
+            if (aboutSection.classList.contains('active')) homeBtn.click();
         });
         aboutHeadingEl.style.cursor = 'pointer';
-
-        // Make brand name clickable
         brandName.style.cursor = 'pointer';
     </script>
 
     <script>
-        // Spring-based CountUp (mirrors CountUp component physics)
         const percentEl = document.querySelector('.loader-percentage');
 
         const duration  = 2;
-        const stiffness = 100 * (1 / duration); // 50
-        const damping   = 20 + 40 * (1 / duration); // 40
+        const stiffness = 100 * (1 / duration); 
+        const damping   = 20 + 40 * (1 / duration); 
 
         let position = 0;
         let velocity = 0;
@@ -972,65 +914,32 @@
             requestAnimationFrame(springStep);
         }
 
-        // Start after a brief beat
         setTimeout(() => requestAnimationFrame(springStep), 300);
 
         function onLoadingComplete() {
             const exitTl = gsap.timeline();
 
             exitTl.to('.loader-percentage', {
-                opacity: 0,
-                scale: 0.9,
-                duration: 0.4,
-                ease: 'power2.in'
+                opacity: 0, scale: 0.9, duration: 0.4, ease: 'power2.in'
             })
-                .to('.loader-wrapper', {
-                    yPercent: -100,
-                    duration: 1,
-                    ease: 'power4.inOut',
-                    onComplete: function () {
-                        document.querySelector('.loader-wrapper').style.display = 'none';
-                    }
-                })
-                .to('.brand-name', {
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                }, '-=0.5')
-                .to('.top-right', {
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                }, '-=0.6')
-                .add(() => {
-                    animateMainText();
-                }, '-=0.3')
-                .to('#project-list', {
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                }, '-=0.2')
-                .add(() => {
-                    gsap.to('#project-list .project-inner',
-                        {
-                            yPercent: 0,
-                            duration: 0.6,
-                            stagger: 0.08,
-                            ease: 'osmo-ease'
-                        }
-                    );
-                }, '-=0.5')
-                .to('.datetime-display', {
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out'
-                }, '-=0.3');
+            .to('.loader-wrapper', {
+                yPercent: -100, duration: 1, ease: 'power4.inOut',
+                onComplete: function () {
+                    document.querySelector('.loader-wrapper').style.display = 'none';
+                }
+            })
+            .to('.brand-name', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.5')
+            .to('.top-right', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.6')
+            .add(() => { animateMainText(); }, '-=0.3')
+            .to('#project-list', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2')
+            .add(() => {
+                gsap.to('#project-list .project-inner', { yPercent: 0, duration: 0.6, stagger: 0.08, ease: 'osmo-ease' });
+            }, '-=0.5')
+            .to('.datetime-display', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.3');
         }
     </script>
     <script>
-        // Live clock
-        const MONTHS = ['January','February','March','April','May','June',
-                         'July','August','September','October','November','December'];
+        const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         const clockEl = document.getElementById('datetime-display');
 
         function updateClock() {
