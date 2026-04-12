@@ -762,9 +762,10 @@
         function draw() {
             buf.fill(0);
 
-            // ── Animate transition t (exponential lerp — fast & silky smooth) ──
-            bhState.t += (bhState.targetT - bhState.t) * 0.09;
-            if (Math.abs(bhState.targetT - bhState.t) < 0.0008) bhState.t = bhState.targetT;
+            // ── Animate transition t ──────────────────────────────────────
+            const tSpeed = 0.016;
+            if (bhState.t < bhState.targetT) bhState.t = Math.min(bhState.t + tSpeed, bhState.targetT);
+            else if (bhState.t > bhState.targetT) bhState.t = Math.max(bhState.t - tSpeed, bhState.targetT);
             const t = smooth(bhState.t);
 
             // ── Interpolated scene parameters ─────────────────────────────
@@ -1039,7 +1040,7 @@
                 <div class="contact-row">
                     <div class="contact-row-inner">
                         <span class="contact-label">EMAIL</span>
-                        <span class="contact-value"><a href="/cdn-cgi/l/email-protection#e3908b82888a8f8a908f828e908b828d978ca3848e828a8fcd808c8e"><span class="__cf_email__" data-cfemail="f4879c959f9d989d87989599879c959a809bb49399959d98da979b99"><span class="__cf_email__" data-cfemail="f29b819e939f819a93999b9ec3c5b2959f939b9edc919d9f">[email&#160;protected]</span></span></a></span>
+                        <span class="contact-value"><a href="/cdn-cgi/l/email-protection#e3908b82888a8f8a908f828e908b828d978ca3848e828a8fcd808c8e"><span class="__cf_email__" data-cfemail="f4879c959f9d989d87989599879c959a809bb49399959d98da979b99">islamshakil17@gmail.com</span></a></span>
                     </div>
                 </div>
                 <div class="contact-row">
@@ -1237,7 +1238,7 @@
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
 
@@ -1522,4 +1523,4 @@
     </script>
 </body>
 
-</html>     
+</html>
