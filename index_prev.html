@@ -482,7 +482,7 @@
         function draw() {
             buf.fill(0);
 
-            const cx = W * 0.70; // Slightly right off-center
+            const cx = W * 0.58; // Slightly right off-center
             const cy = H * 0.48; // Slightly up
             
             // True spherical scale
@@ -555,7 +555,7 @@
                         let hProfile = Math.exp(-hDist * hDist / (R_shadow * R_shadow * 0.15));
 
                         // Doppler beaming: approaching side (rx < 0) is much brighter
-                        let doppler = clamp(1.0 - 0.5 * (rx / (R_shadow * 1.2)), 0.4, 2.5);
+                        let doppler = clamp(1.0 - 0.85 * (rx / (R_shadow * 1.2)), 0.1, 2.5);
 
                         let hAngle = Math.atan2(ry, rx);
                         let spiralTh = hAngle + time * 3.5;
