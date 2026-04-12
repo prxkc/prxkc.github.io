@@ -762,7 +762,7 @@
             /* ── Project list ── */
             .project-list {
                 position: fixed;
-                top: 50vh;
+                top: 48vh;
                 left: 24px;
             }
 
@@ -780,7 +780,7 @@
             .profiles-list {
                 position: fixed;
                 left: 24px;
-                top: 70vh;
+                top: 68vh;
             }
 
             .profiles-list-heading {
@@ -813,23 +813,19 @@
             }
 
             .about-text {
+                position: fixed;
+                top: 48vh;
+                left: 24px;
+                width: calc(100% - 48px);
                 font-size: 0.85rem;
                 line-height: 1.6;
             }
 
             .about-contact {
-                margin-top: 40px;
-            }
-
-            .contact-row {
-                flex-direction: column;
-                gap: 4px;
-                padding: 12px 0;
-            }
-
-            .contact-row-inner {
-                flex-direction: column;
-                gap: 4px;
+                position: fixed;
+                top: 68vh;
+                left: 24px;
+                margin-top: 0;
             }
 
             /* ── Resume section ── */
@@ -1348,23 +1344,12 @@
                 <div class="about-contact-heading">
                     <span class="sec-line">CONTACT</span>
                 </div>
-                <div class="contact-row">
-                    <div class="contact-row-inner">
-                        <span class="contact-label">EMAIL</span>
-                        <span class="contact-value"><a
-                                href="/cdn-cgi/l/email-protection#e3908b82888a8f8a908f828e908b828d978ca3848e828a8fcd808c8e"><span
-                                    class="__cf_email__"
-                                    data-cfemail="f4879c959f9d989d87989599879c959a809bb49399959d98da979b99"><span
-                                        class="__cf_email__"
-                                        data-cfemail="f29b819e939f819a93999b9ec3c5b2959f939b9edc919d9f">[email&#160;protected]</span></span></a></span>
-                    </div>
+                <div class="contact-value" style="padding: 4px 0; overflow: hidden;">
+                    <div class="sec-line"><a href="mailto:islamshakil17@gmail.com">islamshakil17@gmail.com</a></div>
                 </div>
-                <div class="contact-row">
-                    <div class="contact-row-inner">
-                        <span class="contact-label">LINKEDIN</span>
-                        <span class="contact-value"><a href="https://linkedin.com/in/shkl"
-                                target="https://linkedin.com/in/shkl">https://linkedin.com/in/shkl</a></span>
-                    </div>
+                <div class="contact-value" style="padding: 4px 0; overflow: hidden;">
+                    <div class="sec-line"><a href="https://linkedin.com/in/shkl"
+                            target="_blank">linkedin.com/in/shkl</a></div>
                 </div>
             </div>
         </div>
