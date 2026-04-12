@@ -982,8 +982,9 @@
     <div class="profiles-list" id="profiles-list">
         <div class="profiles-list-heading"><span class="profile-inner">PROFILES</span></div>
         <div class="profiles-list-item"><span class="profile-inner"><a href="https://github.com/prxkc" target="_blank">GitHub</a></span></div>
-        <div class="profiles-list-item"><span class="profile-inner"><a href="https://linkedin.com/in/shakil-islam-shanto" target="_blank">Linkedin</a></span></div>
-        <div class="profiles-list-item"><span class="profile-inner"><a href="https://twitter.com/prxkc" target="_blank">Twitter</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://linkedin.com/in/shkl" target="_blank">Linkedin</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://hackerone.com/prxkc" target="_blank">HackerOne</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://app.intigriti.com/profile/pr0xy_" target="_blank">Intigriti</a></span></div>
     </div>
 
     <!-- Generic section heading -->
@@ -1039,25 +1040,13 @@
                 <div class="contact-row">
                     <div class="contact-row-inner">
                         <span class="contact-label">EMAIL</span>
-                        <span class="contact-value"><a href="/cdn-cgi/l/email-protection#e3908b82888a8f8a908f828e908b828d978ca3848e828a8fcd808c8e"><span class="__cf_email__" data-cfemail="f4879c959f9d989d87989599879c959a809bb49399959d98da979b99">[email&#160;protected]</span></a></span>
-                    </div>
-                </div>
-                <div class="contact-row">
-                    <div class="contact-row-inner">
-                        <span class="contact-label">GITHUB</span>
-                        <span class="contact-value"><a href="https://github.com/prxkc" target="_blank">github.com/prxkc</a></span>
+                        <span class="contact-value"><a href="/cdn-cgi/l/email-protection#e3908b82888a8f8a908f828e908b828d978ca3848e828a8fcd808c8e"><span class="__cf_email__" data-cfemail="f4879c959f9d989d87989599879c959a809bb49399959d98da979b99">islamshakil17@gmail.com</span></a></span>
                     </div>
                 </div>
                 <div class="contact-row">
                     <div class="contact-row-inner">
                         <span class="contact-label">LINKEDIN</span>
-                        <span class="contact-value"><a href="https://linkedin.com/in/shakil-islam-shanto" target="_blank">shakil-islam-shanto</a></span>
-                    </div>
-                </div>
-                <div class="contact-row">
-                    <div class="contact-row-inner">
-                        <span class="contact-label">TWITTER</span>
-                        <span class="contact-value"><a href="https://twitter.com/prxkc" target="_blank">@prxkc</a></span>
+                        <span class="contact-value"><a href="https://linkedin.com/in/shkl" target="https://linkedin.com/in/shkl">https://linkedin.com/in/shkl</a></span>
                     </div>
                 </div>
             </div>
@@ -1525,4 +1514,13 @@
             const ampm    = h24 >= 12 ? 'PM' : 'AM';
             const hours   = String(h24 % 12 || 12).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seco
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            clockEl.textContent = `[ ${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${ampm} ]`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+
+</html>
