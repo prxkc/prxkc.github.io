@@ -348,6 +348,279 @@
             gap: 16px;
         }
 
+        /* Profiles list — bigger gap below projects */
+        .profiles-list {
+            position: fixed;
+            top: 620px;
+            left: 60px;
+            z-index: 100;
+            opacity: 0;
+        }
+
+        .profiles-list-heading {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 0.15em;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .profiles-list-heading .profile-inner { display: block; }
+
+        .profiles-list-item {
+            font-size: 0.85rem;
+            color: #ffffff;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            line-height: 2;
+            overflow: hidden;
+        }
+
+        .profiles-list-item a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .profiles-list-item a:hover { color: #C77064; }
+        .profiles-list-item .profile-inner { display: block; }
+
+        /* Top-right — two nav links */
+        .top-right {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+        }
+
+        /* Generic section heading (replaces about-heading for all sections) */
+        .section-heading {
+            position: fixed;
+            top: 60px;
+            left: 60px;
+            font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            z-index: 100;
+            opacity: 0;
+            display: none;
+            cursor: pointer;
+        }
+
+        .section-heading.active { display: block; }
+
+        .section-title-wrap { overflow: hidden; display: block; }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 0.9;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            display: block;
+        }
+
+        /* Shared page section base */
+        .page-section {
+            height: 100vh;
+            display: none;
+            padding: 50px 60px;
+            padding-top: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-section.active { display: block; }
+
+        .section-wrapper {
+            text-align: left;
+            max-width: 760px;
+            margin-top: 240px;
+            width: 100%;
+        }
+
+        /* sec-line animation units */
+        .sec-line-wrap { overflow: hidden; display: block; }
+        .sec-line { display: block; }
+
+        /* ── About section ── */
+        .about-text {
+            font-size: 0.9rem;
+            color: #ffffff;
+            line-height: 1.7;
+            font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .about-text .split-line-wrapper { overflow: hidden; display: block; }
+        .about-text .split-line { display: block; }
+        .about-text a { color: #ffffff; text-decoration: none; }
+        .about-text a:hover { color: #cccccc; }
+
+        /* Contact block inside about */
+        .about-contact {
+            margin-top: 64px;
+        }
+
+        .about-contact-heading {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 0.15em;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .about-contact-heading .sec-line { display: block; }
+
+        .contact-row {
+            display: flex;
+            align-items: baseline;
+            gap: 24px;
+            padding: 16px 0;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            overflow: hidden;
+        }
+
+        .contact-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+        .contact-row-inner { display: flex; align-items: baseline; gap: 24px; width: 100%; }
+
+        .contact-label {
+            font-size: 0.7rem;
+            color: #555;
+            letter-spacing: 0.12em;
+            font-weight: 500;
+            min-width: 72px;
+            flex-shrink: 0;
+        }
+
+        .contact-value { font-size: 0.85rem; color: #ffffff; }
+        .contact-value a { color: #ffffff; text-decoration: none; transition: color 0.3s ease; }
+        .contact-value a:hover { color: #C77064; }
+
+        /* ── Resume section ── */
+        .resume-wrapper {
+            max-width: 800px;
+            margin: 180px auto 160px;
+            width: 100%;
+        }
+
+        .resume-dl-wrap {
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .resume-dl-btn {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: #999;
+            letter-spacing: 0.14em;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 7px 18px;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+        .resume-dl-btn:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+
+        /* Two-column grid row */
+        .resume-block {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 0 48px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 40px 0;
+        }
+
+        .resume-block-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #3a3a3a;
+            letter-spacing: 0.16em;
+            padding-top: 4px;
+        }
+
+        .resume-entry {
+            margin-bottom: 32px;
+        }
+        .resume-entry:last-child { margin-bottom: 0; }
+
+        .resume-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+        }
+
+        .resume-entry-title {
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+        }
+
+        .resume-entry-date {
+            font-size: 0.65rem;
+            color: #444;
+            font-family: 'Space Mono', monospace;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .resume-entry-org {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 4px;
+            letter-spacing: 0.02em;
+        }
+
+        .resume-entry-bullets {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .resume-entry-bullets li {
+            font-size: 0.76rem;
+            color: #666;
+            line-height: 1.7;
+            padding-left: 14px;
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .resume-entry-bullets li::before {
+            content: '–';
+            position: absolute;
+            left: 0;
+            color: #3a3a3a;
+        }
+
+        .resume-entry-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            margin-top: 6px;
+        }
+
+        .resume-tag {
+            font-size: 0.68rem;
+            color: #C77064;
+            letter-spacing: 0.04em;
+        }
+
+        .resume-skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+        }
+
+        .resume-skill-item {
+            font-size: 0.74rem;
+            color: #777;
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 4px 10px;
+            letter-spacing: 0.03em;
+        }
+
         .datetime-display {
             position: fixed;
             bottom: 60px;
@@ -411,6 +684,13 @@
 
         let W = 0, H = 0, time = 0;
         let img, buf, stars = [];
+
+        // Black hole scene mode: 0 = home (close), 1 = resume (zoomed-out + jets)
+        const bhState = { t: 0, targetT: 0 };
+
+        window.setBlackholeMode = function(mode) {
+            bhState.targetT = (mode === 'resume') ? 1 : 0;
+        };
 
         function writePixel(x, y, r, g, b, size = 1) {
             for (let oy = 0; oy < size; oy++) {
@@ -482,15 +762,29 @@
         function draw() {
             buf.fill(0);
 
-            const cx = W * 0.70; // Slightly right off-center
-            const cy = H * 0.48; // Slightly up
-            
-            // True spherical scale
-            const R_shadow = Math.min(W, H) * 0.11; // Smaller relative size for intense look
-            const R_inner = R_shadow * 1.5;
-            const tilt = 0.28; // Disk perspective tilt
-            const ang = -0.15; // Camera roll
+            // ── Animate transition t ──────────────────────────────────────
+            const tSpeed = 0.016;
+            if (bhState.t < bhState.targetT) bhState.t = Math.min(bhState.t + tSpeed, bhState.targetT);
+            else if (bhState.t > bhState.targetT) bhState.t = Math.max(bhState.t - tSpeed, bhState.targetT);
+            const t = smooth(bhState.t);
+
+            // ── Interpolated scene parameters ─────────────────────────────
+            // Home: BH at 70% right, 48% down — Resume: slightly right, upper area
+            const cx = W * mix(0.70, 0.74, t);
+            const cy = H * mix(0.48, 0.28, t);
+            // Much smaller in resume mode
+            const scale = mix(1.0, 0.13, t);
+
+            const R_shadow = Math.min(W, H) * 0.11 * scale;
+            const R_inner  = R_shadow * 1.5;
+            const tilt = 0.28;
+            const ang  = -0.15;
             const ca = Math.cos(ang), sa = Math.sin(ang);
+
+            // Accretion disk dims as jets appear; halo stays dense
+            const diskMult = mix(1.0, 0.10, t);
+            // Dense luminous corona around the tiny hole in resume mode
+            const haloMult = mix(1.0, 4.5, t);
 
             // 1. Draw Stars with Gravitational Lensing
             for (const s of stars) {
@@ -501,21 +795,20 @@
                 let dist2 = dx * dx + dy * dy;
                 const R_s2 = R_shadow * R_shadow;
 
-                // Extreme lensing displaces stars outward organically
                 let lensFactor = 1.0 + 1.5 * R_s2 / (dist2 + 1.0);
-                let x = cx + dx * lensFactor;
-                let y = cy + dy * lensFactor;
+                let lx = cx + dx * lensFactor;
+                let ly = cy + dy * lensFactor;
+                const px = Math.round(lx);
+                const py = Math.round(ly);
 
-                const px = Math.round(x);
-                const py = Math.round(y);
-
-                // Hide stars fully covered by the event horizon
                 const l_dx = px - cx;
                 const l_dy = py - cy;
                 if (l_dx * l_dx + l_dy * l_dy < R_s2) continue;
 
-                const tw = 0.78 + 0.22 * Math.sin(time * 1.5 + s.tw * 22.0);
-                const lum = (0.13 + (1 - s.depth) * 0.11) * tw;
+                const tw  = 0.78 + 0.22 * Math.sin(time * 1.5 + s.tw * 22.0);
+                // Stars become slightly more visible (more spread) in resume mode
+                const lumBase = mix(0.13, 0.18, t);
+                const lum = (lumBase + (1 - s.depth) * 0.11) * tw;
                 const starSize = s.depth > 0.94 ? 2 : 1;
                 const threshold = starSize === 2 ? 0.955 : 0.985;
                 if (lum > bayer(px, py) * threshold) {
@@ -524,7 +817,7 @@
                 }
             }
 
-            // 2. Draw Black Hole Volumetric Accretion Disk
+            // 2. Draw Black Hole + Jets
             for (let y = 0; y < H; y++) {
                 for (let x = 0; x < W; x++) {
                     const dx = x - cx;
@@ -532,12 +825,11 @@
 
                     const rx = dx * ca - dy * sa;
                     const ry = dx * sa + dy * ca;
-                    const r = Math.hypot(rx, ry);
+                    const r  = Math.hypot(rx, ry);
                     const disk_r = Math.hypot(rx, ry / tilt);
 
-                    // Event Horizon pure black mask (3D Occlusion)
+                    // Event Horizon pure black mask
                     if (r <= R_shadow) {
-                        // The bottom half of the disk (closer to viewer) covers the black hole
                         const isFrontDisk = (ry > 0 && disk_r >= R_inner);
                         if (!isFrontDisk) {
                             writePixel(x, y, 0, 0, 0, 1);
@@ -547,64 +839,93 @@
 
                     let brightness = 0;
 
-                    // Gravitational Lensing Halo (Back of the disk bent over the top)
+                    // Gravitational Lensing Halo
                     if (r > R_shadow) {
                         let hDist = r - R_shadow;
-                        // Biased toward top half
                         let topWeight = clamp(0.5 - 0.6 * (ry / r), 0, 1);
-                        let hProfile = Math.exp(-hDist * hDist / (R_shadow * R_shadow * 0.15));
-
-                        // Doppler beaming: approaching side (rx < 0) is much brighter
-                        let doppler = clamp(1.0 - 0.5 * (rx / (R_shadow * 1.2)), 0.4, 2.5);
-
-                        let hAngle = Math.atan2(ry, rx);
-                        let spiralTh = hAngle + time * 3.5;
-                        let noise = fbm(spiralTh * 4.0, hDist * 0.3 - time, 2);
-
-                        brightness += hProfile * (0.2 + 0.8 * topWeight) * doppler * (0.4 + 1.2 * noise) * 2.0;
+                        // Tighter halo profile in resume mode (denser glow)
+                        const haloSpread = mix(0.15, 0.04, t);
+                        let hProfile  = Math.exp(-hDist * hDist / (R_shadow * R_shadow * haloSpread));
+                        let doppler   = clamp(1.0 - 0.5 * (rx / (R_shadow * 1.2)), 0.4, 2.5);
+                        let hAngle    = Math.atan2(ry, rx);
+                        let spiralTh  = hAngle + time * 3.5;
+                        let noise     = fbm(spiralTh * 4.0, hDist * 0.3 - time, 2);
+                        brightness += hProfile * (0.2 + 0.8 * topWeight) * doppler * (0.4 + 1.2 * noise) * 2.0 * diskMult * haloMult;
                     }
 
                     // Flat Volumetric Accretion Disk
                     if (disk_r >= R_inner) {
-                        let dDist = disk_r - R_inner;
+                        let dDist    = disk_r - R_inner;
                         let dProfile = Math.exp(-dDist * dDist / (R_inner * R_inner * 3.5));
-                        dProfile += 0.2 * Math.exp(-dDist * dDist / (R_inner * R_inner * 12.0)); // Faint outer spread
-
-                        // Relativistic Doppler Beaming
-                        let doppler = clamp(1.0 - 0.85 * (rx / R_inner), 0.1, 3.0);
-
-                        let dAngle = Math.atan2(ry / tilt, rx);
-                        let rotSpeed = 1.0 + 1.8 * (R_inner / disk_r); // Spiraling shear
+                        dProfile    += 0.2 * Math.exp(-dDist * dDist / (R_inner * R_inner * 12.0));
+                        let doppler  = clamp(1.0 - 0.85 * (rx / R_inner), 0.1, 3.0);
+                        let dAngle   = Math.atan2(ry / tilt, rx);
+                        let rotSpeed = 1.0 + 1.8 * (R_inner / disk_r);
                         let spiralTh = dAngle + rotSpeed * time * 0.8;
+                        let noise    = fbm(disk_r * 0.05 - time * 0.3, spiralTh * 6.0, 3);
+                        let streams  = Math.pow(0.5 + 0.5 * Math.sin(spiralTh * 10.0 - disk_r * 0.1), 2.0);
+                        let diskInt  = dProfile * doppler * (0.3 + 0.7 * noise) * (0.4 + 0.6 * streams) * 3.0;
+                        if (!(ry < 0 && r <= R_shadow)) brightness += diskInt * diskMult * haloMult;
+                    }
 
-                        let noise = fbm(disk_r * 0.05 - time * 0.3, spiralTh * 6.0, 3);
-                        let streams = Math.pow(0.5 + 0.5 * Math.sin(spiralTh * 10.0 - disk_r * 0.1), 2.0);
+                    // Photon ring
+                    if (Math.abs(r - R_shadow) < W * 0.003) {
+                        let doppler = clamp(1.0 - 0.8 * (rx / R_shadow), 0.2, 3.0);
+                        brightness += 1.0 * doppler * diskMult * haloMult;
+                    }
 
-                        let diskInt = dProfile * doppler * (0.3 + 0.7 * noise) * (0.4 + 0.6 * streams) * 3.0;
+                    // ── Relativistic Jets (M87-style, fade in with t) ─────
+                    if (t > 0.01) {
+                        // Primary jet: toward lower-left (matches image diagonal)
+                        // Counter-jet: upper-right (more diffuse cloud)
+                        const JET_ANG = Math.PI * 1.18;
+                        const CTR_ANG = JET_ANG - Math.PI;
 
-                        // Hide the back side of the flat disk falling behind the event horizon
-                        if (!(ry < 0 && r <= R_shadow)) {
-                            brightness += diskInt;
+                        for (let ji = 0; ji < 2; ji++) {
+                            const angle    = ji === 0 ? JET_ANG : CTR_ANG;
+                            const isCounter = ji === 1;
+                            const cosA = Math.cos(angle);
+                            const sinA = Math.sin(angle);
+
+                            // Signed projection along jet axis
+                            const projLen  = dx * cosA + dy * sinA;
+                            const minProj  = R_shadow * 2.2;
+                            const maxProj  = isCounter ? W * 0.24 : W * 0.62;
+                            if (projLen < minProj || projLen > maxProj) continue;
+
+                            // Perpendicular distance from jet axis
+                            const perpDist = Math.abs(-dx * sinA + dy * cosA);
+                            // Jet widens linearly with distance (cone)
+                            const halfW = R_shadow * 0.9 + projLen * 0.095;
+                            if (perpDist > halfW * 2.8) continue;
+
+                            const angFall  = Math.exp(-perpDist * perpDist / (halfW * halfW * 0.55));
+                            const distFall = isCounter
+                                ? Math.exp(-projLen / (W * 0.09)) * 0.55
+                                : Math.pow((R_shadow * 3.5) / (projLen + R_shadow), 1.05)
+                                  * Math.exp(-projLen / (W * 0.52));
+
+                            const jNoise = fbm(projLen * 0.022 - time * 0.14,
+                                               perpDist * 0.038 + time * 0.09, 3);
+                            // Bright knots along primary jet
+                            const knots  = isCounter ? 0.9
+                                : Math.pow(0.5 + 0.5 * Math.sin(projLen * 0.052 - time * 0.95), 2.5);
+
+                            let jb = angFall * distFall
+                                   * (0.22 + 0.78 * jNoise)
+                                   * (0.32 + 0.68 * knots)
+                                   * (isCounter ? 1.1 : 2.4)
+                                   * t;
+                            brightness += jb;
                         }
                     }
 
-                    // Intense glowing photon ring boundary
-                    if (Math.abs(r - R_shadow) < W * 0.003) {
-                        let doppler = clamp(1.0 - 0.8 * (rx / R_shadow), 0.2, 3.0);
-                        brightness += 1.0 * doppler;
-                    }
-
                     if (brightness > 0) {
-                        // High-frequency granularity for pixelated particle feel
                         brightness *= 0.85 + 0.15 * h(x, y, 9);
-                        brightness = clamp(brightness, 0, 3.0);
-
+                        brightness  = clamp(brightness, 0, 3.0);
                         let density = clamp(brightness * 0.7, 0, 1.1);
-                        const threshold = bayer(x, y);
-
-                        if (density > threshold) {
+                        if (density > bayer(x, y)) {
                             const [rC, gC, bC] = diskColor(brightness);
-                            // Beaming core gets thicker pixels to blow out and look wildly powerful
                             const size = brightness > 1.8 ? 2 : 1;
                             writePixel(x, y, rC, gC, bC, size);
                         }
@@ -657,28 +978,41 @@
 
     </div>
 
-    <div class="about-heading" id="about-heading">
-        <div class="about-title-wrap">
-            <span class="about-title">ABOUT ME</span>
+    <!-- Profiles list -->
+    <div class="profiles-list" id="profiles-list">
+        <div class="profiles-list-heading"><span class="profile-inner">PROFILES</span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://github.com/prxkc" target="_blank">GitHub</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://linkedin.com/in/shakil-islam-shanto" target="_blank">Linkedin</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://twitter.com/prxkc" target="_blank">Twitter</a></span></div>
+    </div>
+
+    <!-- Generic section heading -->
+    <div class="section-heading" id="section-heading">
+        <div class="section-title-wrap">
+            <span class="section-title" id="section-title-text"></span>
         </div>
     </div>
 
-    <div class="top-right">
-        <a href="#about" class="link" id="about-btn">
-            <span class="mask">
-                <div class="link-container">
+    <div class="top-right" style="position:fixed; top:60px; right:60px; z-index:100; opacity:0;" id="top-right">
+        <nav id="nav-links" style="display:flex; gap:36px; align-items:center;">
+            <a href="#about" class="link" id="about-btn">
+                <span class="mask"><div class="link-container">
                     <span class="link-title1 title">About</span>
                     <span class="link-title2 title">About</span>
-                </div>
-            </span>
-        </a>
-        <button class="link" id="home-btn" style="display: none;">
-            <span class="mask">
-                <div class="link-container">
-                    <span class="link-title1 title">Home</span>
-                    <span class="link-title2 title">Home</span>
-                </div>
-            </span>
+                </div></span>
+            </a>
+            <a href="#resume" class="link" id="resume-btn">
+                <span class="mask"><div class="link-container">
+                    <span class="link-title1 title">Resume</span>
+                    <span class="link-title2 title">Resume</span>
+                </div></span>
+            </a>
+        </nav>
+        <button class="link" id="home-btn" style="display:none;">
+            <span class="mask"><div class="link-container">
+                <span class="link-title1 title">Home</span>
+                <span class="link-title2 title">Home</span>
+            </div></span>
         </button>
     </div>
 
@@ -690,23 +1024,232 @@
     </div>
 
     <!-- About section -->
-    <div class="about-section" id="about-section">
-        <div class="about-wrapper">
+    <div class="page-section" id="about-section">
+        <div class="section-wrapper">
             <div class="about-text">
-                <div class="split-line-wrapper">
-                    <div class="split-line">Hey — I'm Shakil, a CSE grad from BRAC University, based in Dhaka.</div>
+                <div class="split-line-wrapper"><div class="split-line">Hey — I'm Shakil, a CSE grad from BRAC University, based in Dhaka.</div></div>
+                <div class="split-line-wrapper"><div class="split-line">AI Engineer and web security enthusiast.</div></div>
+                <div class="split-line-wrapper"><div class="split-line">Gamer, but too busy to game.</div></div>
+            </div>
+
+            <div class="about-contact">
+                <div class="about-contact-heading">
+                    <span class="sec-line">CONTACT</span>
                 </div>
-                <div class="split-line-wrapper">
-                    <div class="split-line">AI Engineer and web security enthusiast.</div>
+                <div class="contact-row">
+                    <div class="contact-row-inner">
+                        <span class="contact-label">EMAIL</span>
+                        <span class="contact-value"><a href="/cdn-cgi/l/email-protection#e3908b82888a8f8a908f828e908b828d978ca3848e828a8fcd808c8e"><span class="__cf_email__" data-cfemail="f4879c959f9d989d87989599879c959a809bb49399959d98da979b99">[email&#160;protected]</span></a></span>
+                    </div>
                 </div>
-                <div class="split-line-wrapper">
-                    <div class="split-line">Gamer, but too busy to game.</div>
+                <div class="contact-row">
+                    <div class="contact-row-inner">
+                        <span class="contact-label">GITHUB</span>
+                        <span class="contact-value"><a href="https://github.com/prxkc" target="_blank">github.com/prxkc</a></span>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-row-inner">
+                        <span class="contact-label">LINKEDIN</span>
+                        <span class="contact-value"><a href="https://linkedin.com/in/shakil-islam-shanto" target="_blank">shakil-islam-shanto</a></span>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-row-inner">
+                        <span class="contact-label">TWITTER</span>
+                        <span class="contact-value"><a href="https://twitter.com/prxkc" target="_blank">@prxkc</a></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <!-- Resume section -->
+    <div class="page-section" id="resume-section">
+        <div class="resume-wrapper">
+
+            <!-- Download -->
+            <div class="resume-dl-wrap sec-line-wrap">
+                <div class="sec-line">
+                    <a href="resume.pdf" download class="resume-dl-btn">↓ Download PDF</a>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="resume-block">
+                <div class="resume-block-label">EDUCATION</div>
+                <div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">BRAC University</span>
+                                <span class="resume-entry-date">2019 — 2025</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-org">B.Sc. in Computer Science & Engineering, Dhaka</div>
+                        <ul class="resume-entry-bullets">
+                            <li>Thesis: A Comparative Malware Analysis of XWorm and Nanocore — Enhanced Detection Strategies</li>
+                            <li>Coursework: AI, Neural Networks, Data Science, Algorithms, System Design, Ethical Hacking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="resume-block">
+                <div class="resume-block-label">EXPERIENCE</div>
+                <div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">Software Engineer</span>
+                                <span class="resume-entry-date">May 2024 – Nov 2025</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-org">Periscope Labs Limited · Dhaka</div>
+                        <ul class="resume-entry-bullets">
+                            <li>Built agentic AI validation system for trade documents using RAG with multi-LLM orchestration (OpenAI, Mistral AI) and Weaviate, reducing manual review by 70%.</li>
+                            <li>Led loan-approval prediction platform — EDA, feature engineering, XGBoost/CatBoost models improving F1 from ~0.51 to ~0.79 (AUC-ROC ~0.84); added SHAP explainability, increasing daily processing from ~30 to ~200 applications.</li>
+                            <li>Productionized log analytics &amp; anomaly detection (Isolation Forest, Z-score/MAD) as async FastAPI service; migrated to Parquet + Polars, reducing parse time from 15 min to ~4 min.</li>
+                        </ul>
+                    </div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">Security Researcher</span>
+                                <span class="resume-entry-date">Oct 2023 – Present</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-org">Intigriti · HackerOne · Bugcrowd · Remote</div>
+                        <ul class="resume-entry-bullets">
+                            <li>Discovered critical SQL injection (marked Exceptional) in Ubisoft production systems; reported auth bypass (CVE-2019-20933), XSS, and client-side desync vulnerabilities across enterprise targets (Eurofins, DHL).</li>
+                            <li>Hall of Fame: Eurofins. Advanced reconnaissance to uncover authorization flaws and sensitive data exposure in production systems.</li>
+                        </ul>
+                    </div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">Backend Engineer</span>
+                                <span class="resume-entry-date">Mar 2025 – Nov 2025</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-org">PrimeStaff · Remote · Part-time</div>
+                        <ul class="resume-entry-bullets">
+                            <li>Built Django backend for multi-channel recruiting platform with candidate/lead workflows, application stages, and admin panels. Implemented Celery + Selenium for scheduled scraping; developed React dashboards for admin and user-facing interfaces.</li>
+                        </ul>
+                    </div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">Research Data Engineer</span>
+                                <span class="resume-entry-date">Aug 2021 – Oct 2022</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-org">R1 Research Institute · US, Dept. of Economics · Contract</div>
+                        <ul class="resume-entry-bullets">
+                            <li>Engineered high-concurrency Python (AsyncIO) pipelines harvesting 67M+ records (property assessments, municipal data, corporate filings) — 99.9% retrieval rate, 70% throughput improvement.</li>
+                            <li>Built ETL workflows to deduplicate and normalize multi-source hierarchical datasets, reducing manual data cleaning by 80%.</li>
+                        </ul>
+                    </div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">Data Engineer</span>
+                                <span class="resume-entry-date">Jan 2020 – May 2024</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-org">Upwork · Remote · Freelance</div>
+                        <ul class="resume-entry-bullets">
+                            <li>Architected 3-tier data pipeline for environmental monitoring platform — 40+ years of historical data, real-time updates, Power BI dashboard with AQI calculations and time-series aggregations.</li>
+                            <li>Engineered high-concurrency Python scrapers for Yahoo Finance, Amazon, and X (Twitter) supporting financial sentiment analysis.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects -->
+            <div class="resume-block">
+                <div class="resume-block-label">PROJECTS</div>
+                <div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">Text2SQL Analytics System</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-tags">
+                            <span class="resume-tag">Python</span><span class="resume-tag">FastAPI</span><span class="resume-tag">PostgreSQL</span><span class="resume-tag">SQLAlchemy</span><span class="resume-tag">Gemini</span>
+                        </div>
+                        <ul class="resume-entry-bullets">
+                            <li>Production-ready NL→SQL platform with strict query sandboxing (SELECT-only, injection blocking, 5s timeout), 69 automated tests (92% coverage), 20-query benchmark with 0.992 average accuracy.</li>
+                        </ul>
+                    </div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">Healthcare RAG Assistant</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-tags">
+                            <span class="resume-tag">FastAPI</span><span class="resume-tag">FAISS</span><span class="resume-tag">Sentence-Transformer</span><span class="resume-tag">Gemini</span>
+                        </div>
+                        <ul class="resume-entry-bullets">
+                            <li>Production REST API with RAG pipeline for multilingual medical Q&amp;A (EN/JP). Fully containerised, stateless beyond persisted FAISS index; 3-stage CI via GitHub Actions.</li>
+                        </ul>
+                    </div>
+                    <div class="resume-entry">
+                        <div class="sec-line-wrap">
+                            <div class="sec-line resume-entry-header">
+                                <span class="resume-entry-title">Temporal Jersey Number Recognition</span>
+                            </div>
+                        </div>
+                        <div class="resume-entry-tags">
+                            <span class="resume-tag">PyTorch</span><span class="resume-tag">EfficientNet-B0</span><span class="resume-tag">BiLSTM</span><span class="resume-tag">Mixed Precision</span>
+                        </div>
+                        <ul class="resume-entry-bullets">
+                            <li>Lightweight BiLSTM model (5.1M params) achieving 92.12% accuracy across 8-frame sequences — outperforms single-frame baseline by 43%, with 89% temporal stability.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="resume-block">
+                <div class="resume-block-label">SKILLS</div>
+                <div>
+                    <div class="sec-line-wrap">
+                        <div class="sec-line">
+                            <div class="resume-skills-grid">
+                                <span class="resume-skill-item">Python</span>
+                                <span class="resume-skill-item">C++</span>
+                                <span class="resume-skill-item">SQL</span>
+                                <span class="resume-skill-item">PyTorch</span>
+                                <span class="resume-skill-item">scikit-learn</span>
+                                <span class="resume-skill-item">XGBoost</span>
+                                <span class="resume-skill-item">CatBoost</span>
+                                <span class="resume-skill-item">SHAP</span>
+                                <span class="resume-skill-item">LangChain</span>
+                                <span class="resume-skill-item">LangGraph</span>
+                                <span class="resume-skill-item">MLflow</span>
+                                <span class="resume-skill-item">FastAPI</span>
+                                <span class="resume-skill-item">Django</span>
+                                <span class="resume-skill-item">React</span>
+                                <span class="resume-skill-item">PostgreSQL</span>
+                                <span class="resume-skill-item">MongoDB</span>
+                                <span class="resume-skill-item">Weaviate</span>
+                                <span class="resume-skill-item">Docker</span>
+                                <span class="resume-skill-item">Web Security</span>
+                                <span class="resume-skill-item">Penetration Testing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
 
@@ -715,230 +1258,160 @@
         gsap.registerPlugin(SplitText, CustomEase);
         CustomEase.create("osmo-ease", "0.625, 0.05, 0, 1");
 
-        let h1Split, pSplit, aboutHeadingSplit;
+        let h1Split, pSplit;
 
-        // Initialize after fonts load
-        document.fonts.ready.then(function () {
-            initTextAnimations();
-        });
+        document.fonts.ready.then(function () { initTextAnimations(); });
 
         function initTextAnimations() {
-            // Set content first
             const h1 = document.querySelector('.content-wrapper h1');
-            const p = document.querySelector('.content-wrapper p');
-            const aboutHeading = document.querySelector('.about-heading .about-title');
-
+            const p  = document.querySelector('.content-wrapper p');
             h1.textContent = 'Welcome!';
-            p.textContent = 'Your content has loaded successfully with a beautiful animation.';
-
-            // Create SplitText instances with automatic masking
-            h1Split = new SplitText(h1, {
-                type: "lines",
-                linesClass: "line"
-            });
-
-            pSplit = new SplitText(p, {
-                type: "lines",
-                linesClass: "line"
-            });
-
-            // Split "ABOUT" heading for reveal
-            aboutHeadingSplit = new SplitText(aboutHeading, {
-                type: "lines",
-                linesClass: "about-line"
-            });
-
-            // Hide project list items initially for animation
-            gsap.set('#project-list .project-inner', { yPercent: 110 });
+            p.textContent  = 'Your content has loaded successfully with a beautiful animation.';
+            h1Split = new SplitText(h1, { type: "lines", linesClass: "line" });
+            pSplit  = new SplitText(p,  { type: "lines", linesClass: "line" });
+            gsap.set('#project-list .project-inner',  { yPercent: 110 });
+            gsap.set('#profiles-list .profile-inner', { yPercent: 110 });
         }
 
         function animateMainText() {
-            // This will be called AFTER preloader is done
-            if (h1Split && h1Split.lines) {
-                gsap.fromTo(h1Split.lines,
-                    { yPercent: 110 },
-                    {
-                        yPercent: 0,
-                        duration: 0.8,
-                        stagger: 0.08,
-                        ease: "osmo-ease"
-                    }
-                );
-            }
-
-            if (pSplit && pSplit.lines) {
-                gsap.fromTo(pSplit.lines,
-                    { yPercent: 110 },
-                    {
-                        yPercent: 0,
-                        duration: 0.8,
-                        stagger: 0.08,
-                        ease: "osmo-ease",
-                        delay: 0.2
-                    }
-                );
-            }
+            if (h1Split?.lines) gsap.fromTo(h1Split.lines, { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.08, ease: "osmo-ease" });
+            if (pSplit?.lines)  gsap.fromTo(pSplit.lines,  { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.08, ease: "osmo-ease", delay: 0.2 });
         }
 
-        // Section toggle
-        const aboutBtn = document.getElementById('about-btn');
-        const homeBtn = document.getElementById('home-btn');
-        const brandName = document.getElementById('brand-name');
-        const aboutHeadingEl = document.getElementById('about-heading');
-        const aboutSection = document.getElementById('about-section');
-        const mainContent = document.querySelector('.main-content');
+        // ── Section navigation ──────────────────────────────────────────
+        const navLinks       = document.getElementById('nav-links');
+        const homeBtn        = document.getElementById('home-btn');
+        const brandName      = document.getElementById('brand-name');
+        const sectionHeading = document.getElementById('section-heading');
+        const sectionTitle   = document.getElementById('section-title-text');
+        const mainContent    = document.querySelector('.main-content');
 
-        aboutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
+        const TITLES = { about: 'ABOUT ME', resume: 'RESUME' };
+        let activeSection    = null;
+        let isTransitioning  = false;
 
-            // Add animating class to disable hover
-            aboutBtn.classList.add('animating');
-            homeBtn.classList.add('animating');
+        function showSection(name) {
+            if (isTransitioning || activeSection === name) return;
+            isTransitioning = true;
+            activeSection   = name;
+            sectionTitle.textContent = TITLES[name];
 
-            // Hide About button and reveal Home button (masked slide up)
-            gsap.to(aboutBtn.querySelector('.link-container'), {
-                yPercent: -110,
-                duration: 0.8,
-                ease: "power2.in",
+            // Trigger background transition for resume section
+            if (typeof window.setBlackholeMode === 'function') {
+                window.setBlackholeMode(name === 'resume' ? 'resume' : 'home');
+            }
+
+            // Slide nav out → Home in
+            gsap.to(navLinks.querySelectorAll('.link-container'), {
+                yPercent: -110, duration: 0.55, stagger: 0.06, ease: 'power2.in',
                 onComplete: () => {
-                    aboutBtn.style.display = 'none';
-                    aboutBtn.classList.remove('animating');
-                    homeBtn.style.display = 'flex';
+                    navLinks.style.display = 'none';
+                    homeBtn.style.display  = 'flex';
                     gsap.set(homeBtn.querySelector('.link-container'), { yPercent: 110 });
-                    gsap.to(homeBtn.querySelector('.link-container'), {
-                        yPercent: 0,
-                        duration: 0.9,
-                        ease: "power2.out",
-                        clearProps: 'transform',
-                        onComplete: () => {
-                            gsap.set(homeBtn.querySelector('.link-container'), { clearProps: 'all' });
-                            homeBtn.classList.remove('animating');
-                        }
-                    });
+                    gsap.to(homeBtn.querySelector('.link-container'), { yPercent: 0, duration: 0.8, ease: 'power2.out', clearProps: 'transform' });
                 }
             });
 
+            // Hide home widgets
             mainContent.style.display = 'none';
-            document.getElementById('project-list').style.opacity = '0';
-            gsap.set('#project-list .project-inner', { yPercent: 110 });
+            gsap.set(['#project-list','#profiles-list'], { opacity: 0 });
+            gsap.set('#project-list .project-inner',  { yPercent: 110 });
+            gsap.set('#profiles-list .profile-inner', { yPercent: 110 });
 
-            // Hide brand name with masked slide - each line slides up separately
+            // Slide brand name out → section heading + content in
             gsap.to(brandName.querySelectorAll('.name-line'), {
-                yPercent: -110,
-                duration: 0.5,
-                stagger: 0.05,
-                ease: "power2.inOut",
+                yPercent: -110, duration: 0.45, stagger: 0.05, ease: 'power2.inOut',
                 onComplete: () => {
-                    // After brand name is gone, show about heading from below
-                    aboutHeadingEl.classList.add('active');
-                    aboutSection.classList.add('active');
-                    aboutHeadingEl.style.opacity = 1;
+                    sectionHeading.classList.add('active');
+                    sectionHeading.style.opacity = '1';
+                    gsap.set(sectionTitle, { yPercent: 110 });
+                    gsap.to(sectionTitle, { yPercent: 0, duration: 0.45, ease: 'power2.inOut' });
 
-                    // Reveal ABOUT with masked slide up from below
-                    gsap.set(aboutHeadingEl.querySelector('.about-title'), { yPercent: 110 });
-                    gsap.to(aboutHeadingEl.querySelector('.about-title'), {
-                        yPercent: 0,
-                        duration: 0.5,
-                        ease: "power2.inOut"
-                    });
-
-                    // Animate about text lines
-                    const aboutLines = document.querySelectorAll('.about-text .split-line');
-                    gsap.set(aboutLines, { yPercent: 110 });
-                    gsap.to(aboutLines, {
-                        yPercent: 0,
-                        duration: 0.4,
-                        stagger: 0.05,
-                        ease: "power2.inOut",
-                        delay: 0.2
+                    const el    = document.getElementById(name + '-section');
+                    el.classList.add('active');
+                    const lines = el.querySelectorAll('.split-line, .sec-line');
+                    gsap.set(lines,  { yPercent: 110 });
+                    gsap.to(lines, { yPercent: 0, duration: 0.4, stagger: 0.07, ease: 'power2.inOut', delay: 0.15,
+                        onComplete: () => { isTransitioning = false; }
                     });
                 }
             });
-        });
+        }
 
-        // Home button click handler
-        homeBtn.addEventListener('click', () => {
-            // Add animating class to disable hover
-            homeBtn.classList.add('animating');
-            aboutBtn.classList.add('animating');
+        function showHome() {
+            if (isTransitioning || !activeSection) return;
+            isTransitioning = true;
+            const leaving = activeSection;
+            activeSection  = null;
 
-            // Hide Home button and reveal About button (masked slide up)
+            // Restore home blackhole when leaving resume
+            if (leaving === 'resume' && typeof window.setBlackholeMode === 'function') {
+                window.setBlackholeMode('home');
+            }
+
+            // Slide Home out → nav in
             gsap.to(homeBtn.querySelector('.link-container'), {
-                yPercent: -110,
-                duration: 0.8,
-                ease: "power2.in",
+                yPercent: -110, duration: 0.55, ease: 'power2.in',
                 onComplete: () => {
-                    homeBtn.style.display = 'none';
-                    homeBtn.classList.remove('animating');
-                    aboutBtn.style.display = 'flex';
-                    gsap.set(aboutBtn.querySelector('.link-container'), { yPercent: 110 });
-                    gsap.to(aboutBtn.querySelector('.link-container'), {
-                        yPercent: 0,
-                        duration: 0.9,
-                        ease: "power2.out",
-                        clearProps: 'transform',
-                        onComplete: () => {
-                            gsap.set(aboutBtn.querySelector('.link-container'), { clearProps: 'all' });
-                            aboutBtn.classList.remove('animating');
-                        }
-                    });
+                    homeBtn.style.display  = 'none';
+                    navLinks.style.display = 'flex';
+                    const cs = navLinks.querySelectorAll('.link-container');
+                    gsap.set(cs, { yPercent: 110 });
+                    gsap.to(cs, { yPercent: 0, duration: 0.8, stagger: 0.06, ease: 'power2.out', clearProps: 'transform' });
                 }
             });
 
-            // Hide about text lines first with masked slide up
-            const aboutLines = document.querySelectorAll('.about-text .split-line');
-            gsap.to(aboutLines, {
-                yPercent: -110,
-                duration: 0.4,
-                stagger: 0.04,
-                ease: "power2.inOut",
-                onComplete: () => {
-                    // Then hide ABOUT heading with masked slide up
-                    gsap.to(aboutHeadingEl.querySelector('.about-title'), {
-                        yPercent: -110,
-                        duration: 0.5,
-                        ease: "power2.inOut",
-                        onComplete: () => {
-                            aboutSection.classList.remove('active');
-                            aboutHeadingEl.classList.remove('active');
+            // Reset scroll & restore heading for resume
+            if (leaving === 'resume') {
+                document.getElementById('resume-section').scrollTop = 0;
+                gsap.set('#section-heading', { opacity: 1 });
+                sectionHeading.style.pointerEvents = 'auto';
+            }
 
-                            // After ABOUT is gone, reveal brand name from below - each line separately
+            // Slide section content out
+            const el    = document.getElementById(leaving + '-section');
+            const lines = el.querySelectorAll('.split-line, .sec-line');
+            gsap.to(lines, {
+                yPercent: -110, duration: 0.35, stagger: 0.04, ease: 'power2.inOut',
+                onComplete: () => {
+                    gsap.to(sectionTitle, {
+                        yPercent: -110, duration: 0.4, ease: 'power2.inOut',
+                        onComplete: () => {
+                            el.classList.remove('active');
+                            sectionHeading.classList.remove('active');
+
                             gsap.set(brandName.querySelectorAll('.name-line'), { yPercent: 110 });
-                            gsap.to(brandName.querySelectorAll('.name-line'), {
-                                yPercent: 0,
-                                duration: 0.5,
-                                stagger: 0.05,
-                                ease: "power2.inOut"
-                            });
+                            gsap.to(brandName.querySelectorAll('.name-line'), { yPercent: 0, duration: 0.45, stagger: 0.05, ease: 'power2.inOut' });
+
                             mainContent.style.display = 'flex';
-                            gsap.to('#project-list', { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.2 });
-                            gsap.to('#project-list .project-inner',
-                                { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.3 }
-                            );
+                            gsap.to('#project-list',  { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.15 });
+                            gsap.to('#project-list .project-inner',  { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.25 });
+                            gsap.to('#profiles-list', { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.3 });
+                            gsap.to('#profiles-list .profile-inner', { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.4,
+                                onComplete: () => { isTransitioning = false; }
+                            });
                         }
                     });
                 }
             });
-        });
+        }
 
-        // Click brand name/ABOUT heading to go home (only when on about page)
-        brandName.addEventListener('click', () => {
-            if (aboutSection.classList.contains('active')) {
-                // Trigger home button click
-                homeBtn.click();
-            }
-        });
+        document.getElementById('about-btn').addEventListener('click',  e => { e.preventDefault(); showSection('about');  });
+        document.getElementById('resume-btn').addEventListener('click', e => { e.preventDefault(); showSection('resume'); });
+        homeBtn.addEventListener('click', showHome);
 
-        // Make ABOUT heading clickable too
-        aboutHeadingEl.addEventListener('click', () => {
-            if (aboutSection.classList.contains('active')) {
-                homeBtn.click();
-            }
-        });
-        aboutHeadingEl.style.cursor = 'pointer';
+        brandName.style.cursor      = 'pointer';
+        sectionHeading.style.cursor = 'pointer';
+        brandName.addEventListener('click',      () => { if (activeSection) showHome(); });
+        sectionHeading.addEventListener('click', () => { if (activeSection) showHome(); });
 
-        // Make brand name clickable
-        brandName.style.cursor = 'pointer';
+        // Hide RESUME heading when scrolled, restore at top
+        document.getElementById('resume-section').addEventListener('scroll', function () {
+            if (activeSection !== 'resume') return;
+            const hidden = this.scrollTop > 50;
+            gsap.to('#section-heading', { opacity: hidden ? 0 : 1, duration: 0.22, overwrite: true });
+            sectionHeading.style.pointerEvents = hidden ? 'none' : 'auto';
+        });
     </script>
 
     <script>
@@ -1020,6 +1493,16 @@
                         }
                     );
                 }, '-=0.5')
+                .to('#profiles-list', {
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                }, '-=0.3')
+                .add(() => {
+                    gsap.to('#profiles-list .profile-inner',
+                        { yPercent: 0, duration: 0.6, stagger: 0.08, ease: 'osmo-ease' }
+                    );
+                }, '-=0.5')
                 .to('.datetime-display', {
                     opacity: 1,
                     duration: 0.8,
@@ -1042,13 +1525,4 @@
             const ampm    = h24 >= 12 ? 'PM' : 'AM';
             const hours   = String(h24 % 12 || 12).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            clockEl.textContent = `[ ${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${ampm} ]`;
-        }
-
-        updateClock();
-        setInterval(updateClock, 1000);
-    </script>
-</body>
-
-</html>
+            const seco
