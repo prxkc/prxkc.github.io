@@ -366,7 +366,9 @@
             overflow: hidden;
         }
 
-        .profiles-list-heading .profile-inner { display: block; }
+        .profiles-list-heading .profile-inner {
+            display: block;
+        }
 
         .profiles-list-item {
             font-size: 0.85rem;
@@ -381,10 +383,32 @@
             color: #ffffff;
             text-decoration: none;
             transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .profiles-list-item a:hover { color: #C77064; }
-        .profiles-list-item .profile-inner { display: block; }
+        .profiles-list-item a:hover {
+            color: #C77064;
+        }
+
+        .profile-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .profile-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        .profiles-list-item .profile-inner {
+            display: block;
+        }
 
         /* Top-right — two nav links */
         .top-right {
@@ -405,9 +429,14 @@
             cursor: pointer;
         }
 
-        .section-heading.active { display: block; }
+        .section-heading.active {
+            display: block;
+        }
 
-        .section-title-wrap { overflow: hidden; display: block; }
+        .section-title-wrap {
+            overflow: hidden;
+            display: block;
+        }
 
         .section-title {
             font-size: 3.5rem;
@@ -430,7 +459,9 @@
             z-index: 2;
         }
 
-        .page-section.active { display: block; }
+        .page-section.active {
+            display: block;
+        }
 
         .section-wrapper {
             text-align: left;
@@ -440,8 +471,14 @@
         }
 
         /* sec-line animation units */
-        .sec-line-wrap { overflow: hidden; display: block; }
-        .sec-line { display: block; }
+        .sec-line-wrap {
+            overflow: hidden;
+            display: block;
+        }
+
+        .sec-line {
+            display: block;
+        }
 
         /* ── About section ── */
         .about-text {
@@ -451,10 +488,23 @@
             font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        .about-text .split-line-wrapper { overflow: hidden; display: block; }
-        .about-text .split-line { display: block; }
-        .about-text a { color: #ffffff; text-decoration: none; }
-        .about-text a:hover { color: #cccccc; }
+        .about-text .split-line-wrapper {
+            overflow: hidden;
+            display: block;
+        }
+
+        .about-text .split-line {
+            display: block;
+        }
+
+        .about-text a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .about-text a:hover {
+            color: #cccccc;
+        }
 
         /* Contact block inside about */
         .about-contact {
@@ -470,19 +520,29 @@
             overflow: hidden;
         }
 
-        .about-contact-heading .sec-line { display: block; }
+        .about-contact-heading .sec-line {
+            display: block;
+        }
 
         .contact-row {
             display: flex;
             align-items: baseline;
             gap: 24px;
             padding: 16px 0;
-            border-top: 1px solid rgba(255,255,255,0.07);
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
             overflow: hidden;
         }
 
-        .contact-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
-        .contact-row-inner { display: flex; align-items: baseline; gap: 24px; width: 100%; }
+        .contact-row:last-child {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .contact-row-inner {
+            display: flex;
+            align-items: baseline;
+            gap: 24px;
+            width: 100%;
+        }
 
         .contact-label {
             font-size: 0.7rem;
@@ -493,9 +553,20 @@
             flex-shrink: 0;
         }
 
-        .contact-value { font-size: 0.85rem; color: #ffffff; }
-        .contact-value a { color: #ffffff; text-decoration: none; transition: color 0.3s ease; }
-        .contact-value a:hover { color: #C77064; }
+        .contact-value {
+            font-size: 0.85rem;
+            color: #ffffff;
+        }
+
+        .contact-value a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-value a:hover {
+            color: #C77064;
+        }
 
         /* ── Resume section ── */
         .resume-wrapper {
@@ -516,18 +587,22 @@
             color: #999;
             letter-spacing: 0.14em;
             text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             padding: 7px 18px;
             transition: border-color 0.3s ease, color 0.3s ease;
         }
-        .resume-dl-btn:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+
+        .resume-dl-btn:hover {
+            border-color: rgba(255, 255, 255, 0.45);
+            color: #fff;
+        }
 
         /* Two-column grid row */
         .resume-block {
             display: grid;
             grid-template-columns: 120px 1fr;
             gap: 0 48px;
-            border-top: 1px solid rgba(255,255,255,0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding: 40px 0;
         }
 
@@ -542,7 +617,10 @@
         .resume-entry {
             margin-bottom: 32px;
         }
-        .resume-entry:last-child { margin-bottom: 0; }
+
+        .resume-entry:last-child {
+            margin-bottom: 0;
+        }
 
         .resume-entry-header {
             display: flex;
@@ -616,7 +694,7 @@
         .resume-skill-item {
             font-size: 0.74rem;
             color: #777;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 4px 10px;
             letter-spacing: 0.03em;
         }
@@ -633,314 +711,518 @@
             opacity: 0;
         }
 
+        /* ══════════════════════════════════════════════
+           MOBILE RESPONSIVE STYLES
+           ══════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+
+            /* ── Main content area ── */
+            .main-content {
+                min-height: auto;
+                padding: 20px;
+                display: none;
+                /* Hidden on home — we use brand + lists */
+            }
+
+            /* ── Brand name (top-left) ── */
+            .brand-name {
+                position: fixed;
+                top: 28px;
+                left: 24px;
+            }
+
+            .brand-name .name-line {
+                font-size: 2.2rem;
+                line-height: 0.92;
+            }
+
+            /* ── Section heading (About Me / Resume) ── */
+            .section-heading {
+                top: 28px;
+                left: 24px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            /* ── Top-right nav ── */
+            .top-right {
+                top: 28px !important;
+                right: 24px !important;
+            }
+
+            .top-right nav#nav-links {
+                flex-direction: column !important;
+                gap: 12px !important;
+                align-items: flex-end !important;
+            }
+
+            /* ── Project list ── */
+            .project-list {
+                position: fixed;
+                top: 50vh;
+                left: 24px;
+            }
+
+            .project-list-heading {
+                font-size: 0.72rem;
+                margin-bottom: 10px;
+            }
+
+            .project-list-item {
+                font-size: 0.82rem;
+                line-height: 1.9;
+            }
+
+            /* ── Profiles list ── */
+            .profiles-list {
+                position: fixed;
+                left: 24px;
+                top: 70vh;
+            }
+
+            .profiles-list-heading {
+                font-size: 0.72rem;
+                margin-bottom: 10px;
+            }
+
+            .profiles-list-item {
+                font-size: 0.82rem;
+                line-height: 1.9;
+            }
+
+            /* ── Datetime display ── */
+            .datetime-display {
+                position: fixed;
+                bottom: 24px;
+                left: 24px;
+                font-size: 0.65rem;
+            }
+
+            /* ── Page sections (About, Resume) ── */
+            .page-section {
+                padding: 20px 24px;
+                padding-top: 0;
+            }
+
+            .section-wrapper {
+                margin-top: 160px;
+                max-width: 100%;
+            }
+
+            .about-text {
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+
+            .about-contact {
+                margin-top: 40px;
+            }
+
+            .contact-row {
+                flex-direction: column;
+                gap: 4px;
+                padding: 12px 0;
+            }
+
+            .contact-row-inner {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            /* ── Resume section ── */
+            .resume-wrapper {
+                margin: 140px auto 80px;
+                max-width: 100%;
+            }
+
+            .resume-block {
+                grid-template-columns: 1fr;
+                gap: 12px 0;
+                padding: 28px 0;
+            }
+
+            .resume-block-label {
+                font-size: 0.62rem;
+            }
+
+            .resume-entry-header {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .resume-entry-title {
+                font-size: 0.82rem;
+            }
+
+            .resume-entry-date {
+                font-size: 0.62rem;
+            }
+
+            .resume-entry-org {
+                font-size: 0.72rem;
+            }
+
+            .resume-entry-bullets li {
+                font-size: 0.72rem;
+                line-height: 1.6;
+            }
+
+            .resume-skills-grid {
+                gap: 6px 10px;
+            }
+
+            .resume-skill-item {
+                font-size: 0.68rem;
+                padding: 3px 8px;
+            }
+        }
+
+        /* Extra small devices (phones in portrait, < 400px) */
+        @media (max-width: 400px) {
+            .brand-name .name-line {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .project-list {
+                top: 54vh;
+            }
+
+            .profiles-list {
+                top: 74vh;
+            }
+
+            .section-wrapper {
+                margin-top: 130px;
+            }
+
+            .resume-wrapper {
+                margin-top: 120px;
+            }
+        }
     </style>
 </head>
 
 <body>
-    
+
     <div id="blackhole-bg">
         <canvas id="bh"></canvas>
     </div>
     <script>
-    (function(){
-        
-        // Full-bleed cinematic pixel space background
-        const canvas = document.getElementById('bh');
-        const ctx = canvas.getContext('2d', { alpha: true });
-        ctx.imageSmoothingEnabled = false;
+        (function () {
 
-        // Smaller rendered pixels for a finer, denser image.
-        const PIXEL = 2;
-        const BAYER8 = [
-             0,32, 8,40, 2,34,10,42,
-            48,16,56,24,50,18,58,26,
-            12,44, 4,36,14,46, 6,38,
-            60,28,52,20,62,30,54,22,
-             3,35,11,43, 1,33, 9,41,
-            51,19,59,27,49,17,57,25,
-            15,47, 7,39,13,45, 5,37,
-            63,31,55,23,61,29,53,21
-        ].map(v => (v + 1) / 65);
+            // Full-bleed cinematic pixel space background
+            const canvas = document.getElementById('bh');
+            const ctx = canvas.getContext('2d', { alpha: true });
+            ctx.imageSmoothingEnabled = false;
 
-        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-        const smooth = (x) => x * x * (3 - 2 * x);
-        const bayer = (x, y) => BAYER8[((y & 7) * 8) + (x & 7)];
-        const h = (x, y, s = 0) => {
-            const v = Math.sin(x * 127.1 + y * 311.7 + s * 74.7) * 43758.5453123;
-            return v - Math.floor(v);
-        };
-        const fbm = (x, y, oct = 3) => {
-            let v = 0, a = 0.5;
-            for (let i = 0; i < oct; i++) {
-                v += a * h(Math.floor(x), Math.floor(y), i);
-                x *= 2.07;
-                y *= 2.07;
-                a *= 0.5;
-            }
-            return v;
-        };
+            // Smaller rendered pixels for a finer, denser image.
+            const PIXEL = 2;
+            const BAYER8 = [
+                0, 32, 8, 40, 2, 34, 10, 42,
+                48, 16, 56, 24, 50, 18, 58, 26,
+                12, 44, 4, 36, 14, 46, 6, 38,
+                60, 28, 52, 20, 62, 30, 54, 22,
+                3, 35, 11, 43, 1, 33, 9, 41,
+                51, 19, 59, 27, 49, 17, 57, 25,
+                15, 47, 7, 39, 13, 45, 5, 37,
+                63, 31, 55, 23, 61, 29, 53, 21
+            ].map(v => (v + 1) / 65);
 
-        const mix = (a, b, t) => a + (b - a) * t;
-
-        let W = 0, H = 0, time = 0;
-        let img, buf, stars = [];
-
-        // Black hole scene mode: 0 = home (close), 1 = resume (zoomed-out + jets)
-        const bhState = { t: 0, targetT: 0 };
-
-        window.setBlackholeMode = function(mode) {
-            bhState.targetT = (mode === 'resume') ? 1 : 0;
-        };
-
-        function writePixel(x, y, r, g, b, size = 1) {
-            for (let oy = 0; oy < size; oy++) {
-                for (let ox = 0; ox < size; ox++) {
-                    const px = x + ox;
-                    const py = y + oy;
-                    if (px < 0 || py < 0 || px >= W || py >= H) continue;
-                    const i = (py * W + px) * 4;
-                    buf[i] = r;
-                    buf[i + 1] = g;
-                    buf[i + 2] = b;
-                    buf[i + 3] = 255;
+            const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+            const smooth = (x) => x * x * (3 - 2 * x);
+            const bayer = (x, y) => BAYER8[((y & 7) * 8) + (x & 7)];
+            const h = (x, y, s = 0) => {
+                const v = Math.sin(x * 127.1 + y * 311.7 + s * 74.7) * 43758.5453123;
+                return v - Math.floor(v);
+            };
+            const fbm = (x, y, oct = 3) => {
+                let v = 0, a = 0.5;
+                for (let i = 0; i < oct; i++) {
+                    v += a * h(Math.floor(x), Math.floor(y), i);
+                    x *= 2.07;
+                    y *= 2.07;
+                    a *= 0.5;
                 }
-            }
-        }
+                return v;
+            };
 
-        function resize() {
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
-            W = Math.max(420, Math.floor(vw / PIXEL));
-            H = Math.max(240, Math.floor(vh / PIXEL));
-            canvas.width = W;
-            canvas.height = H;
-            canvas.style.width = '100vw';
-            canvas.style.height = '100vh';
-            canvas.style.imageRendering = 'pixelated';
-            img = ctx.createImageData(W, H);
-            buf = img.data;
-            buildField();
-        }
+            const mix = (a, b, t) => a + (b - a) * t;
 
-        function buildField() {
-            stars = [];
-            // Sparse background only; keep empty black space dominant.
-            const starCount = Math.max(30, Math.floor(W * H * 0.00018));
-            for (let i = 0; i < starCount; i++) {
-                stars.push({
-                    x: h(i * 1.73, i * 7.11, 1),
-                    y: h(i * 4.91, i * 2.33, 2),
-                    depth: Math.pow(h(i * 8.23, i * 5.12, 3), 2.7),
-                    tw: h(i * 9.13, i * 3.77, 4)
-                });
-            }
-        }
+            let W = 0, H = 0, time = 0;
+            let img, buf, stars = [];
 
-        function starColor(depth, tw, lum) {
-            const t = clamp(lum, 0, 1);
-            const hot = smooth(clamp((t - 0.58) / 0.42, 0, 1));
-            const cool = 1 - hot;
-            const r = mix(190, 255, hot);
-            const g = mix(205, 248, hot);
-            const b = mix(220, 240, hot) * cool + 240 * hot;
-            return [r, g, b];
-        }
+            // Black hole scene mode: 0 = home (close), 1 = resume (zoomed-out + jets)
+            const bhState = { t: 0, targetT: 0 };
 
-        function diskColor(lum) {
-            // Strong orange/yellow shift honoring Doppler beaming ranges
-            const hot = smooth(clamp((lum - 0.05) / 0.8, 0, 1));
-            const gold = smooth(clamp((lum - 0.4) / 0.8, 0, 1));
-            const white = smooth(clamp((lum - 1.3) / 1.0, 0, 1)); // Engages on extreme doppler shift
+            window.setBlackholeMode = function (mode) {
+                bhState.targetT = (mode === 'resume') ? 1 : 0;
+            };
 
-            const r = mix(160, 255, hot);
-            const g = mix(30, 255, gold + white * 1.5);
-            const b = mix(5, 255, gold * gold + white * 2.0);
-
-            return [clamp(r, 0, 255), clamp(g, 0, 255), clamp(b, 0, 255)];
-        }
-
-        function draw() {
-            buf.fill(0);
-
-            // ── Animate transition t (exponential lerp — fast & silky smooth) ──
-            bhState.t += (bhState.targetT - bhState.t) * 0.09;
-            if (Math.abs(bhState.targetT - bhState.t) < 0.0008) bhState.t = bhState.targetT;
-            const t = smooth(bhState.t);
-
-            // ── Interpolated scene parameters ─────────────────────────────
-            // Home: BH at 70% right, 48% down — Resume: slightly right, upper area
-            const cx = W * mix(0.70, 0.74, t);
-            const cy = H * mix(0.48, 0.28, t);
-            // Much smaller in resume mode
-            const scale = mix(1.0, 0.13, t);
-
-            const R_shadow = Math.min(W, H) * 0.11 * scale;
-            const R_inner  = R_shadow * 1.5;
-            const tilt = 0.28;
-            const ang  = -0.15;
-            const ca = Math.cos(ang), sa = Math.sin(ang);
-
-            // Accretion disk dims as jets appear; halo stays dense
-            const diskMult = mix(1.0, 0.10, t);
-            // Dense luminous corona around the tiny hole in resume mode
-            const haloMult = mix(1.0, 4.5, t);
-
-            // 1. Draw Stars with Gravitational Lensing
-            for (const s of stars) {
-                let sx = s.x * W;
-                let sy = s.y * H;
-                let dx = sx - cx;
-                let dy = sy - cy;
-                let dist2 = dx * dx + dy * dy;
-                const R_s2 = R_shadow * R_shadow;
-
-                let lensFactor = 1.0 + 1.5 * R_s2 / (dist2 + 1.0);
-                let lx = cx + dx * lensFactor;
-                let ly = cy + dy * lensFactor;
-                const px = Math.round(lx);
-                const py = Math.round(ly);
-
-                const l_dx = px - cx;
-                const l_dy = py - cy;
-                if (l_dx * l_dx + l_dy * l_dy < R_s2) continue;
-
-                const tw  = 0.78 + 0.22 * Math.sin(time * 1.5 + s.tw * 22.0);
-                // Stars become slightly more visible (more spread) in resume mode
-                const lumBase = mix(0.13, 0.18, t);
-                const lum = (lumBase + (1 - s.depth) * 0.11) * tw;
-                const starSize = s.depth > 0.94 ? 2 : 1;
-                const threshold = starSize === 2 ? 0.955 : 0.985;
-                if (lum > bayer(px, py) * threshold) {
-                    const [r, g, b] = starColor(s.depth, s.tw, lum);
-                    writePixel(px, py, r, g, b, starSize);
-                }
-            }
-
-            // 2. Draw Black Hole + Jets
-            for (let y = 0; y < H; y++) {
-                for (let x = 0; x < W; x++) {
-                    const dx = x - cx;
-                    const dy = y - cy;
-
-                    const rx = dx * ca - dy * sa;
-                    const ry = dx * sa + dy * ca;
-                    const r  = Math.hypot(rx, ry);
-                    const disk_r = Math.hypot(rx, ry / tilt);
-
-                    // Event Horizon pure black mask
-                    if (r <= R_shadow) {
-                        const isFrontDisk = (ry > 0 && disk_r >= R_inner);
-                        if (!isFrontDisk) {
-                            writePixel(x, y, 0, 0, 0, 1);
-                            continue;
-                        }
-                    }
-
-                    let brightness = 0;
-
-                    // Gravitational Lensing Halo
-                    if (r > R_shadow) {
-                        let hDist = r - R_shadow;
-                        let topWeight = clamp(0.5 - 0.6 * (ry / r), 0, 1);
-                        // Tighter halo profile in resume mode (denser glow)
-                        const haloSpread = mix(0.15, 0.04, t);
-                        let hProfile  = Math.exp(-hDist * hDist / (R_shadow * R_shadow * haloSpread));
-                        let doppler   = clamp(1.0 - 0.5 * (rx / (R_shadow * 1.2)), 0.4, 2.5);
-                        let hAngle    = Math.atan2(ry, rx);
-                        let spiralTh  = hAngle + time * 3.5;
-                        let noise     = fbm(spiralTh * 4.0, hDist * 0.3 - time, 2);
-                        brightness += hProfile * (0.2 + 0.8 * topWeight) * doppler * (0.4 + 1.2 * noise) * 2.0 * diskMult * haloMult;
-                    }
-
-                    // Flat Volumetric Accretion Disk
-                    if (disk_r >= R_inner) {
-                        let dDist    = disk_r - R_inner;
-                        let dProfile = Math.exp(-dDist * dDist / (R_inner * R_inner * 3.5));
-                        dProfile    += 0.2 * Math.exp(-dDist * dDist / (R_inner * R_inner * 12.0));
-                        let doppler  = clamp(1.0 - 0.85 * (rx / R_inner), 0.1, 3.0);
-                        let dAngle   = Math.atan2(ry / tilt, rx);
-                        let rotSpeed = 1.0 + 1.8 * (R_inner / disk_r);
-                        let spiralTh = dAngle + rotSpeed * time * 0.8;
-                        let noise    = fbm(disk_r * 0.05 - time * 0.3, spiralTh * 6.0, 3);
-                        let streams  = Math.pow(0.5 + 0.5 * Math.sin(spiralTh * 10.0 - disk_r * 0.1), 2.0);
-                        let diskInt  = dProfile * doppler * (0.3 + 0.7 * noise) * (0.4 + 0.6 * streams) * 3.0;
-                        if (!(ry < 0 && r <= R_shadow)) brightness += diskInt * diskMult * haloMult;
-                    }
-
-                    // Photon ring
-                    if (Math.abs(r - R_shadow) < W * 0.003) {
-                        let doppler = clamp(1.0 - 0.8 * (rx / R_shadow), 0.2, 3.0);
-                        brightness += 1.0 * doppler * diskMult * haloMult;
-                    }
-
-                    // ── Relativistic Jets (M87-style, fade in with t) ─────
-                    if (t > 0.01) {
-                        // Primary jet: toward lower-left (matches image diagonal)
-                        // Counter-jet: upper-right (more diffuse cloud)
-                        const JET_ANG = Math.PI * 1.18;
-                        const CTR_ANG = JET_ANG - Math.PI;
-
-                        for (let ji = 0; ji < 2; ji++) {
-                            const angle    = ji === 0 ? JET_ANG : CTR_ANG;
-                            const isCounter = ji === 1;
-                            const cosA = Math.cos(angle);
-                            const sinA = Math.sin(angle);
-
-                            // Signed projection along jet axis
-                            const projLen  = dx * cosA + dy * sinA;
-                            const minProj  = R_shadow * 2.2;
-                            const maxProj  = isCounter ? W * 0.24 : W * 0.62;
-                            if (projLen < minProj || projLen > maxProj) continue;
-
-                            // Perpendicular distance from jet axis
-                            const perpDist = Math.abs(-dx * sinA + dy * cosA);
-                            // Jet widens linearly with distance (cone)
-                            const halfW = R_shadow * 0.9 + projLen * 0.095;
-                            if (perpDist > halfW * 2.8) continue;
-
-                            const angFall  = Math.exp(-perpDist * perpDist / (halfW * halfW * 0.55));
-                            const distFall = isCounter
-                                ? Math.exp(-projLen / (W * 0.09)) * 0.55
-                                : Math.pow((R_shadow * 3.5) / (projLen + R_shadow), 1.05)
-                                  * Math.exp(-projLen / (W * 0.52));
-
-                            const jNoise = fbm(projLen * 0.022 - time * 0.14,
-                                               perpDist * 0.038 + time * 0.09, 3);
-                            // Bright knots along primary jet
-                            const knots  = isCounter ? 0.9
-                                : Math.pow(0.5 + 0.5 * Math.sin(projLen * 0.052 - time * 0.95), 2.5);
-
-                            let jb = angFall * distFall
-                                   * (0.22 + 0.78 * jNoise)
-                                   * (0.32 + 0.68 * knots)
-                                   * (isCounter ? 1.1 : 2.4)
-                                   * t;
-                            brightness += jb;
-                        }
-                    }
-
-                    if (brightness > 0) {
-                        brightness *= 0.85 + 0.15 * h(x, y, 9);
-                        brightness  = clamp(brightness, 0, 3.0);
-                        let density = clamp(brightness * 0.7, 0, 1.1);
-                        if (density > bayer(x, y)) {
-                            const [rC, gC, bC] = diskColor(brightness);
-                            const size = brightness > 1.8 ? 2 : 1;
-                            writePixel(x, y, rC, gC, bC, size);
-                        }
+            function writePixel(x, y, r, g, b, size = 1) {
+                for (let oy = 0; oy < size; oy++) {
+                    for (let ox = 0; ox < size; ox++) {
+                        const px = x + ox;
+                        const py = y + oy;
+                        if (px < 0 || py < 0 || px >= W || py >= H) continue;
+                        const i = (py * W + px) * 4;
+                        buf[i] = r;
+                        buf[i + 1] = g;
+                        buf[i + 2] = b;
+                        buf[i + 3] = 255;
                     }
                 }
             }
 
-            ctx.putImageData(img, 0, 0);
-            time += 0.005;
-            requestAnimationFrame(draw);
-        }
+            function resize() {
+                const vw = window.innerWidth;
+                const vh = window.innerHeight;
+                const aspect = vh / vw;
+                W = Math.floor(vw / PIXEL);
+                H = Math.floor(vh / PIXEL);
+                // Ensure a minimum resolution while preserving aspect ratio
+                const MIN = 180;
+                if (W < MIN) { W = MIN; H = Math.floor(MIN * aspect); }
+                if (H < MIN) { H = MIN; W = Math.floor(MIN / aspect); }
+                canvas.width = W;
+                canvas.height = H;
+                canvas.style.width = '100vw';
+                canvas.style.height = '100vh';
+                canvas.style.imageRendering = 'pixelated';
+                img = ctx.createImageData(W, H);
+                buf = img.data;
+                buildField();
+            }
 
-        window.addEventListener('resize', resize, { passive: true });
-        resize();
-        draw();
-    })();
+            function buildField() {
+                stars = [];
+                // Sparse background only; keep empty black space dominant.
+                const starCount = Math.max(30, Math.floor(W * H * 0.00018));
+                for (let i = 0; i < starCount; i++) {
+                    stars.push({
+                        x: h(i * 1.73, i * 7.11, 1),
+                        y: h(i * 4.91, i * 2.33, 2),
+                        depth: Math.pow(h(i * 8.23, i * 5.12, 3), 2.7),
+                        tw: h(i * 9.13, i * 3.77, 4)
+                    });
+                }
+            }
+
+            function starColor(depth, tw, lum) {
+                const t = clamp(lum, 0, 1);
+                const hot = smooth(clamp((t - 0.58) / 0.42, 0, 1));
+                const cool = 1 - hot;
+                const r = mix(190, 255, hot);
+                const g = mix(205, 248, hot);
+                const b = mix(220, 240, hot) * cool + 240 * hot;
+                return [r, g, b];
+            }
+
+            function diskColor(lum) {
+                // Strong orange/yellow shift honoring Doppler beaming ranges
+                const hot = smooth(clamp((lum - 0.05) / 0.8, 0, 1));
+                const gold = smooth(clamp((lum - 0.4) / 0.8, 0, 1));
+                const white = smooth(clamp((lum - 1.3) / 1.0, 0, 1)); // Engages on extreme doppler shift
+
+                const r = mix(160, 255, hot);
+                const g = mix(30, 255, gold + white * 1.5);
+                const b = mix(5, 255, gold * gold + white * 2.0);
+
+                return [clamp(r, 0, 255), clamp(g, 0, 255), clamp(b, 0, 255)];
+            }
+
+            function draw() {
+                buf.fill(0);
+
+                // ── Animate transition t (exponential lerp — fast & silky smooth) ──
+                bhState.t += (bhState.targetT - bhState.t) * 0.09;
+                if (Math.abs(bhState.targetT - bhState.t) < 0.0008) bhState.t = bhState.targetT;
+                const t = smooth(bhState.t);
+
+                // ── Interpolated scene parameters ─────────────────────────────
+                // Detect mobile (narrow viewport) and adjust BH positioning
+                const isMobile = window.innerWidth <= 768;
+                const homeX = isMobile ? 0.75 : 0.70;
+                const homeY = isMobile ? 0.35 : 0.48;
+                const cx = W * mix(homeX, 0.74, t);
+                const cy = H * mix(homeY, 0.28, t);
+                // Much smaller in resume mode; also smaller on mobile
+                const mobileScale = isMobile ? 0.7 : 1.0;
+                const scale = mix(mobileScale, 0.13, t);
+
+                const R_shadow = Math.min(W, H) * 0.11 * scale;
+                const R_inner = R_shadow * 1.5;
+                const tilt = 0.28;
+                const ang = -0.15;
+                const ca = Math.cos(ang), sa = Math.sin(ang);
+
+                // Accretion disk dims as jets appear; halo stays dense
+                const diskMult = mix(1.0, 0.10, t);
+                // Dense luminous corona around the tiny hole in resume mode
+                const haloMult = mix(1.0, 4.5, t);
+
+                // 1. Draw Stars with Gravitational Lensing
+                for (const s of stars) {
+                    let sx = s.x * W;
+                    let sy = s.y * H;
+                    let dx = sx - cx;
+                    let dy = sy - cy;
+                    let dist2 = dx * dx + dy * dy;
+                    const R_s2 = R_shadow * R_shadow;
+
+                    let lensFactor = 1.0 + 1.5 * R_s2 / (dist2 + 1.0);
+                    let lx = cx + dx * lensFactor;
+                    let ly = cy + dy * lensFactor;
+                    const px = Math.round(lx);
+                    const py = Math.round(ly);
+
+                    const l_dx = px - cx;
+                    const l_dy = py - cy;
+                    if (l_dx * l_dx + l_dy * l_dy < R_s2) continue;
+
+                    const tw = 0.78 + 0.22 * Math.sin(time * 1.5 + s.tw * 22.0);
+                    // Stars become slightly more visible (more spread) in resume mode
+                    const lumBase = mix(0.13, 0.18, t);
+                    const lum = (lumBase + (1 - s.depth) * 0.11) * tw;
+                    const starSize = s.depth > 0.94 ? 2 : 1;
+                    const threshold = starSize === 2 ? 0.955 : 0.985;
+                    if (lum > bayer(px, py) * threshold) {
+                        const [r, g, b] = starColor(s.depth, s.tw, lum);
+                        writePixel(px, py, r, g, b, starSize);
+                    }
+                }
+
+                // 2. Draw Black Hole + Jets
+                for (let y = 0; y < H; y++) {
+                    for (let x = 0; x < W; x++) {
+                        const dx = x - cx;
+                        const dy = y - cy;
+
+                        const rx = dx * ca - dy * sa;
+                        const ry = dx * sa + dy * ca;
+                        const r = Math.hypot(rx, ry);
+                        const disk_r = Math.hypot(rx, ry / tilt);
+
+                        // Event Horizon pure black mask
+                        if (r <= R_shadow) {
+                            const isFrontDisk = (ry > 0 && disk_r >= R_inner);
+                            if (!isFrontDisk) {
+                                writePixel(x, y, 0, 0, 0, 1);
+                                continue;
+                            }
+                        }
+
+                        let brightness = 0;
+
+                        // Gravitational Lensing Halo
+                        if (r > R_shadow) {
+                            let hDist = r - R_shadow;
+                            let topWeight = clamp(0.5 - 0.6 * (ry / r), 0, 1);
+                            // Tighter halo profile in resume mode (denser glow)
+                            const haloSpread = mix(0.15, 0.04, t);
+                            let hProfile = Math.exp(-hDist * hDist / (R_shadow * R_shadow * haloSpread));
+                            let doppler = clamp(1.0 - 0.5 * (rx / (R_shadow * 1.2)), 0.4, 2.5);
+                            let hAngle = Math.atan2(ry, rx);
+                            let spiralTh = hAngle + time * 3.5;
+                            let noise = fbm(spiralTh * 4.0, hDist * 0.3 - time, 2);
+                            brightness += hProfile * (0.2 + 0.8 * topWeight) * doppler * (0.4 + 1.2 * noise) * 2.0 * diskMult * haloMult;
+                        }
+
+                        // Flat Volumetric Accretion Disk
+                        if (disk_r >= R_inner) {
+                            let dDist = disk_r - R_inner;
+                            let dProfile = Math.exp(-dDist * dDist / (R_inner * R_inner * 3.5));
+                            dProfile += 0.2 * Math.exp(-dDist * dDist / (R_inner * R_inner * 12.0));
+                            let doppler = clamp(1.0 - 0.85 * (rx / R_inner), 0.1, 3.0);
+                            let dAngle = Math.atan2(ry / tilt, rx);
+                            let rotSpeed = 1.0 + 1.8 * (R_inner / disk_r);
+                            let spiralTh = dAngle + rotSpeed * time * 0.8;
+                            let noise = fbm(disk_r * 0.05 - time * 0.3, spiralTh * 6.0, 3);
+                            let streams = Math.pow(0.5 + 0.5 * Math.sin(spiralTh * 10.0 - disk_r * 0.1), 2.0);
+                            let diskInt = dProfile * doppler * (0.3 + 0.7 * noise) * (0.4 + 0.6 * streams) * 3.0;
+                            if (!(ry < 0 && r <= R_shadow)) brightness += diskInt * diskMult * haloMult;
+                        }
+
+                        // Photon ring
+                        if (Math.abs(r - R_shadow) < W * 0.003) {
+                            let doppler = clamp(1.0 - 0.8 * (rx / R_shadow), 0.2, 3.0);
+                            brightness += 1.0 * doppler * diskMult * haloMult;
+                        }
+
+                        // ── Relativistic Jets (M87-style, fade in with t) ─────
+                        if (t > 0.01) {
+                            // Primary jet: toward lower-left (matches image diagonal)
+                            // Counter-jet: upper-right (more diffuse cloud)
+                            const JET_ANG = Math.PI * 1.18;
+                            const CTR_ANG = JET_ANG - Math.PI;
+
+                            for (let ji = 0; ji < 2; ji++) {
+                                const angle = ji === 0 ? JET_ANG : CTR_ANG;
+                                const isCounter = ji === 1;
+                                const cosA = Math.cos(angle);
+                                const sinA = Math.sin(angle);
+
+                                // Signed projection along jet axis
+                                const projLen = dx * cosA + dy * sinA;
+                                const minProj = R_shadow * 2.2;
+                                const maxProj = isCounter ? W * 0.24 : W * 0.62;
+                                if (projLen < minProj || projLen > maxProj) continue;
+
+                                // Perpendicular distance from jet axis
+                                const perpDist = Math.abs(-dx * sinA + dy * cosA);
+                                // Jet widens linearly with distance (cone)
+                                const halfW = R_shadow * 0.9 + projLen * 0.095;
+                                if (perpDist > halfW * 2.8) continue;
+
+                                const angFall = Math.exp(-perpDist * perpDist / (halfW * halfW * 0.55));
+                                const distFall = isCounter
+                                    ? Math.exp(-projLen / (W * 0.09)) * 0.55
+                                    : Math.pow((R_shadow * 3.5) / (projLen + R_shadow), 1.05)
+                                    * Math.exp(-projLen / (W * 0.52));
+
+                                const jNoise = fbm(projLen * 0.022 - time * 0.14,
+                                    perpDist * 0.038 + time * 0.09, 3);
+                                // Bright knots along primary jet
+                                const knots = isCounter ? 0.9
+                                    : Math.pow(0.5 + 0.5 * Math.sin(projLen * 0.052 - time * 0.95), 2.5);
+
+                                let jb = angFall * distFall
+                                    * (0.22 + 0.78 * jNoise)
+                                    * (0.32 + 0.68 * knots)
+                                    * (isCounter ? 1.1 : 2.4)
+                                    * t;
+                                brightness += jb;
+                            }
+                        }
+
+                        if (brightness > 0) {
+                            brightness *= 0.85 + 0.15 * h(x, y, 9);
+                            brightness = clamp(brightness, 0, 3.0);
+                            let density = clamp(brightness * 0.7, 0, 1.1);
+                            if (density > bayer(x, y)) {
+                                const [rC, gC, bC] = diskColor(brightness);
+                                const size = brightness > 1.8 ? 2 : 1;
+                                writePixel(x, y, rC, gC, bC, size);
+                            }
+                        }
+                    }
+                }
+
+                ctx.putImageData(img, 0, 0);
+                time += 0.005;
+                requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', resize, { passive: true });
+            resize();
+            draw();
+        })();
     </script>
 
     <div class="datetime-display" id="datetime-display"></div>
@@ -970,7 +1252,7 @@
                     Recognition</a></span></div>
         <div class="project-list-item"><span class="project-inner"><span class="project-number">002</span><a
                     href="https://github.com/prxkc/healthcare-rag-assistant" target="_blank">Healthcare RAG Assistant
-                    </a></span></div>
+                </a></span></div>
         <div class="project-list-item"><span class="project-inner"><span class="project-number">003</span><a
                     href="https://tododo-mocha.vercel.app/" target="_blank">Dependency-aware To-do
                     App</a></span></div>
@@ -980,10 +1262,28 @@
     <!-- Profiles list -->
     <div class="profiles-list" id="profiles-list">
         <div class="profiles-list-heading"><span class="profile-inner">PROFILES</span></div>
-        <div class="profiles-list-item"><span class="profile-inner"><a href="https://github.com/prxkc" target="_blank">GitHub</a></span></div>
-        <div class="profiles-list-item"><span class="profile-inner"><a href="https://linkedin.com/in/shkl" target="_blank">Linkedin</a></span></div>
-        <div class="profiles-list-item"><span class="profile-inner"><a href="https://hackerone.com/prxkc" target="_blank">HackerOne</a></span></div>
-        <div class="profiles-list-item"><span class="profile-inner"><a href="https://app.intigriti.com/profile/pr0xy_" target="_blank">Intigriti</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://github.com/prxkc"
+                    target="_blank"><span class="profile-icon"><svg viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                        </svg></span>GitHub</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://linkedin.com/in/shkl"
+                    target="_blank"><span class="profile-icon"><svg viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg></span>LinkedIn</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://hackerone.com/prxkc"
+                    target="_blank"><span class="profile-icon"><img src="HackerOne-Logos/h1_mark_white.png"
+                            alt="HackerOne" style="width: 100%; height: 100%; object-fit: contain;"
+                            class="png-icon" /></span>HackerOne</a></span></div>
+        <div class="profiles-list-item"><span class="profile-inner"><a href="https://app.intigriti.com/profile/pr0xy_"
+                    target="_blank"><span class="profile-icon"><svg viewBox="0 0 24 24" role="img"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.913 6.036c-1.105.574-3.763 1.924-5.9 3.009-3.773 1.913-7.026 3.593-7.111 3.667-.032.022.01.404.085.861.574 3.413 2.147 6.453 4.316 8.356l.69.616.692-.595c1.839-1.616 3.327-4.22 4.05-7.059.149-.563.276-1.307.287-1.647l.021-.617-2.955-1.53-.734.371c-.393.202-.723.394-.723.426 0 .032.67.393 1.489.797l1.488.733-.064.383c-.393 2.169-1.616 4.752-2.923 6.187l-.606.67-.447-.426c-.924-.893-1.934-2.615-2.519-4.305-.33-.946-.723-2.434-.659-2.487.021-.022 3.04-1.542 6.708-3.391l6.654-3.37.213.35c.67 1.085.723 2.541.138 3.732-.648 1.318-1.754 1.988-3.37 2.062l-.978.043-.064.319a4.73 4.73 0 0 0-.063.68c0 .319.032.361.382.425.574.107 1.765-.032 2.456-.287 1.68-.627 2.849-1.913 3.37-3.731.446-1.563-.032-3.423-1.265-4.848-.213-.244-.447-.446-.51-.446-.075.01-1.032.478-2.148 1.052zm-18.54-.552C.184 6.876-.262 8.62.152 10.235c.468 1.808 1.659 3.136 3.37 3.774.691.255 1.882.393 2.456.287.414-.085.457-.202.319-1.03l-.064-.394-.978-.043c-1.626-.074-2.721-.744-3.38-2.083-.574-1.148-.532-2.541.085-3.615l.265-.457L6.073 8.63l3.858 1.956.713-.35c.393-.203.712-.405.712-.447 0-.064-9.344-4.805-9.482-4.805-.043 0-.266.223-.5.5zm6.315-3.615-.265.404.233.064c.691.18 1.69.957 2.105 1.637l.213.34-.595.883c-.596.893-1.212 2.03-1.212 2.232 0 .096.956.638 1.137.638.043 0 .287-.404.532-.883.531-1.041.956-1.658 1.658-2.402l.5-.531.446.478a10.213 10.213 0 0 1 1.69 2.424c.245.467.468.882.49.914.063.074 1.2-.542 1.2-.66 0-.19-.648-1.37-1.222-2.21l-.595-.872.223-.35c.33-.532 1.201-1.277 1.754-1.5.266-.117.478-.255.478-.308 0-.064-.106-.245-.244-.415l-.245-.297-.52.244c-.309.149-.872.585-1.34 1.053l-.808.808-.659-.606-.648-.617-.649.617-.659.616-.755-.765c-.606-.617-1.637-1.329-1.913-1.329-.032 0-.18.18-.33.393z" />
+                        </svg></span>Intigriti</a></span></div>
     </div>
 
     <!-- Generic section heading -->
@@ -996,23 +1296,29 @@
     <div class="top-right" style="position:fixed; top:60px; right:60px; z-index:100; opacity:0;" id="top-right">
         <nav id="nav-links" style="display:flex; gap:36px; align-items:center;">
             <a href="#about" class="link" id="about-btn">
-                <span class="mask"><div class="link-container">
-                    <span class="link-title1 title">About</span>
-                    <span class="link-title2 title">About</span>
-                </div></span>
+                <span class="mask">
+                    <div class="link-container">
+                        <span class="link-title1 title">About</span>
+                        <span class="link-title2 title">About</span>
+                    </div>
+                </span>
             </a>
             <a href="#resume" class="link" id="resume-btn">
-                <span class="mask"><div class="link-container">
-                    <span class="link-title1 title">Resume</span>
-                    <span class="link-title2 title">Resume</span>
-                </div></span>
+                <span class="mask">
+                    <div class="link-container">
+                        <span class="link-title1 title">Resume</span>
+                        <span class="link-title2 title">Resume</span>
+                    </div>
+                </span>
             </a>
         </nav>
         <button class="link" id="home-btn" style="display:none;">
-            <span class="mask"><div class="link-container">
-                <span class="link-title1 title">Home</span>
-                <span class="link-title2 title">Home</span>
-            </div></span>
+            <span class="mask">
+                <div class="link-container">
+                    <span class="link-title1 title">Home</span>
+                    <span class="link-title2 title">Home</span>
+                </div>
+            </span>
         </button>
     </div>
 
@@ -1027,9 +1333,15 @@
     <div class="page-section" id="about-section">
         <div class="section-wrapper">
             <div class="about-text">
-                <div class="split-line-wrapper"><div class="split-line">Hey — I'm Shakil, a CSE grad from BRAC University, based in Dhaka.</div></div>
-                <div class="split-line-wrapper"><div class="split-line">AI Engineer and web security enthusiast.</div></div>
-                <div class="split-line-wrapper"><div class="split-line">Gamer, but too busy to game.</div></div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">Hey — I'm Shakil, a CSE grad from BRAC University, based in Dhaka.</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">AI Engineer and web security enthusiast.</div>
+                </div>
+                <div class="split-line-wrapper">
+                    <div class="split-line">Gamer, but too busy to game.</div>
+                </div>
             </div>
 
             <div class="about-contact">
@@ -1039,13 +1351,19 @@
                 <div class="contact-row">
                     <div class="contact-row-inner">
                         <span class="contact-label">EMAIL</span>
-                        <span class="contact-value"><a href="/cdn-cgi/l/email-protection#e3908b82888a8f8a908f828e908b828d978ca3848e828a8fcd808c8e"><span class="__cf_email__" data-cfemail="f4879c959f9d989d87989599879c959a809bb49399959d98da979b99"><span class="__cf_email__" data-cfemail="f29b819e939f819a93999b9ec3c5b2959f939b9edc919d9f">[email&#160;protected]</span></span></a></span>
+                        <span class="contact-value"><a
+                                href="/cdn-cgi/l/email-protection#e3908b82888a8f8a908f828e908b828d978ca3848e828a8fcd808c8e"><span
+                                    class="__cf_email__"
+                                    data-cfemail="f4879c959f9d989d87989599879c959a809bb49399959d98da979b99"><span
+                                        class="__cf_email__"
+                                        data-cfemail="f29b819e939f819a93999b9ec3c5b2959f939b9edc919d9f">[email&#160;protected]</span></span></a></span>
                     </div>
                 </div>
                 <div class="contact-row">
                     <div class="contact-row-inner">
                         <span class="contact-label">LINKEDIN</span>
-                        <span class="contact-value"><a href="https://linkedin.com/in/shkl" target="https://linkedin.com/in/shkl">https://linkedin.com/in/shkl</a></span>
+                        <span class="contact-value"><a href="https://linkedin.com/in/shkl"
+                                target="https://linkedin.com/in/shkl">https://linkedin.com/in/shkl</a></span>
                     </div>
                 </div>
             </div>
@@ -1076,8 +1394,10 @@
                         </div>
                         <div class="resume-entry-org">B.Sc. in Computer Science & Engineering, Dhaka</div>
                         <ul class="resume-entry-bullets">
-                            <li>Thesis: A Comparative Malware Analysis of XWorm and Nanocore — Enhanced Detection Strategies</li>
-                            <li>Coursework: AI, Neural Networks, Data Science, Algorithms, System Design, Ethical Hacking</li>
+                            <li>Thesis: A Comparative Malware Analysis of XWorm and Nanocore — Enhanced Detection
+                                Strategies</li>
+                            <li>Coursework: AI, Neural Networks, Data Science, Algorithms, System Design, Ethical
+                                Hacking</li>
                         </ul>
                     </div>
                 </div>
@@ -1096,9 +1416,14 @@
                         </div>
                         <div class="resume-entry-org">Periscope Labs Limited · Dhaka</div>
                         <ul class="resume-entry-bullets">
-                            <li>Built agentic AI validation system for trade documents using RAG with multi-LLM orchestration (OpenAI, Mistral AI) and Weaviate, reducing manual review by 70%.</li>
-                            <li>Led loan-approval prediction platform — EDA, feature engineering, XGBoost/CatBoost models improving F1 from ~0.51 to ~0.79 (AUC-ROC ~0.84); added SHAP explainability, increasing daily processing from ~30 to ~200 applications.</li>
-                            <li>Productionized log analytics &amp; anomaly detection (Isolation Forest, Z-score/MAD) as async FastAPI service; migrated to Parquet + Polars, reducing parse time from 15 min to ~4 min.</li>
+                            <li>Built agentic AI validation system for trade documents using RAG with multi-LLM
+                                orchestration (OpenAI, Mistral AI) and Weaviate, reducing manual review by 70%.</li>
+                            <li>Led loan-approval prediction platform — EDA, feature engineering, XGBoost/CatBoost
+                                models improving F1 from ~0.51 to ~0.79 (AUC-ROC ~0.84); added SHAP explainability,
+                                increasing daily processing from ~30 to ~200 applications.</li>
+                            <li>Productionized log analytics &amp; anomaly detection (Isolation Forest, Z-score/MAD) as
+                                async FastAPI service; migrated to Parquet + Polars, reducing parse time from 15 min to
+                                ~4 min.</li>
                         </ul>
                     </div>
                     <div class="resume-entry">
@@ -1110,8 +1435,11 @@
                         </div>
                         <div class="resume-entry-org">Intigriti · HackerOne · Bugcrowd · Remote</div>
                         <ul class="resume-entry-bullets">
-                            <li>Discovered critical SQL injection (marked Exceptional) in Ubisoft production systems; reported auth bypass (CVE-2019-20933), XSS, and client-side desync vulnerabilities across enterprise targets (Eurofins, DHL).</li>
-                            <li>Hall of Fame: Eurofins. Advanced reconnaissance to uncover authorization flaws and sensitive data exposure in production systems.</li>
+                            <li>Discovered critical SQL injection (marked Exceptional) in Ubisoft production systems;
+                                reported auth bypass (CVE-2019-20933), XSS, and client-side desync vulnerabilities
+                                across enterprise targets (Eurofins, DHL).</li>
+                            <li>Hall of Fame: Eurofins. Advanced reconnaissance to uncover authorization flaws and
+                                sensitive data exposure in production systems.</li>
                         </ul>
                     </div>
                     <div class="resume-entry">
@@ -1123,7 +1451,10 @@
                         </div>
                         <div class="resume-entry-org">PrimeStaff · Remote · Part-time</div>
                         <ul class="resume-entry-bullets">
-                            <li>Built Django backend for multi-channel recruiting platform with candidate/lead workflows, application stages, and admin panels. Implemented Celery + Selenium for scheduled scraping; developed React dashboards for admin and user-facing interfaces.</li>
+                            <li>Built Django backend for multi-channel recruiting platform with candidate/lead
+                                workflows, application stages, and admin panels. Implemented Celery + Selenium for
+                                scheduled scraping; developed React dashboards for admin and user-facing interfaces.
+                            </li>
                         </ul>
                     </div>
                     <div class="resume-entry">
@@ -1135,8 +1466,11 @@
                         </div>
                         <div class="resume-entry-org">R1 Research Institute · US, Dept. of Economics · Contract</div>
                         <ul class="resume-entry-bullets">
-                            <li>Engineered high-concurrency Python (AsyncIO) pipelines harvesting 67M+ records (property assessments, municipal data, corporate filings) — 99.9% retrieval rate, 70% throughput improvement.</li>
-                            <li>Built ETL workflows to deduplicate and normalize multi-source hierarchical datasets, reducing manual data cleaning by 80%.</li>
+                            <li>Engineered high-concurrency Python (AsyncIO) pipelines harvesting 67M+ records (property
+                                assessments, municipal data, corporate filings) — 99.9% retrieval rate, 70% throughput
+                                improvement.</li>
+                            <li>Built ETL workflows to deduplicate and normalize multi-source hierarchical datasets,
+                                reducing manual data cleaning by 80%.</li>
                         </ul>
                     </div>
                     <div class="resume-entry">
@@ -1148,8 +1482,11 @@
                         </div>
                         <div class="resume-entry-org">Upwork · Remote · Freelance</div>
                         <ul class="resume-entry-bullets">
-                            <li>Architected 3-tier data pipeline for environmental monitoring platform — 40+ years of historical data, real-time updates, Power BI dashboard with AQI calculations and time-series aggregations.</li>
-                            <li>Engineered high-concurrency Python scrapers for Yahoo Finance, Amazon, and X (Twitter) supporting financial sentiment analysis.</li>
+                            <li>Architected 3-tier data pipeline for environmental monitoring platform — 40+ years of
+                                historical data, real-time updates, Power BI dashboard with AQI calculations and
+                                time-series aggregations.</li>
+                            <li>Engineered high-concurrency Python scrapers for Yahoo Finance, Amazon, and X (Twitter)
+                                supporting financial sentiment analysis.</li>
                         </ul>
                     </div>
                 </div>
@@ -1166,10 +1503,14 @@
                             </div>
                         </div>
                         <div class="resume-entry-tags">
-                            <span class="resume-tag">Python</span><span class="resume-tag">FastAPI</span><span class="resume-tag">PostgreSQL</span><span class="resume-tag">SQLAlchemy</span><span class="resume-tag">Gemini</span>
+                            <span class="resume-tag">Python</span><span class="resume-tag">FastAPI</span><span
+                                class="resume-tag">PostgreSQL</span><span class="resume-tag">SQLAlchemy</span><span
+                                class="resume-tag">Gemini</span>
                         </div>
                         <ul class="resume-entry-bullets">
-                            <li>Production-ready NL→SQL platform with strict query sandboxing (SELECT-only, injection blocking, 5s timeout), 69 automated tests (92% coverage), 20-query benchmark with 0.992 average accuracy.</li>
+                            <li>Production-ready NL→SQL platform with strict query sandboxing (SELECT-only, injection
+                                blocking, 5s timeout), 69 automated tests (92% coverage), 20-query benchmark with 0.992
+                                average accuracy.</li>
                         </ul>
                     </div>
                     <div class="resume-entry">
@@ -1179,10 +1520,13 @@
                             </div>
                         </div>
                         <div class="resume-entry-tags">
-                            <span class="resume-tag">FastAPI</span><span class="resume-tag">FAISS</span><span class="resume-tag">Sentence-Transformer</span><span class="resume-tag">Gemini</span>
+                            <span class="resume-tag">FastAPI</span><span class="resume-tag">FAISS</span><span
+                                class="resume-tag">Sentence-Transformer</span><span class="resume-tag">Gemini</span>
                         </div>
                         <ul class="resume-entry-bullets">
-                            <li>Production REST API with RAG pipeline for multilingual medical Q&amp;A (EN/JP). Fully containerised, stateless beyond persisted FAISS index; 3-stage CI via GitHub Actions.</li>
+                            <li>Production REST API with RAG pipeline for multilingual medical Q&amp;A (EN/JP). Fully
+                                containerised, stateless beyond persisted FAISS index; 3-stage CI via GitHub Actions.
+                            </li>
                         </ul>
                     </div>
                     <div class="resume-entry">
@@ -1192,10 +1536,12 @@
                             </div>
                         </div>
                         <div class="resume-entry-tags">
-                            <span class="resume-tag">PyTorch</span><span class="resume-tag">EfficientNet-B0</span><span class="resume-tag">BiLSTM</span><span class="resume-tag">Mixed Precision</span>
+                            <span class="resume-tag">PyTorch</span><span class="resume-tag">EfficientNet-B0</span><span
+                                class="resume-tag">BiLSTM</span><span class="resume-tag">Mixed Precision</span>
                         </div>
                         <ul class="resume-entry-bullets">
-                            <li>Lightweight BiLSTM model (5.1M params) achieving 92.12% accuracy across 8-frame sequences — outperforms single-frame baseline by 43%, with 89% temporal stability.</li>
+                            <li>Lightweight BiLSTM model (5.1M params) achieving 92.12% accuracy across 8-frame
+                                sequences — outperforms single-frame baseline by 43%, with 89% temporal stability.</li>
                         </ul>
                     </div>
                 </div>
@@ -1237,7 +1583,9 @@
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
 
@@ -1252,36 +1600,36 @@
 
         function initTextAnimations() {
             const h1 = document.querySelector('.content-wrapper h1');
-            const p  = document.querySelector('.content-wrapper p');
+            const p = document.querySelector('.content-wrapper p');
             h1.textContent = 'Welcome!';
-            p.textContent  = 'Your content has loaded successfully with a beautiful animation.';
+            p.textContent = 'Your content has loaded successfully with a beautiful animation.';
             h1Split = new SplitText(h1, { type: "lines", linesClass: "line" });
-            pSplit  = new SplitText(p,  { type: "lines", linesClass: "line" });
-            gsap.set('#project-list .project-inner',  { yPercent: 110 });
+            pSplit = new SplitText(p, { type: "lines", linesClass: "line" });
+            gsap.set('#project-list .project-inner', { yPercent: 110 });
             gsap.set('#profiles-list .profile-inner', { yPercent: 110 });
         }
 
         function animateMainText() {
             if (h1Split?.lines) gsap.fromTo(h1Split.lines, { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.08, ease: "osmo-ease" });
-            if (pSplit?.lines)  gsap.fromTo(pSplit.lines,  { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.08, ease: "osmo-ease", delay: 0.2 });
+            if (pSplit?.lines) gsap.fromTo(pSplit.lines, { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.08, ease: "osmo-ease", delay: 0.2 });
         }
 
         // ── Section navigation ──────────────────────────────────────────
-        const navLinks       = document.getElementById('nav-links');
-        const homeBtn        = document.getElementById('home-btn');
-        const brandName      = document.getElementById('brand-name');
+        const navLinks = document.getElementById('nav-links');
+        const homeBtn = document.getElementById('home-btn');
+        const brandName = document.getElementById('brand-name');
         const sectionHeading = document.getElementById('section-heading');
-        const sectionTitle   = document.getElementById('section-title-text');
-        const mainContent    = document.querySelector('.main-content');
+        const sectionTitle = document.getElementById('section-title-text');
+        const mainContent = document.querySelector('.main-content');
 
         const TITLES = { about: 'ABOUT ME', resume: 'RESUME' };
-        let activeSection    = null;
-        let isTransitioning  = false;
+        let activeSection = null;
+        let isTransitioning = false;
 
         function showSection(name) {
             if (isTransitioning || activeSection === name) return;
             isTransitioning = true;
-            activeSection   = name;
+            activeSection = name;
             sectionTitle.textContent = TITLES[name];
 
             // Trigger background transition for resume section
@@ -1294,7 +1642,7 @@
                 yPercent: -110, duration: 0.55, stagger: 0.06, ease: 'power2.in',
                 onComplete: () => {
                     navLinks.style.display = 'none';
-                    homeBtn.style.display  = 'flex';
+                    homeBtn.style.display = 'flex';
                     gsap.set(homeBtn.querySelector('.link-container'), { yPercent: 110 });
                     gsap.to(homeBtn.querySelector('.link-container'), { yPercent: 0, duration: 0.8, ease: 'power2.out', clearProps: 'transform' });
                 }
@@ -1302,8 +1650,8 @@
 
             // Hide home widgets
             mainContent.style.display = 'none';
-            gsap.set(['#project-list','#profiles-list'], { opacity: 0 });
-            gsap.set('#project-list .project-inner',  { yPercent: 110 });
+            gsap.set(['#project-list', '#profiles-list'], { opacity: 0 });
+            gsap.set('#project-list .project-inner', { yPercent: 110 });
             gsap.set('#profiles-list .profile-inner', { yPercent: 110 });
 
             // Slide brand name out → section heading + content in
@@ -1315,11 +1663,12 @@
                     gsap.set(sectionTitle, { yPercent: 110 });
                     gsap.to(sectionTitle, { yPercent: 0, duration: 0.45, ease: 'power2.inOut' });
 
-                    const el    = document.getElementById(name + '-section');
+                    const el = document.getElementById(name + '-section');
                     el.classList.add('active');
                     const lines = el.querySelectorAll('.split-line, .sec-line');
-                    gsap.set(lines,  { yPercent: 110 });
-                    gsap.to(lines, { yPercent: 0, duration: 0.4, stagger: 0.07, ease: 'power2.inOut', delay: 0.15,
+                    gsap.set(lines, { yPercent: 110 });
+                    gsap.to(lines, {
+                        yPercent: 0, duration: 0.4, stagger: 0.07, ease: 'power2.inOut', delay: 0.15,
                         onComplete: () => { isTransitioning = false; }
                     });
                 }
@@ -1330,7 +1679,7 @@
             if (isTransitioning || !activeSection) return;
             isTransitioning = true;
             const leaving = activeSection;
-            activeSection  = null;
+            activeSection = null;
 
             // Restore home blackhole when leaving resume
             if (leaving === 'resume' && typeof window.setBlackholeMode === 'function') {
@@ -1341,7 +1690,7 @@
             gsap.to(homeBtn.querySelector('.link-container'), {
                 yPercent: -110, duration: 0.55, ease: 'power2.in',
                 onComplete: () => {
-                    homeBtn.style.display  = 'none';
+                    homeBtn.style.display = 'none';
                     navLinks.style.display = 'flex';
                     const cs = navLinks.querySelectorAll('.link-container');
                     gsap.set(cs, { yPercent: 110 });
@@ -1357,7 +1706,7 @@
             }
 
             // Slide section content out
-            const el    = document.getElementById(leaving + '-section');
+            const el = document.getElementById(leaving + '-section');
             const lines = el.querySelectorAll('.split-line, .sec-line');
             gsap.to(lines, {
                 yPercent: -110, duration: 0.35, stagger: 0.04, ease: 'power2.inOut',
@@ -1372,10 +1721,11 @@
                             gsap.to(brandName.querySelectorAll('.name-line'), { yPercent: 0, duration: 0.45, stagger: 0.05, ease: 'power2.inOut' });
 
                             mainContent.style.display = 'flex';
-                            gsap.to('#project-list',  { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.15 });
-                            gsap.to('#project-list .project-inner',  { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.25 });
+                            gsap.to('#project-list', { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.15 });
+                            gsap.to('#project-list .project-inner', { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.25 });
                             gsap.to('#profiles-list', { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.3 });
-                            gsap.to('#profiles-list .profile-inner', { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.4,
+                            gsap.to('#profiles-list .profile-inner', {
+                                yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'osmo-ease', delay: 0.4,
                                 onComplete: () => { isTransitioning = false; }
                             });
                         }
@@ -1384,13 +1734,13 @@
             });
         }
 
-        document.getElementById('about-btn').addEventListener('click',  e => { e.preventDefault(); showSection('about');  });
+        document.getElementById('about-btn').addEventListener('click', e => { e.preventDefault(); showSection('about'); });
         document.getElementById('resume-btn').addEventListener('click', e => { e.preventDefault(); showSection('resume'); });
         homeBtn.addEventListener('click', showHome);
 
-        brandName.style.cursor      = 'pointer';
+        brandName.style.cursor = 'pointer';
         sectionHeading.style.cursor = 'pointer';
-        brandName.addEventListener('click',      () => { if (activeSection) showHome(); });
+        brandName.addEventListener('click', () => { if (activeSection) showHome(); });
         sectionHeading.addEventListener('click', () => { if (activeSection) showHome(); });
 
         // Hide RESUME heading when scrolled, restore at top
@@ -1406,9 +1756,9 @@
         // Spring-based CountUp (mirrors CountUp component physics)
         const percentEl = document.querySelector('.loader-percentage');
 
-        const duration  = 2;
+        const duration = 2;
         const stiffness = 100 * (1 / duration); // 50
-        const damping   = 20 + 40 * (1 / duration); // 40
+        const damping = 20 + 40 * (1 / duration); // 40
 
         let position = 0;
         let velocity = 0;
@@ -1500,18 +1850,18 @@
     </script>
     <script>
         // Live clock
-        const MONTHS = ['January','February','March','April','May','June',
-                         'July','August','September','October','November','December'];
+        const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
         const clockEl = document.getElementById('datetime-display');
 
         function updateClock() {
             const now = new Date();
-            const month   = MONTHS[now.getMonth()];
-            const day     = now.getDate();
-            const year    = now.getFullYear();
-            const h24     = now.getHours();
-            const ampm    = h24 >= 12 ? 'PM' : 'AM';
-            const hours   = String(h24 % 12 || 12).padStart(2, '0');
+            const month = MONTHS[now.getMonth()];
+            const day = now.getDate();
+            const year = now.getFullYear();
+            const h24 = now.getHours();
+            const ampm = h24 >= 12 ? 'PM' : 'AM';
+            const hours = String(h24 % 12 || 12).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             clockEl.textContent = `[ ${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${ampm} ]`;
@@ -1522,4 +1872,4 @@
     </script>
 </body>
 
-</html>     
+</html>
