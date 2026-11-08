@@ -1,4 +1,6 @@
 import '../pages.js';
+import './clock.js';
+import './paper.js';
 
 // Make navigation usable before loading the optional 3D environment.
 requestAnimationFrame(() => {

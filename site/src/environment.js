@@ -2,8 +2,35 @@ import * as THREE from 'three';
 import { createBlind } from './blind.js';
 import { SimplexNoise } from 'three/addons/math/SimplexNoise.js';
 
+// Paper letters lifted off the wall (src/paper.js) throw their shadows here.
+// They hold back only the direct sun, after the window and the leaves have
+// had their say, so a letter's shadow disappears where the wall is in shade.
+const PAPER_UNIFORMS = `
+uniform sampler2D uPaper;
+uniform vec4 uPaperRect;
+uniform vec2 uPaperView;
+uniform float uPaperOn;`;
+const SUN_SHADOW = /(vDirectionalShadowCoord\[ i \] \) : 1\.0;\s*#endif)/;
+function paperLights() {
+  const chunk = THREE.ShaderChunk.lights_fragment_begin;
+  if (!SUN_SHADOW.test(chunk)) console.warn('Paper shadows are off: unexpected three.js light chunk.');
+  return `
+float paperShade = 0.0;
+if ( uPaperOn > 0.5 ) {
+	vec2 css = vec2( gl_FragCoord.x, uPaperView.x - gl_FragCoord.y ) / uPaperView.y;
+	vec2 st = ( css - uPaperRect.xy ) / uPaperRect.zw;
+	if ( st.x > 0.0 && st.x < 1.0 && st.y > 0.0 && st.y < 1.0 ) paperShade = texture2D( uPaper, vec2( st.x, 1.0 - st.y ) ).a;
+}
+${chunk.replace(SUN_SHADOW, '$1\n\t\tdirectLight.color *= 1.0 - paperShade;')}`;
+}
+// The window's skylight comes from the same side, so a lifted letter still
+// throws a faint shadow where the sun does not reach.
+const PAPER_SKY = `
+reflectedLight.directDiffuse *= 1.0 - paperShade * 0.3;
+reflectedLight.indirectDiffuse *= 1.0 - paperShade * 0.3;`;
+
 // Painted plaster: shallow variations in the actual surface, not a grain overlay.
-export function createWall() {
+export function createWall(paper) {
   let seed = 7812;
   const random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
   const noise = new SimplexNoise({ random });
@@ -51,12 +78,14 @@ export function createWall() {
   // Sunlight remains untouched: the corner does not paint a dark stripe over it.
   material.onBeforeCompile = shader => {
     shader.uniforms.uCrease = crease;
+    if (paper) Object.assign(shader.uniforms, paper);
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nuniform float uCrease;\nvarying float vCreaseDistance;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvCreaseDistance = position.x - uCrease;');
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying float vCreaseDistance;')
-      .replace('#include <lights_fragment_end>', '#include <lights_fragment_end>\nreflectedLight.indirectDiffuse *= 1.0 - 0.13 * exp(-abs(vCreaseDistance) * 7.0);');
+      .replace('#include <common>', `#include <common>\nvarying float vCreaseDistance;${paper ? PAPER_UNIFORMS : ''}`)
+      .replace('#include <lights_fragment_begin>', paper ? paperLights() : '#include <lights_fragment_begin>')
+      .replace('#include <lights_fragment_end>', `#include <lights_fragment_end>${paper ? PAPER_SKY : ''}\nreflectedLight.indirectDiffuse *= 1.0 - 0.13 * exp(-abs(vCreaseDistance) * 7.0);`);
   };
   const wall = new THREE.Mesh(surface, material);
   wall.receiveShadow = true;

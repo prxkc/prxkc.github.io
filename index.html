@@ -6,10 +6,28 @@
   <title>Shakil</title>
   <meta name="description" content="Shakil — AI/ML Engineer researching web security using my own harness and autonomous workflow.">
   <meta name="theme-color" content="#e9e3d8">
-  <link rel="icon" href="/assets/favicon-B4cviaNI.svg" type="image/svg+xml">
-
-  <script type="module" crossorigin src="/assets/index-B-xvt-Y2.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BfzD-RNa.css">
+  <link rel="canonical" href="https://prxkc.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Shakil">
+  <meta property="og:title" content="Shakil">
+  <meta property="og:description" content="A wannabe computer wizard. AI/ML Engineer researching web security using my own harness and autonomous workflow.">
+  <meta property="og:url" content="https://prxkc.github.io/">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="/assets/favicon-4R2yHbz2.svg" type="image/svg+xml">
+  <script>
+    // Choose the page before first paint; without scripts every page is shown in turn.
+    (function (root) {
+      var match = /^#(experience|wins|work|elsewhere)$/.exec(location.hash);
+      root.dataset.page = match ? match[1] : 'home';
+    })(document.documentElement);
+  </script>
+  <script type="application/ld+json">
+    {"@context": "https://schema.org", "@type": "Person", "name": "Shakil", "url": "https://prxkc.github.io/",
+     "jobTitle": "AI/ML Engineer", "sameAs": ["https://github.com/prxkc", "https://www.linkedin.com/in/shkl"]}
+  </script>
+
+  <script type="module" crossorigin src="/assets/index-DXj6E4Oy.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BV24JuYU.css">
 </head>
 <body>
   <div class="daylight" aria-hidden="true"></div>
@@ -17,93 +35,142 @@
   <div class="wall">
     <header class="masthead">
       <h1 class="site-name"><a href="#home">Shakil</a></h1>
+      <p class="clock" hidden><time id="clock-time"></time>, <span id="clock-light">afternoon light</span></p>
     </header>
 
     <main class="stage">
       <figure class="exhibit">
-        <img src="/assets/portrait-CjQyJLGr.jpg" width="640" height="640" alt="A plush witch with two glowing eyes, photographed in red light">
+        <img src="/assets/portrait-256-B8xmnXhf.jpg" width="256" height="256" alt="A plush witch with two glowing eyes, photographed in red light">
+        <span class="eyes" aria-hidden="true"><i></i><i></i></span>
       </figure>
 
       <section class="page" id="home" data-title="Home" aria-label="Home">
-        <p>Hello! I am Shakil. A wannabe computer wizard.</p>
-        <p>Building and breaking stuff with AI. To be more formal, I am AI/ML Engineer currently doing web security research using my own harness and autonomous workflow.</p>
+        <p class="lede">Hello! I am Shakil. A wannabe computer wizard.</p>
+        <p>Building and breaking stuff with AI. To be more formal, I am an AI/ML Engineer currently doing web security research using my own harness and autonomous workflow.</p>
         <p class="home__links">A few <a href="#wins">small wins</a>, some <a href="#work">work</a>, and where to <a href="#elsewhere">find me</a>.</p>
       </section>
 
-      <section class="page" id="experience" data-title="Experience" aria-label="Experience" hidden>
-        <ol class="timeline">
-          <li>
-            <span class="timeline__year"><time datetime="2023">2023</time>–present</span>
-            <span class="timeline__role">Security Researcher <span class="timeline__at">· Intigriti, HackerOne &amp; Bugcrowd</span></span>
+      <section class="page" id="experience" data-title="Experience" aria-labelledby="experience-title">
+        <header class="page__head">
+          <h2 class="page__title" id="experience-title">Experience</h2>
+        </header>
+        <ol class="ledger timeline">
+          <li class="is-now">
+            <span class="ledger__key"><time datetime="2023">2023</time>–now</span>
+            <div class="ledger__body">
+              <p class="ledger__title">Security Researcher</p>
+              <p class="ledger__note">Intigriti, HackerOne &amp; Bugcrowd</p>
+            </div>
           </li>
           <li>
-            <span class="timeline__year"><time datetime="2025">2025</time></span>
-            <span class="timeline__role">Backend Engineer <span class="timeline__at">· PrimeStaff</span></span>
+            <span class="ledger__key"><time datetime="2025">2025</time></span>
+            <div class="ledger__body">
+              <p class="ledger__title">Backend Engineer</p>
+              <p class="ledger__note">PrimeStaff</p>
+            </div>
           </li>
           <li>
-            <span class="timeline__year"><time datetime="2024">2024</time>–<time datetime="2025">2025</time></span>
-            <span class="timeline__role">Software Engineer <span class="timeline__at">· Periscope Labs</span></span>
+            <span class="ledger__key"><time datetime="2024">2024</time>–<time datetime="2025">2025</time></span>
+            <div class="ledger__body">
+              <p class="ledger__title">Software Engineer</p>
+              <p class="ledger__note">Periscope Labs</p>
+            </div>
           </li>
           <li>
-            <span class="timeline__year"><time datetime="2021">2021</time>–<time datetime="2022">2022</time></span>
-            <span class="timeline__role">Research Data Engineer <span class="timeline__at">· R1 Research Institute</span></span>
+            <span class="ledger__key"><time datetime="2021">2021</time>–<time datetime="2022">2022</time></span>
+            <div class="ledger__body">
+              <p class="ledger__title">Research Data Engineer</p>
+              <p class="ledger__note">R1 Research Institute</p>
+            </div>
           </li>
           <li>
-            <span class="timeline__year"><time datetime="2020">2020</time>–<time datetime="2024">2024</time></span>
-            <span class="timeline__role">Freelance Data Engineer <span class="timeline__at">· Upwork</span></span>
+            <span class="ledger__key"><time datetime="2020">2020</time>–<time datetime="2024">2024</time></span>
+            <div class="ledger__body">
+              <p class="ledger__title">Freelance Data Engineer</p>
+              <p class="ledger__note">Upwork</p>
+            </div>
           </li>
         </ol>
       </section>
 
-      <section class="page" id="wins" data-title="Small wins" aria-label="Small wins" hidden>
-        <ul class="wins">
-          <li class="win">
-            <div class="win__text"><p class="win__title">AT&amp;T bug bounty program</p><p class="win__note"><time datetime="2026">2026</time></p></div>
-            <span class="win__result">#2</span>
+      <section class="page" id="wins" data-title="Small wins" aria-labelledby="wins-title">
+        <header class="page__head">
+          <h2 class="page__title" id="wins-title">Small wins</h2>
+        </header>
+        <ul class="ledger wins">
+          <li>
+            <span class="ledger__key">#2</span>
+            <div class="ledger__body">
+              <p class="ledger__title">AT&amp;T bug bounty program</p>
+              <p class="ledger__note"><time datetime="2026">2026</time></p>
+            </div>
           </li>
-          <li class="win">
-            <div class="win__text"><p class="win__title">Bangladesh leaderboard</p><p class="win__note">Q2 &amp; Q3</p></div>
-            <span class="win__result">Top 5</span>
+          <li>
+            <span class="ledger__key">Top 5</span>
+            <div class="ledger__body">
+              <p class="ledger__title">Bangladesh leaderboard</p>
+              <p class="ledger__note">Q2 &amp; Q3</p>
+            </div>
           </li>
-          <li class="win">
-            <div class="win__text"><p class="win__title">Companies secured</p><p class="win__note">Ubisoft, DHL, Eurofins, AT&amp;T, Sky, Adjust</p></div>
-          </li>
-        </ul>
-      </section>
-
-      <section class="page" id="work" data-title="Selected work" aria-label="Selected work" hidden>
-        <ul class="projects">
-          <li class="project">
-            <h2 class="project__head"><a href="https://github.com/prxkc/healthcare-rag-assistant"><span>Healthcare RAG Assistant</span><span class="project__arrow" aria-hidden="true">↗</span></a></h2>
-            <p class="project__desc">Answers questions from English and Japanese medical documents using retrieval-augmented generation.</p>
-            <p class="project__meta">FastAPI · FAISS · Gemini</p>
-          </li>
-          <li class="project">
-            <h2 class="project__head"><a href="https://huggingface.co/prxkc/jersey-number-recognition"><span>Temporal Jersey Number Recognition</span><span class="project__arrow" aria-hidden="true">↗</span></a></h2>
-            <p class="project__desc">Recognizes jersey numbers across video frames, with 92.12% accuracy.</p>
-            <p class="project__meta">PyTorch · EfficientNet-B0 · BiLSTM</p>
-          </li>
-          <li class="project">
-            <h2 class="project__head"><a href="https://github.com/prxkc/text-to-sql-analytics"><span>Text2SQL Analytics System</span><span class="project__arrow" aria-hidden="true">↗</span></a></h2>
-            <p class="project__desc">Turns natural-language questions into read-only SQL, with query safeguards and 69 automated tests.</p>
-            <p class="project__meta">FastAPI · PostgreSQL · Gemini</p>
+          <li>
+            <span class="ledger__key">6</span>
+            <div class="ledger__body">
+              <p class="ledger__title">Companies secured</p>
+              <p class="ledger__note">Ubisoft, DHL, Eurofins, AT&amp;T, Sky, Adjust</p>
+            </div>
           </li>
         </ul>
       </section>
 
-      <section class="page" id="elsewhere" data-title="Elsewhere" aria-label="Elsewhere" hidden>
-        <ul class="places">
-          <li><a href="https://github.com/prxkc">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/shkl">LinkedIn</a></li>
-          <li><a href="https://huggingface.co/prxkc/jersey-number-recognition">Hugging Face</a></li>
-          <li><a href="https://www.upwork.com/freelancers/~01df910394150b398f">Upwork</a></li>
-          <li><a href="mailto:islamshakil17@gmail.com">Email</a></li>
+      <section class="page" id="work" data-title="Selected work" aria-labelledby="work-title">
+        <header class="page__head">
+          <h2 class="page__title" id="work-title">Selected work</h2>
+        </header>
+        <ol class="ledger projects">
+          <li>
+            <div class="ledger__body">
+              <h3 class="ledger__title"><a href="https://github.com/prxkc/healthcare-rag-assistant"><span class="link-text">Healthcare RAG Assistant</span><span class="arrow" aria-hidden="true">↗</span></a></h3>
+              <p class="project__desc">Answers questions from English and Japanese medical documents using retrieval-augmented generation.</p>
+              <p class="ledger__note">FastAPI · FAISS · Gemini <span class="project__host">on GitHub</span></p>
+            </div>
+          </li>
+          <li>
+            <div class="ledger__body">
+              <h3 class="ledger__title"><a href="https://huggingface.co/prxkc/jersey-number-recognition"><span class="link-text">Temporal Jersey Number Recognition</span><span class="arrow" aria-hidden="true">↗</span></a></h3>
+              <p class="project__desc">Recognizes jersey numbers across video frames, with 92.12% accuracy.</p>
+              <p class="ledger__note">PyTorch · EfficientNet-B0 · BiLSTM <span class="project__host">on Hugging Face</span></p>
+            </div>
+          </li>
+          <li>
+            <div class="ledger__body">
+              <h3 class="ledger__title"><a href="https://github.com/prxkc/text-to-sql-analytics"><span class="link-text">Text2SQL Analytics System</span><span class="arrow" aria-hidden="true">↗</span></a></h3>
+              <p class="project__desc">Turns natural-language questions into read-only SQL, with query safeguards and 69 automated tests.</p>
+              <p class="ledger__note">FastAPI · PostgreSQL · Gemini <span class="project__host">on GitHub</span></p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="page" id="elsewhere" data-title="Elsewhere" aria-labelledby="elsewhere-title">
+        <header class="page__head">
+          <h2 class="page__title" id="elsewhere-title">Elsewhere</h2>
+        </header>
+        <ul class="ledger places">
+          <li><a class="place" href="https://github.com/prxkc"><span class="ledger__key">GitHub</span><span class="place__value"><span class="link-text">prxkc</span><span class="arrow" aria-hidden="true">↗</span></span></a></li>
+          <li><a class="place" href="https://www.linkedin.com/in/shkl"><span class="ledger__key">LinkedIn</span><span class="place__value"><span class="link-text">shkl</span><span class="arrow" aria-hidden="true">↗</span></span></a></li>
+          <li><a class="place" href="https://huggingface.co/prxkc"><span class="ledger__key">Hugging Face</span><span class="place__value"><span class="link-text">prxkc</span><span class="arrow" aria-hidden="true">↗</span></span></a></li>
+          <li><a class="place" href="https://www.upwork.com/freelancers/~01df910394150b398f"><span class="ledger__key">Upwork</span><span class="place__value"><span class="link-text">Freelance profile</span><span class="arrow" aria-hidden="true">↗</span></span></a></li>
+          <li><a class="place" href="mailto:islamshakil17@gmail.com"><span class="ledger__key">Email</span><span class="place__value"><span class="link-text">islamshakil17@gmail.com</span></span></a><button class="copy" type="button" data-copy="islamshakil17@gmail.com" aria-label="Copy email address" hidden>copy</button></li>
         </ul>
+        <p class="visually-hidden" id="copy-status" role="status"></p>
       </section>
     </main>
 
     <footer class="foot">
-      <p class="colophon"><span>© 2026</span><button class="cord" id="blind-toggle" type="button" aria-pressed="false" hidden>lower the blind</button></p>
+      <p class="colophon">
+        <span>© 2026</span>
+        <button class="cord" id="blind-toggle" type="button" aria-pressed="false" hidden>lower the blind</button>
+      </p>
       <nav class="index" aria-label="Pages">
         <a href="#experience">experience</a>
         <a href="#wins">small wins</a>

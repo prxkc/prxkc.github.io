@@ -156,16 +156,37 @@ export function createFoliage(material) {
           root.y + root.depth / 2, root.depth);
       }
     },
-    update(time, dt) {
+    // `gust.strength` is a local stir around a point on the wall (the pointer),
+    // `gust.all` a light breeze through every branch. `slope` carries the sun's
+    // direction, so each leaf is judged by where its shadow lands rather than
+    // where the leaf itself hangs outside the window.
+    update(time, dt, gust, slope) {
+      const stirring = gust && gust.strength > 0.002;
+      const everywhere = gust && gust.all > 0.002 ? gust.all : 0;
+      const reach = 2 * 1.15 * 1.15;
+      const stir = (matrix) => {
+        const e = matrix.elements;
+        const dx = e[12] + e[14] * slope.x - gust.x;
+        const dy = e[13] + e[14] * slope.y - gust.y;
+        return gust.strength * Math.exp(-(dx * dx + dy * dy) / reach);
+      };
       for (const joint of joints) {
         const breeze = noise.noise((time - joint.lag) * 0.075, 4.2) * 0.82
           + noise.noise(time * 0.15, joint.phase) * 0.18;
+        const force = (stirring ? stir(joint.object.matrixWorld) : 0) + everywhere * 0.6;
+        const push = force ? force * noise.noise(time * 1.6, joint.phase + 9) * 7 : 0;
         joint.object.rotation.z = THREE.MathUtils.damp(joint.object.rotation.z,
-          joint.rest + breeze * joint.flexibility, 2.1, dt);
+          joint.rest + (breeze + push) * joint.flexibility, 2.1, dt);
       }
       for (const items of leaves) for (const leaf of items) {
-        leaf.object.rotation.x = leaf.x + noise.noise(time * 0.26, leaf.phase) * 0.075;
-        leaf.object.rotation.y = leaf.y + noise.noise(time * 0.32, leaf.phase + 2) * 0.13;
+        let flutterX = 0, flutterY = 0;
+        const flutter = Math.max(stirring ? stir(leaf.object.matrixWorld) : 0, everywhere * 0.55);
+        if (flutter > 0.001) {
+          flutterX = noise.noise(time * 2.3, leaf.phase + 5) * 0.42 * flutter;
+          flutterY = noise.noise(time * 2.9, leaf.phase + 7) * 0.62 * flutter;
+        }
+        leaf.object.rotation.x = leaf.x + noise.noise(time * 0.26, leaf.phase) * 0.075 + flutterX;
+        leaf.object.rotation.y = leaf.y + noise.noise(time * 0.32, leaf.phase + 2) * 0.13 + flutterY;
         leaf.object.rotation.z = leaf.z + noise.noise(time * 0.17, leaf.phase + 1) * 0.023;
       }
     },

@@ -1,25 +1,33 @@
-@font-face { font-family: 'Crimson Pro Variable'; src: url('@fontsource-variable/crimson-pro/files/crimson-pro-latin-wght-normal.woff2') format('woff2'); font-weight: 200 900; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Crimson Pro Variable'; src: url('@fontsource-variable/crimson-pro/files/crimson-pro-latin-wght-italic.woff2') format('woff2'); font-weight: 200 900; font-style: italic; font-display: swap; }
-/* Quiet type on a wall lit by the Three.js scene. */
+@font-face { font-family: 'Inter'; src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: swap; }
+/* Quiet type on a wall lit by the Three.js scene: Inter, small and unhurried,
+   with hierarchy from weight and tone rather than size. */
 :root {
   --paper: #faf6ee;
-  --ink: #39362e;
-  --muted: #716b60;
-  --line: rgb(57 54 46 / 19%);
+  --ink: #36332b;
+  --muted: #6e685c;
+  --faint: #918a7d;
+  --line: rgb(54 51 43 / 19%);
   --accent: #7e4c2f;
   --ease: cubic-bezier(.2,.65,.3,1);
-  --text-body: 14px;
-  --text-caption: 12px;
-  --text-heading: 16px;
-  font-family: 'Crimson Pro Variable', Georgia, serif;
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  /* Motion: a crisp in-out for things that slide, a soft overshoot for things that pop. */
+  --glide: cubic-bezier(.76,0,.24,1);
+  --spring: cubic-bezier(.34,1.56,.64,1);
+  --text-body: 13px;
+  --text-caption: 11.5px;
+  --text-heading: var(--text-body);
+  --key: 7.2em;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-feature-settings: 'cv11';
   font-optical-sizing: auto;
+  font-kerning: normal;
   color: var(--ink);
   background: var(--paper);
   font-synthesis: none;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { min-height: 100%; -webkit-text-size-adjust: 100%; }
-body { margin: 0; min-height: 100vh; font-size: var(--text-body); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+html { min-height: 100%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; min-height: 100vh; font-size: var(--text-body); line-height: 1.6; letter-spacing: -0.003em; -webkit-font-smoothing: antialiased; }
 ::selection { background: #eacb92; color: #39362e; }
 .daylight {
   position: fixed;
@@ -31,6 +39,8 @@ body { margin: 0; min-height: 100vh; font-size: var(--text-body); line-height: 1
 }
 .daylight canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity 1.4s ease; }
 .daylight[data-state='ready'] canvas { opacity: 1; }
+
+/* The wall: name above, the exhibit and its label in the middle, the index below. */
 .wall {
   position: relative;
   z-index: 1;
@@ -40,95 +50,189 @@ body { margin: 0; min-height: 100vh; font-size: var(--text-body); line-height: 1
   grid-template-rows: auto 1fr auto;
   padding: clamp(28px, 6.5vh, 70px) clamp(28px, 8vw, 140px) 34px;
 }
-.masthead { align-self: start; }
-.site-name { margin: 0; font-size: var(--text-caption); line-height: 1.5; font-weight: 400; font-style: normal; letter-spacing: normal; }
+.masthead { align-self: start; display: flex; justify-content: space-between; align-items: baseline; gap: 24px; }
+.site-name { margin: 0; font-size: var(--text-caption); line-height: 1.5; font-weight: 500; letter-spacing: 0; }
+/* The hour and its light, top right: the reason the wall looks the way it does. */
+.clock { margin: 0; font-size: var(--text-caption); line-height: 1.5; color: var(--muted); letter-spacing: .005em; font-variant-numeric: tabular-nums; text-align: right; }
+.clock time { color: var(--ink); }
 .site-name a { background: none; }
 /* Anchor the portrait from the header, independent of the active page height. */
-.stage { align-self: start; display: grid; grid-template-columns: 82px minmax(0, 1fr); column-gap: clamp(28px, 3.6vw, 48px); align-items: start; width: min(100%, 620px); padding: clamp(64px, 22svh, 212px) 0 86px; }
-.exhibit { grid-column: 1; grid-row: 1; margin: 0; width: 82px; }
-.exhibit img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 12px; box-shadow: 0 2px 3px rgb(30 23 15 / 9%), 0 14px 24px -16px rgb(30 23 15 / 28%); }
-.page { grid-column: 2; grid-row: 1; max-width: 480px; min-width: 0; outline: none; overflow-wrap: break-word; }
-.page[hidden] { display: none; }
-.page p { margin: 0 0 1em; }
-.page p:last-child { margin-bottom: 0; }
-#home { font-size: var(--text-body); line-height: 1.5; letter-spacing: normal; }
-#home p:first-child { text-wrap: balance; }
-#home p + p { font-size: inherit; line-height: inherit; text-wrap: pretty; letter-spacing: 0; margin-top: 1.4em; color: var(--ink); }
+.stage { align-self: start; display: grid; grid-template-columns: 82px minmax(0, 1fr); column-gap: clamp(28px, 3.6vw, 48px); align-items: start; width: min(100%, 640px); padding: clamp(64px, 22svh, 212px) 0 86px; }
+.page { grid-column: 2; max-width: 480px; min-width: 0; outline: none; overflow-wrap: break-word; }
+.page p { margin: 0; }
+
+/* One page at a time once scripts run; without them, every page in turn. */
+html[data-page] .page { display: none; }
+html[data-page='home'] #home,
+html[data-page='experience'] #experience,
+html[data-page='wins'] #wins,
+html[data-page='work'] #work,
+html[data-page='elsewhere'] #elsewhere,
+html[data-page] .page.is-leaving { display: block; }
+html:not([data-page]) .page + .page { margin-top: 72px; }
+
+/* The portrait sits flat on the wall; hovering tips it towards you a little. */
+.exhibit { position: relative; grid-column: 1; grid-row: 1; margin: 0; width: 82px; transition: transform .7s var(--spring); }
+.exhibit img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+.exhibit:hover { transform: scale(1.045) rotate(-2.5deg); }
+/* Its two glowing eyes: they blink now and then and brighten on hover. */
+.eyes i { position: absolute; width: 7.5%; aspect-ratio: 1.3; translate: -50% -50%; border-radius: 50%; pointer-events: none; }
+.eyes i:first-child { left: 36.5%; top: 38.7%; }
+.eyes i:last-child { left: 47.1%; top: 40.4%; }
+.eyes i::before { content: ''; position: absolute; inset: -60%; border-radius: 50%; background: radial-gradient(closest-side, rgb(236 241 255 / 95%), rgb(126 150 255 / 55%) 35%, rgb(96 104 255 / 0%)); mix-blend-mode: screen; opacity: 0; scale: .6; transition: opacity .5s ease, scale .6s var(--ease-out); }
+.eyes i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(closest-side, #8a1650 72%, rgb(138 22 80 / 0%)); scale: 1 0; transform-origin: 50% 20%; }
+.exhibit:hover .eyes i::before { opacity: 1; scale: 1; }
+
+.lede { font-weight: 500; text-wrap: balance; }
+#home .lede + p { margin-top: 1em; text-wrap: pretty; }
 #home .home__links { margin-top: 28px; color: var(--muted); }
+
+/* Each page is labelled by its title alone. */
+.page__head { margin-bottom: 26px; }
+.page__title { margin: 0; font-size: var(--text-heading); font-weight: 500; line-height: 1.5; }
+
+/* Every list shares one ledger: a quiet key on the left, the entry beside it. */
+.ledger { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+.ledger > li { display: grid; grid-template-columns: var(--key) minmax(0, 1fr); column-gap: 24px; align-items: baseline; }
+.ledger__key { font-size: var(--text-caption); color: var(--muted); white-space: nowrap; letter-spacing: .005em; font-variant-numeric: tabular-nums lining-nums; }
+.ledger__title { margin: 0; font-size: inherit; font-weight: 400; }
+.page .ledger__note { margin-top: 1px; font-size: var(--text-caption); color: var(--muted); }
+
+.timeline > li { position: relative; }
+.timeline > li::before { transform-origin: 50% 0; }
+.timeline > li::before { content: ''; position: absolute; left: calc(var(--key) + 11.5px); top: .8em; bottom: calc(-22px - .8em); width: 1px; background: var(--line); }
+.timeline > li:last-child::before { display: none; }
+.timeline > li::after { content: ''; position: absolute; left: calc(var(--key) + 8.5px); top: calc(.8em - 3.5px); width: 7px; height: 7px; border: 1px solid var(--muted); border-radius: 50%; background: var(--paper); }
+.timeline > li.is-now::after { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 3px rgb(126 76 47 / 14%); }
+
+.wins .ledger__key { font-size: var(--text-heading); font-weight: 500; color: var(--ink); }
+
+.projects { gap: 34px; }
+.projects > li { display: block; }
+.projects .ledger__title { font-size: var(--text-heading); font-weight: 500; line-height: 1.5; }
+.page .project__desc { margin-top: 4px; max-width: 34em; color: var(--ink); text-wrap: pretty; }
+.projects .ledger__note { margin-top: 8px; }
+.project__host { color: var(--faint); white-space: nowrap; }
+.project__host::before { content: '— '; }
+
+.places { gap: 10px; }
+.places > li { display: flex; align-items: baseline; gap: 14px; }
+.place { display: grid; grid-template-columns: var(--key) auto; column-gap: 24px; align-items: baseline; min-width: 0; }
+.place .ledger__key { transition: color .3s ease; }
+.place:hover .ledger__key { color: var(--ink); }
+.place__value { min-width: 0; overflow-wrap: anywhere; }
+
+/* Links that carry more than words (a key, an arrow) underline only the words.
+   The line is drawn on the wall itself; the paper letters lift off it. */
+.place, .projects .ledger__title a { background: none; }
+.link-text { background: linear-gradient(var(--line), var(--line)) 0 calc(100% - 1px) / 100% 1px no-repeat; transition: color .3s ease; }
+a:hover .link-text { color: var(--accent); }
+.arrow { display: inline-block; margin-left: .3em; font-size: .78em; font-weight: 400; line-height: 1.1; vertical-align: .02em; color: var(--faint); transition: color .3s ease; }
+a:hover .arrow { color: var(--accent); }
+
 .foot { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; font-size: var(--text-caption); color: var(--muted); }
-.colophon { display: flex; align-items: baseline; gap: 18px; margin: 0; font-size: var(--text-caption); }
-.index { display: flex; flex-wrap: wrap; gap: 8px 28px; }
-.index a { background-size: 0 1px, 0 1px; }
-.index a[aria-current] { background-size: 100% 1px, 0 1px; color: var(--ink); }
-a {
-  color: inherit;
-  text-decoration: none;
-  background-image: linear-gradient(currentColor,currentColor),linear-gradient(var(--line),var(--line));
-  background-repeat: no-repeat;
-  background-position: 0 calc(100% - 1px);
-  background-size: 0 1px,100% 1px;
-  transition: color .25s ease, background-size .35s var(--ease);
-}
-a:hover { color: var(--accent); background-size: 100% 1px,100% 1px; }
+.colophon { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin: 0; font-size: var(--text-caption); }
+/* One underline marks the current page and glides to the next one. */
+.index { position: relative; display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.index a { background: none; transition: color .3s ease; }
+.index a:hover, .index a[aria-current] { color: var(--ink); }
+.index__line { position: absolute; left: 0; top: 0; width: 0; height: 1px; background: var(--ink); opacity: 0; pointer-events: none; transition: transform .65s var(--glide), width .65s var(--glide), opacity .35s ease; }
+/* A quiet line on the wall marks a link; pointing at it lifts its letters. */
+a { color: inherit; text-decoration: none; background: linear-gradient(var(--line), var(--line)) 0 calc(100% - 1px) / 100% 1px no-repeat; transition: color .3s ease; }
+a:hover { color: var(--accent); }
 a:focus-visible { outline: 1px solid var(--accent); outline-offset: 5px; border-radius: 1px; }
-.timeline { list-style: none; margin: 0; padding: 0; }
-.timeline li { position: relative; display: grid; grid-template-columns: 6.3em minmax(0, 1fr); column-gap: 24px; padding-bottom: 24px; }
-.timeline li:last-child { padding-bottom: 0; }
-.timeline li::before { content: ''; position: absolute; left: calc(6.3em + 10px); top: .68em; bottom: -.68em; width: 1px; background: var(--line); }
-.timeline li:last-child::before { display: none; }
-.timeline li::after { content: ''; position: absolute; left: calc(6.3em + 7px); top: calc(.68em - 3px); width: 7px; height: 7px; border: 1px solid var(--muted); border-radius: 50%; background: var(--paper); }
-.timeline__year { font-size: var(--text-caption); line-height: calc(var(--text-body) * 1.5); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.timeline__at { color: var(--muted); }
-.wins, .projects, .places { list-style: none; margin: 0; padding: 0; }
-.wins { display: grid; gap: 32px; }
-.win { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 28px; }
-.win .win__title { margin: 0; font-size: var(--text-heading); font-weight: 500; }
-.win .win__note { margin: 7px 0 0; max-width: 30em; font-size: var(--text-caption); line-height: 1.6; color: var(--muted); }
-.win__result { font-size: var(--text-heading); font-style: italic; white-space: nowrap; }
-.projects { display: grid; gap: 38px; }
-.project__head { margin: 0; font-size: var(--text-heading); line-height: 1.5; font-weight: 500; }
-.project__head a { display: inline-flex; align-items: baseline; gap: 10px; max-width: 100%; background: none; }
-.project__head a > span:first-child { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: text-decoration-color .25s ease; }
-.project__head a:hover > span:first-child { text-decoration-color: var(--line); }
-.project__arrow { flex: none; font-size: var(--text-caption); font-weight: 400; color: var(--muted); opacity: .65; transition: transform .25s var(--ease), opacity .25s ease; }
-.project__head a:hover .project__arrow { transform: translate(1px, -1px); opacity: 1; }
-.project .project__desc { margin: 9px 0 0; max-width: 34em; line-height: 1.65; text-wrap: pretty; }
-.project .project__meta { margin: 12px 0 0; font-size: var(--text-caption); color: var(--muted); }
-.places li + li { margin-top: 12px; }
+
+.cord, .copy { padding: 0 0 2px; border: 0; background: linear-gradient(var(--line), var(--line)) 0 100% / 100% 1px no-repeat; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; transition: color .3s ease; }
+.cord:hover, .copy:hover { color: var(--accent); }
+
+/* Labels you can press are set in paper letters (src/paper.js). Each letter
+   keeps its place in the line while its ink lifts, swings and flutters. */
+.paper__word, .paper__char, .paper__ink { display: inline-block; }
+.paper__word { white-space: nowrap; }
+.paper__ink { transform-origin: 50% 0; }
+/* Letters blowing off a label that changed its words. */
+.paper-gone { position: fixed; left: 0; top: 0; z-index: 2; pointer-events: none; }
+.paper-gone > span { position: absolute; white-space: pre; transform-origin: 50% 0; }
+/* Without the 3D light, this layer carries the letters' shadows instead. */
+.paper-shade { position: fixed; left: 0; top: 0; z-index: 4; pointer-events: none; mix-blend-mode: multiply; opacity: .34; transform-origin: 0 0; }
+.cord:focus-visible, .copy:focus-visible { outline: 1px solid var(--accent); outline-offset: 5px; border-radius: 1px; }
+.cord:disabled { opacity: .5; cursor: default; }
+.cord[hidden], .copy[hidden] { display: none; }
+.copy { font-size: var(--text-caption); color: var(--muted); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
 @media (prefers-reduced-motion: no-preference) {
-  .page.is-entering { animation: arrive .4s var(--ease) both; }
-  .page.is-leaving { animation: leave .14s ease both; pointer-events: none; }
+  /* A page's lines rise into place one after another. */
+  html[data-page] .page > :not(ol, ul, .visually-hidden),
+  html[data-page] .page > :is(ol, ul) > li { animation: arrive .9s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms + 40ms); }
+  /* The timeline draws itself downwards as its dots pop in. */
+  html[data-page] .timeline > li::before { animation: draw .9s var(--glide) both; animation-delay: calc(var(--i, 0) * 60ms + 260ms); }
+  html[data-page] .timeline > li::after { animation: pop .6s var(--spring) both; animation-delay: calc(var(--i, 0) * 60ms + 160ms); }
+  .page > :nth-child(2) { --i: 1; }
+  .page > :nth-child(3) { --i: 2; }
+  .page > :is(ol, ul) > li:nth-child(1) { --i: 1; }
+  .page > :is(ol, ul) > li:nth-child(2) { --i: 2; }
+  .page > :is(ol, ul) > li:nth-child(3) { --i: 3; }
+  .page > :is(ol, ul) > li:nth-child(4) { --i: 4; }
+  .page > :is(ol, ul) > li:nth-child(5) { --i: 5; }
+  .page > :is(ol, ul) > li:nth-child(n + 6) { --i: 6; }
+  html[data-page] .page.is-leaving { animation: leave .2s ease-in both; pointer-events: none; }
+  .eyes i::after { animation: blink 7.3s 2.4s infinite; }
+  .eyes i:last-child::after { animation-delay: 2.43s; }
+  html[data-page] .timeline > li.is-now::after { animation: pop .6s var(--spring) both, glow 3.6s ease-in-out 1.2s infinite; animation-delay: calc(var(--i, 0) * 60ms + 160ms), 1.2s; }
 }
-@keyframes arrive { from { opacity: 0; transform: translateY(3px); } }
-@keyframes leave { to { opacity: 0; transform: translateY(-2px); } }
+@keyframes arrive { from { opacity: 0; transform: translateY(10px); } }
+@keyframes leave { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes draw { from { transform: scaleY(0); } }
+@keyframes pop { from { transform: scale(0); } }
+@keyframes blink { 0%, 95.4%, 98.6%, 100% { scale: 1 0; } 96.6%, 97.4% { scale: 1 1; } }
+@keyframes glow { 50% { box-shadow: 0 0 0 5px rgb(126 76 47 / 4%); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+/* More contrast: let less of the shade fall across the text. */
+@media (prefers-contrast: more) {
+  :root { --muted: #4d483f; --faint: #5f5a50; --line: rgb(54 51 43 / 42%); }
+  .daylight { opacity: .55; }
+}
+
 @media (max-width: 800px) {
   .wall { padding: 36px 7vw 28px; }
   .stage { padding: clamp(64px, 14svh, 128px) 0 80px; }
   .foot { align-items: flex-start; flex-direction: column; gap: 20px; }
-  .index { order: -1; font-size: var(--text-caption); gap: 8px 24px; }
+  .index { order: -1; gap: 8px 24px; }
 }
 @media (max-width: 640px) {
-  .stage { grid-template-columns: 1fr; row-gap: 30px; width: min(100%, 400px); }
-  .page { grid-column: 1; grid-row: 2; }
-  .wins { gap: 28px; }
-  .projects { gap: 32px; }
+  .stage { grid-template-columns: 1fr; row-gap: 30px; width: min(100%, 420px); }
+  .page { grid-column: 1; }
 }
 @media (max-width: 480px) {
   .wall { padding: 30px 26px 26px; }
-  .stage { padding: clamp(64px, 12svh, 112px) 0 72px; }
+  .stage { padding: clamp(56px, 11svh, 104px) 0 68px; }
   .exhibit { width: 70px; }
   #home { max-width: 340px; }
   .index { display: grid; grid-template-columns: repeat(2, max-content); gap: 8px 28px; }
+  :root { --key: 6.6em; }
+}
+@media (max-width: 360px) {
+  .ledger > li, .place { grid-template-columns: minmax(0, 1fr); row-gap: 1px; }
+  .timeline > li::before, .timeline > li::after { display: none; }
 }
 
-/* Crimson Pro: approved reference sizes plus 1px at every breakpoint. */
-@media (max-width: 767px) { :root { --text-body: 13px; --text-caption: 11px; --text-heading: 15px; } }
-@media (min-width: 1200px) { :root { --text-body: 15px; --text-caption: 13px; --text-heading: 17px; } }
-@media (min-width: 1600px) { :root { --text-body: 16px; --text-caption: 14px; --text-heading: 18px; } }
+/* Inter runs larger than a serif at the same size, so these sit below the old
+   Crimson Pro scale while reading at about the same visual size. */
+@media (min-width: 1200px) { :root { --text-body: 13.5px; --text-caption: 12px; } }
+@media (min-width: 1600px) { :root { --text-body: 14.5px; --text-caption: 12.5px; } }
 
-.cord { padding: 0; border: 0; background: none; color: inherit; font: inherit; font-style: italic; cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; transition: color .25s ease, text-decoration-color .25s ease; }
-.cord:hover { color: var(--accent); text-decoration-color: currentColor; }
-.cord:focus-visible { outline: 1px solid var(--accent); outline-offset: 5px; border-radius: 1px; }
-.cord:disabled { opacity: .5; cursor: default; }
-.cord[hidden] { display: none; }
+/* On paper: every page in order, no light, links spelled out. */
+@media print {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  :root { --ink: #000; --muted: #444; --faint: #666; background: #fff; }
+  .daylight, .paper-shade, .paper-gone, .clock, .cord, .copy, .index, .index__line, .eyes { display: none !important; }
+  html[data-page] .page { display: block; }
+  .wall { display: block; min-height: 0; padding: 0; }
+  .stage { width: 100%; padding: 28pt 0 0; }
+  .page + .page { margin-top: 30pt; }
+  .page { break-inside: avoid; max-width: none; }
+  .exhibit img { box-shadow: none; }
+  a, .link-text { background: none; }
+  .projects .ledger__title a::after { content: ' — ' attr(href); font-size: var(--text-caption); font-weight: 400; color: var(--muted); }
+}

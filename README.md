@@ -8,4 +8,12 @@ Use Node.js 22.12 or newer. Run `npm --prefix site ci`, then `npm --prefix site 
 
 GitHub Pages should publish from the `main` branch, `/ (root)`. No redirect or domain change is needed.
 
-Typography: Crimson Pro, licensed under SIL OFL 1.1; see `licenses/Crimson-Pro-OFL.txt`.
+## Versions
+
+Only what ships here gets a version number:
+
+- v1: the ASCII blackhole homepage, preserved in this repository's history.
+- v2: the daylight site in Crimson Pro, published on 28 September 2026.
+- v3: the current site, with paper letters in the sun, published on 9 November 2026.
+
+Typography: Inter, licensed under SIL OFL 1.1; see `licenses/Inter-OFL.txt`.

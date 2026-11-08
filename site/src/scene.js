@@ -3,6 +3,8 @@ import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUnifo
 import { createWall, createWindow } from './environment.js';
 import { pcss } from '@pmndrs/vanilla/core/pcss.js';
 import { createFoliage } from './foliage.js';
+import { createClouds, lightAt, localHour, previewHour } from './daylight.js';
+import { paperShadow } from './paper.js';
 
 // One wall, one sun, and actual geometry between them. The canvas is an
 // illumination layer over the HTML, so photographs and text share the light.
@@ -49,9 +51,17 @@ if (renderer) {
   mount.append(renderer.domElement);
   renderer.domElement.setAttribute('aria-hidden', 'true');
 
-  const wall = createWall();
+  // The shadows of paper letters lifted off the wall, drawn by src/paper.js.
+  const paperTexture = new THREE.CanvasTexture(paperShadow.canvas);
+  paperTexture.generateMipmaps = false;
+  paperTexture.minFilter = THREE.LinearFilter;
+  const paper = { uPaper: { value: paperTexture }, uPaperRect: { value: new THREE.Vector4(0, 0, 1, 1) },
+    uPaperView: { value: new THREE.Vector2(1, 1) }, uPaperOn: { value: 0 } };
+  let paperVersion = -1;
+  const wall = createWall(paper);
   scene.add(wall);
-  scene.add(new THREE.AmbientLight('#d9e1e8', 0.78));
+  const ambient = new THREE.AmbientLight('#d9e1e8', 0.78);
+  scene.add(ambient);
   RectAreaLightUniformsLib.init();
   const sky = new THREE.RectAreaLight('#e6eaf0', 0.85, 6.2, 7.5);
   sky.position.set(1.2, 1.2, 4.5);
@@ -68,6 +78,27 @@ if (renderer) {
   sun.shadow.bias = -0.00012;
   sun.shadow.normalBias = 0.015;
   scene.add(sun, sun.target);
+  // How far a shadow travels across the wall per unit of distance from it.
+  const slope = new THREE.Vector2(-sun.position.x / sun.position.z, -sun.position.y / sun.position.z);
+
+  // The visitor's hour sets the colour of the light; a passing cloud dims it.
+  const pinnedHour = previewHour();
+  const clouds = createClouds(Math.random);
+  let light = lightAt(pinnedHour ?? localHour()), cloud = 0;
+  const setColour = (colour, rgb) => colour.setRGB(rgb[0], rgb[1], rgb[2], THREE.SRGBColorSpace);
+  function applySun() {
+    sun.intensity = light.sunI * (1 - cloud);
+  }
+  function applyLight() {
+    light = lightAt(pinnedHour ?? localHour());
+    setColour(sun.color, light.sun);
+    setColour(sky.color, light.sky); sky.intensity = light.skyI;
+    setColour(ambient.color, light.ambient); ambient.intensity = light.ambientI;
+    setColour(bounce.color, light.bounce); bounce.intensity = light.bounceI;
+    applySun();
+    mount.dataset.light = light.name;
+  }
+  applyLight();
 
   // These objects are outside the camera's room. They write to the shadow map,
   // but do not paint visible window frames or plants on the page itself.
@@ -104,11 +135,47 @@ if (renderer) {
   rig.add(foliage.group);
   scene.add(foliage.instances);
 
+  // A pointer moving across the wall stirs the leaves whose shadows it passes.
+  // Only movement counts, so a resting cursor leaves the branches to the breeze.
+  // Turning to another page sends a light breeze through all of them.
+  const gust = { x: 0, y: 0, strength: 0, all: 0 };
+  let breeze = 0;
+  function onGust() {
+    if (frame) breeze = Math.max(breeze, 0.45);
+  }
+
+  const pointer = { x: 0, y: 0, time: 0, seen: false, push: 0 };
+  const raycaster = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  const wallPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), hit = new THREE.Vector3();
+  function onPointerMove(event) {
+    if (!frame || !event.isPrimary) return;
+    ndc.set(event.clientX / document.documentElement.clientWidth * 2 - 1, 1 - event.clientY / innerHeight * 2);
+    raycaster.setFromCamera(ndc, camera);
+    if (!raycaster.ray.intersectPlane(wallPlane, hit)) return;
+    const now = event.timeStamp / 1000;
+    if (pointer.seen) {
+      const elapsed = Math.max(now - pointer.time, 1 / 120);
+      const speed = Math.hypot(hit.x - pointer.x, hit.y - pointer.y) / elapsed;
+      pointer.push = Math.max(pointer.push, Math.min(speed / 7, 1));
+    } else {
+      gust.x = hit.x; gust.y = hit.y;
+    }
+    pointer.seen = true; pointer.x = hit.x; pointer.y = hit.y; pointer.time = now;
+  }
+
   let time = 0, previous = 0, frame = 0, disposed = false, contextLost = false;
   function render() {
     if (contextLost || disposed) return;
     rig.updateMatrixWorld(true);
     foliage.syncInstances();
+    const lifted = paperShadow.active && paperShadow.light;
+    paper.uPaperOn.value = lifted ? 1 : 0;
+    if (lifted && paperShadow.version !== paperVersion) {
+      paperVersion = paperShadow.version;
+      paperTexture.needsUpdate = true;
+      paper.uPaperRect.value.fromArray(paperShadow.rect);
+    }
+    paper.uPaperView.value.set(renderer.domElement.height, renderer.getPixelRatio());
     renderer.render(scene, camera);
   }
   function resize() {
@@ -133,6 +200,7 @@ if (renderer) {
     }
     rig.scale.setScalar(scale);
     rig.position.set(viewWidth * 0.04 - 2.3 * scale, width < 700 ? 0 : -0.12, 0);
+    rig.updateMatrixWorld(true);
     foliage.setLayout(openingWidth);
     wall.userData.setCorner(rig.position.x + (2.3 + openingWidth * 0.10) * scale);
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.4, 1700 / Math.max(width, height)));
@@ -141,11 +209,20 @@ if (renderer) {
   }
   function animate(now) {
     frame = requestAnimationFrame(animate);
-    if (now - previous < 1000 / 30) return;
+    // Thirty frames a second is enough for leaves; paper letters move faster.
+    if (now - previous < (paperShadow.active ? 1000 / 75 : 1000 / 30)) return;
     const dt = previous ? Math.min((now - previous) / 1000, 0.08) : 0;
     previous = now;
     time += dt;
-    foliage.update(time, dt);
+    cloud = clouds(time);
+    applySun();
+    gust.x = THREE.MathUtils.damp(gust.x, pointer.x, 5, dt);
+    gust.y = THREE.MathUtils.damp(gust.y, pointer.y, 5, dt);
+    gust.strength = THREE.MathUtils.damp(gust.strength, pointer.push, pointer.push > gust.strength ? 7 : 1.4, dt);
+    pointer.push *= Math.exp(-dt / 0.25);
+    gust.all = THREE.MathUtils.damp(gust.all, breeze, breeze > gust.all ? 5 : 1.2, dt);
+    breeze *= Math.exp(-dt / 0.5);
+    foliage.update(time, dt, gust, slope);
     if (blindProgress !== blindTarget) {
       const step = dt / 1.6;
       blindProgress = blindTarget > blindProgress
@@ -158,7 +235,12 @@ if (renderer) {
   function syncMotion() {
     cancelAnimationFrame(frame); frame = 0; previous = 0;
     if (disposed || contextLost) return;
-    if (reduced.matches) { blindProgress = blindTarget; applyBlind(); }
+    paperShadow.light = !reduced.matches && !document.hidden;
+    if (reduced.matches) {
+      blindProgress = blindTarget; applyBlind();
+      cloud = 0; gust.strength = gust.all = pointer.push = breeze = 0; applySun();
+    }
+    if (!document.hidden) applyLight();
     mount.dataset.motion = reduced.matches ? 'reduced' : document.hidden ? 'paused' : 'running';
     if (!reduced.matches && !document.hidden) frame = requestAnimationFrame(animate);
     else render();
@@ -166,14 +248,24 @@ if (renderer) {
   function onContextLost(event) {
     event.preventDefault();
     contextLost = true;
+    paperShadow.light = false;
     cancelAnimationFrame(frame);
+    frame = 0;
     mount.dataset.state = 'still';
     mount.dataset.motion = 'paused';
     if (blindToggle) blindToggle.disabled = true;
   }
+  // The hour moves on while the page is open; a still page repaints for it.
+  const clock = setInterval(() => {
+    if (document.hidden || disposed) return;
+    applyLight();
+    if (!frame) render();
+  }, 60000);
   renderer.domElement.addEventListener('webglcontextlost', onContextLost);
   renderer.domElement.addEventListener('webglcontextrestored', () => { contextLost = false; render(); mount.dataset.state = 'ready'; if (blindToggle) blindToggle.disabled = false; syncMotion(); });
   addEventListener('resize', resize);
+  addEventListener('pointermove', onPointerMove, { passive: true });
+  addEventListener('minifolio:gust', onGust);
   document.addEventListener('visibilitychange', syncMotion);
   reduced.addEventListener('change', syncMotion);
   resize();
@@ -186,13 +278,21 @@ if (renderer) {
   }
   syncMotion();
 
+  // Development only: inspect the scene from the console.
+  if (import.meta.env.DEV) window.__scene = { scene, camera, render, gust };
+
   // Vite replaces this module during development without leaking GPU resources.
   if (import.meta.hot) import.meta.hot.dispose(() => {
     disposed = true;
+    paperShadow.light = false;
+    paperTexture.dispose();
+    clearInterval(clock);
     blindToggle?.removeEventListener('click', toggleBlind);
     if (blindToggle) blindToggle.hidden = true;
     cancelAnimationFrame(frame);
     removeEventListener('resize', resize);
+    removeEventListener('pointermove', onPointerMove);
+    removeEventListener('minifolio:gust', onGust);
     document.removeEventListener('visibilitychange', syncMotion);
     reduced.removeEventListener('change', syncMotion);
     restoreShadows(renderer, scene, camera);
