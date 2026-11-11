@@ -14,6 +14,7 @@ Only what ships here gets a version number:
 
 - v1: the ASCII blackhole homepage, preserved in this repository's history.
 - v2: the daylight site in Crimson Pro, published on 28 September 2026.
-- v3: the current site, with paper letters in the sun, published on 9 November 2026.
+- v3: paper letters in the sun, published on 9 November 2026.
+- v3.1: the current site. v3 with the HackerOne and Intigriti profiles, a plainer introduction and the SHKL favicon, published on 11 November 2026.
 
 Typography: Inter, licensed under SIL OFL 1.1; see `licenses/Inter-OFL.txt`.
